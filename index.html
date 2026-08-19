@@ -119,7 +119,7 @@
       align-items: center;
     }
 
-    button.filter, input[type="search"] {
+    button.filter, button.btn-latest, input[type="search"], input[type="date"] {
       font: inherit;
       font-size: 16px;
       border-radius: 999px;
@@ -148,8 +148,40 @@
       outline: none;
     }
 
-    input[type="search"]:focus {
+    input[type="search"]:focus,
+    input[type="date"]:focus {
       border-color: var(--s1);
+    }
+
+    .date-range {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-right: 6px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .date-range label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .date-range input[type="date"] {
+      cursor: text;
+      outline: none;
+      color-scheme: dark;
+      min-width: 158px;
+    }
+
+    button.btn-latest {
+      color: var(--s1);
+    }
+
+    button.btn-latest.active {
+      border-color: var(--s1);
+      box-shadow: 0 0 0 1px var(--s1) inset;
     }
 
     .table-shell {
@@ -182,7 +214,7 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 1180px;
+      min-width: 1280px;
       font-size: 15px;
     }
 
@@ -353,7 +385,7 @@
 
   <script>
     /**
-     * 載入並渲染 US_Strategy.json。
+     * 載入並渲染 US_Strategy.json（預設只顯示最新一日）。
      * @returns {Promise<void>}
      */
     async function loadStrategy() {
@@ -369,57 +401,168 @@
     }
 
     /**
-     * 將資料畫到畫面上。
+     * 取出選股的台灣日期（YYYY-MM-DD）。
+     * @param {object|string|null|undefined} pick 選股或日期字串
+     * @returns {string}
+     */
+    function pickDate(pick) {
+      const value = typeof pick === "string" ? pick : pick && pick.date;
+      return String(value || "").slice(0, 10);
+    }
+
+    /**
+     * 由 picks 取出排序後的不重複日期。
+     * @param {object[]} picks 全部選股
+     * @returns {string[]}
+     */
+    function uniqueSortedDates(picks) {
+      const set = new Set();
+      for (const item of picks) {
+        const day = pickDate(item);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(day)) set.add(day);
+      }
+      return [...set].sort();
+    }
+
+    /**
+     * 判斷日期是否落在起迄範圍（含兩端）。
+     * @param {string} day YYYY-MM-DD
+     * @param {string} from 起日
+     * @param {string} to 迄日
+     * @returns {boolean}
+     */
+    function inDateRange(day, from, to) {
+      if (!day) return false;
+      if (from && day < from) return false;
+      if (to && day > to) return false;
+      return true;
+    }
+
+    /**
+     * 將資料畫到畫面上。預設只顯示最新一日，可用日期範圍查舊資料。
      * @param {object} data JSON 內容
      */
     function render(data) {
       const meta = data.meta || {};
-      const picks = Array.isArray(data.picks) ? data.picks : [];
+      const allPicks = Array.isArray(data.picks) ? data.picks : [];
+      const dates = uniqueSortedDates(allPicks);
+      const latestDate = meta.date || (dates.length ? dates[dates.length - 1] : "");
+      const minDate = dates.length ? dates[0] : latestDate;
+      const maxCandidates = [latestDate, ...dates].filter(Boolean).sort();
+      const maxDate = maxCandidates.length ? maxCandidates[maxCandidates.length - 1] : "";
+
       const stamp = document.getElementById("stamp");
       const dateText = meta.date && meta.time
         ? `${meta.date} ${meta.time}`
         : "尚未產生選股";
       stamp.innerHTML = `台灣選股時間<b>${dateText}</b>時區 ${meta.timezone || "Asia/Taipei"}`;
 
-      const count = (strategy, side) => picks.filter((p) =>
+      /**
+       * 依策略／方向統計筆數。
+       * @param {object[]} list 選股清單
+       * @param {string|null} strategy 策略代碼
+       * @param {string|null} side 方向
+       * @returns {number}
+       */
+      const count = (list, strategy, side) => list.filter((p) =>
         (!strategy || p.strategy === strategy) && (!side || p.side === side)
       ).length;
 
-      document.getElementById("stats").innerHTML = `
-        <article class="stat all"><span>全部訊號</span><strong>${picks.length}</strong></article>
-        <article class="stat s1"><span>S1 反轉</span><strong>${count("S1")}</strong></article>
-        <article class="stat s2"><span>S2 影線</span><strong>${count("S2")}</strong></article>
-        <article class="stat s3"><span>S3 爆量</span><strong>${count("S3")}</strong></article>
-      `;
-
       const toolbar = document.getElementById("toolbar");
+      const dateAttr = minDate && maxDate
+        ? `min="${esc(minDate)}" max="${esc(maxDate)}"`
+        : "";
       toolbar.innerHTML = `
-        <button class="filter active" data-key="all">全部 ${picks.length}</button>
-        <button class="filter" data-key="S1">S1 ${count("S1")}</button>
-        <button class="filter" data-key="S2">S2 ${count("S2")}</button>
-        <button class="filter" data-key="S3">S3 ${count("S3")}</button>
-        <button class="filter" data-key="buy">買進 ${count(null, "buy")}</button>
-        <button class="filter" data-key="short">賣空 ${count(null, "short")}</button>
+        <div class="date-range">
+          <label for="dateFrom">日期範圍</label>
+          <input type="date" id="dateFrom" ${dateAttr} value="${esc(latestDate)}" />
+          <span>至</span>
+          <input type="date" id="dateTo" ${dateAttr} value="${esc(latestDate)}" />
+          <button type="button" class="btn-latest active" id="latestDay">最新一日</button>
+        </div>
+        <button class="filter active" data-key="all">全部 0</button>
+        <button class="filter" data-key="S1">S1 0</button>
+        <button class="filter" data-key="S2">S2 0</button>
+        <button class="filter" data-key="S3">S3 0</button>
+        <button class="filter" data-key="buy">買進 0</button>
+        <button class="filter" data-key="short">賣空 0</button>
         <input type="search" id="q" placeholder="搜尋代碼或公司" />
       `;
 
+      const dateFromEl = document.getElementById("dateFrom");
+      const dateToEl = document.getElementById("dateTo");
+      const latestBtn = document.getElementById("latestDay");
+
       let strategy = "all";
       let side = "all";
-      const paint = () => {
+
+      /**
+       * 將起迄日限制在可查區間，並避免起日晚於迄日。
+       * @param {string} [changedId] 剛被改動的日期欄位 id
+       * @returns {{from: string, to: string}}
+       */
+      const normalizeRange = (changedId) => {
+        let from = dateFromEl.value || latestDate;
+        let to = dateToEl.value || latestDate;
+        if (minDate && from < minDate) from = minDate;
+        if (maxDate && from > maxDate) from = maxDate;
+        if (minDate && to < minDate) to = minDate;
+        if (maxDate && to > maxDate) to = maxDate;
+        if (from && to && from > to) {
+          if (changedId === "dateTo") from = to;
+          else to = from;
+        }
+        dateFromEl.value = from;
+        dateToEl.value = to;
+        const isLatest = Boolean(latestDate) && from === latestDate && to === latestDate;
+        latestBtn.classList.toggle("active", isLatest);
+        return { from, to };
+      };
+
+      /**
+       * 重繪統計、篩選按鈕與表格。
+       * @param {string} [changedId] 剛被改動的日期欄位 id
+       * @returns {void}
+       */
+      const paint = (changedId) => {
+        const { from, to } = normalizeRange(changedId);
+        const dated = allPicks.filter((p) => inDateRange(pickDate(p), from, to));
+        document.getElementById("stats").innerHTML = `
+          <article class="stat all"><span>全部訊號</span><strong>${dated.length}</strong></article>
+          <article class="stat s1"><span>S1 反轉</span><strong>${count(dated, "S1")}</strong></article>
+          <article class="stat s2"><span>S2 影線</span><strong>${count(dated, "S2")}</strong></article>
+          <article class="stat s3"><span>S3 爆量</span><strong>${count(dated, "S3")}</strong></article>
+        `;
+        toolbar.querySelector('[data-key="all"]').textContent = `全部 ${dated.length}`;
+        toolbar.querySelector('[data-key="S1"]').textContent = `S1 ${count(dated, "S1")}`;
+        toolbar.querySelector('[data-key="S2"]').textContent = `S2 ${count(dated, "S2")}`;
+        toolbar.querySelector('[data-key="S3"]').textContent = `S3 ${count(dated, "S3")}`;
+        toolbar.querySelector('[data-key="buy"]').textContent = `買進 ${count(dated, null, "buy")}`;
+        toolbar.querySelector('[data-key="short"]').textContent = `賣空 ${count(dated, null, "short")}`;
+
         const q = (document.getElementById("q").value || "").trim().toUpperCase();
-        const rows = picks.filter((p) => {
+        const rows = dated.filter((p) => {
           const okS = strategy === "all" || p.strategy === strategy;
           const okSide = side === "all" || p.side === side;
           const blob = `${p.symbol} ${p.name || ""}`.toUpperCase();
           const okQ = !q || blob.includes(q);
           return okS && okSide && okQ;
         });
+        const emptyText = from && to && from === to
+          ? `${from} 沒有符合條件的選股。`
+          : "此日期範圍沒有符合條件的選股。";
         document.getElementById("grid").innerHTML = rows.length
-          ? tableHtml(rows)
-          : `<div class="empty">${meta.note || "今日沒有符合條件的選股。"}</div>`;
+          ? tableHtml(rows, from, to)
+          : `<div class="empty">${emptyText}</div>`;
       };
 
       toolbar.addEventListener("click", (ev) => {
+        if (ev.target.closest("#latestDay")) {
+          dateFromEl.value = latestDate;
+          dateToEl.value = latestDate;
+          paint();
+          return;
+        }
         const btn = ev.target.closest("button.filter");
         if (!btn) return;
         const key = btn.dataset.key;
@@ -434,23 +577,36 @@
         });
         paint();
       });
-      toolbar.addEventListener("input", paint);
+      toolbar.addEventListener("change", (ev) => {
+        if (ev.target.id === "dateFrom" || ev.target.id === "dateTo") paint(ev.target.id);
+      });
+      toolbar.addEventListener("input", (ev) => {
+        if (ev.target.id === "q") paint();
+      });
       paint();
 
+      const rangeHint = minDate && maxDate
+        ? `　可查詢 ${minDate} ～ ${maxDate}`
+        : "";
       document.getElementById("footer").textContent =
-        `掃描宇宙：${meta.universe || "S&P 500"}　成功 ${meta.success || 0} / ${meta.scanned || 0}　失敗 ${meta.failed_count || 0}`;
+        `掃描宇宙：${meta.universe || "S&P 500"}　成功 ${meta.success || 0} / ${meta.scanned || 0}　失敗 ${meta.failed_count || 0}　JSON 保留近 ${meta.retention_days || 10} 日${rangeHint}`;
     }
 
     /**
      * 選股結果表格 HTML。
      * @param {object[]} rows 篩選後的選股
+     * @param {string} from 起日
+     * @param {string} to 迄日
      * @returns {string}
      */
-    function tableHtml(rows) {
+    function tableHtml(rows, from, to) {
+      const rangeText = from && to && from === to
+        ? from
+        : `${from || "—"} ～ ${to || "—"}`;
       return `
         <div class="table-shell">
           <div class="table-meta">
-            <span>顯示 <b>${rows.length}</b> 筆符合條件的選股</span>
+            <span>選股日 <b>${esc(rangeText)}</b>　顯示 <b>${rows.length}</b> 筆</span>
             <span>點代碼可開 Yahoo Finance</span>
           </div>
           <div class="table-wrap">
@@ -463,6 +619,7 @@
                   <th>方向</th>
                   <th>條件</th>
                   <th class="num">收盤</th>
+                  <th>選股日</th>
                   <th>K線日</th>
                   <th class="num">昨日漲跌</th>
                   <th class="num">今日漲跌</th>
@@ -495,6 +652,7 @@
           <td><span class="badge ${esc(pick.side)}">${sideLabel}</span></td>
           <td><p class="desc">${esc(pick.strategy_desc || "")}</p></td>
           <td class="num">${formatClose(pick.close)}</td>
+          <td class="date-cell">${esc(pickDate(pick))}</td>
           <td class="date-cell">${esc(pick.signal_date || "")}</td>
           <td class="num">${formatPct(m.yesterday_change_pct)}</td>
           <td class="num">${formatPct(m.today_change_pct)}</td>

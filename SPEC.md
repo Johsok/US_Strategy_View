@@ -1,6 +1,6 @@
 # US Strategy View 規格說明
 
-本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 S1 / S2 / S3 產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（累積近 10 日、刪除更舊資料），再以 `index.html` 深色頁面顯示。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
+本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 S1 / S2 / S3 產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（每日新增、不整檔覆蓋，累積近 10 日並刪除更舊資料），再以 `index.html` 深色頁面顯示（**預設只看最新一日**，可用日期範圍查舊資料）。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
 
 ---
 
@@ -8,9 +8,9 @@
 
 | 檔案 | 用途 |
 | --- | --- |
-| `US_Strategy.py` | 選股主程式，合併當日結果並清理過期 JSON |
-| `US_Strategy.json` | 近 10 日選股結果（超過 10 日前的資料會刪除） |
-| `index.html` | 深色模式檢視頁，讀取 JSON |
+| `US_Strategy.py` | 選股主程式，將當日結果新增至 JSON，並刪除超過 10 日前的資料 |
+| `US_Strategy.json` | 近 10 日選股結果（每日新增、不整檔覆蓋；超過 10 日前的資料會刪除） |
+| `index.html` | 深色模式檢視頁；預設只顯示最新一日，可用日期範圍查舊資料 |
 | `requirements.txt` | Python 套件 |
 | `.github/workflows/us-strategy.yml` | GitHub 每日排程 |
 | `.nojekyll` | 讓 GitHub Pages 不要用 Jekyll 處理檔案 |
@@ -36,16 +36,27 @@
 
 `meta` 另有掃描檔數、成功／失敗數、宇宙名稱、當日筆數 `today_pick_count`、保留天數 `retention_days`、本次刪除筆數 `pruned_count`。`pick_count` 為檔案內近 10 日合計筆數。
 
-### 2.1 JSON 資料保留（10 日）
+### 2.1 JSON 資料保留（每日新增、刪除 10 日前）
 
 每次執行 `US_Strategy.py` 時：
 
 1. 讀取既有 `US_Strategy.json` 的 `picks`（檔案不存在或損毀則視為空白）。
-2. 以**本次台灣日期**的掃描結果，取代同一 `date` 的舊紀錄（同一日重複執行不會堆疊重複）。
+2. **新增當日結果，不整檔覆蓋**：其他日期的紀錄全部保留；僅以本次台灣日期的掃描結果，取代同一 `date` 的舊紀錄（同一日重複執行不會堆疊重複）。
 3. 依每筆 `date`（台灣選股日期 `YYYY-MM-DD`）刪除**超過 10 日前**的資料：保留 `date >= 執行日 − 10 日`（含當日與第 10 日前當日），其餘刪除。日期無法解析的紀錄一併刪除，避免無效資料堆積。
 4. 將保留後的清單寫回 JSON，避免檔案無限增大。
 
-例：執行日為 `2026-08-19` 時，保留 `2026-08-09`（含）之後的選股，刪除 `2026-08-08` 及更早的紀錄。
+例：執行日為 `2026-08-19` 時，保留 `2026-08-09`（含）之後的選股，刪除 `2026-08-08` 及更早的紀錄。同一日重複執行只更新當日，不會覆蓋其他日期。
+
+### 2.2 網頁顯示（最新一日 + 日期範圍）
+
+`index.html` 讀取整個 `US_Strategy.json`，但畫面規則如下：
+
+1. **預設只顯示最新一日**：以 `meta.date`（本次台灣選股日期）為準，只列出該日的 `picks`。當日 0 筆時顯示空狀態，不會自動改顯示前一日。
+2. **日期範圍**：工具列提供起日／迄日，可查 JSON 內仍保留的舊資料（最多近 10 日）。統計數字、策略／買賣篩選與表格都依目前選取的範圍重算。
+3. **最新一日按鈕**：一鍵把起迄日重設回 `meta.date`。
+4. 表格另顯示「選股日」（台灣 `date`）與「K線日」（`signal_date`），方便跨日比對。
+
+可查區間下限為檔案內最早的 `picks.date`，上限為 `meta.date` 與檔案內最晚選股日的較大者。
 
 ---
 
@@ -220,8 +231,9 @@ HTML 用相對路徑讀 `US_Strategy.json`，與 Python「執行」是分開的�
 | Actions 顯示 `Resource not accessible by integration` | 5.2 改成 Read and write permissions 後再手動跑一次 |
 | `pages` job 失敗、`scan` 成功 | 5.3 將 Pages source 設成 GitHub Actions，並批准 `github-pages` environment |
 | 網頁空白或 fetch 失敗 | 確認 Pages 網址路徑正確，且該次部署有包含 `US_Strategy.json` |
-| 選股為 0 筆 | 當日可能本來就沒有股票符合條件（含共用門檻：收盤價 `> 30` 且成交量 `> 2M`），屬正常 |
-| JSON 越來越大 | 每次執行會刪除超過 10 日前的 `picks`，見 2.1 |
+| 網頁只看到一天的選股 | 這是預設（最新一日）。用工具列「日期範圍」可查 JSON 內仍保留的舊資料 |
+| 選股為 0 筆 | 當日可能本來就沒有股票符合條件（含共用門檻：收盤價 `> 30` 且成交量 `> 2M`），屬正常。可改日期範圍查看其他日 |
+| JSON 越來越大 | 每次執行會新增當日、不整檔覆蓋，並刪除超過 10 日前的 `picks`，見 2.1 |
 | Yahoo 下載大量失敗 | 稍後手動再跑；或看 `meta.failed`。GitHub 資料中心 IP 偶發被 Yahoo 限制 |
 | 想改掃描清單 | 編輯 `US_Strategy.py` 的 `load_universe()` / `FALLBACK_TICKERS` |
 
