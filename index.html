@@ -24,6 +24,20 @@
 
     * { box-sizing: border-box; }
 
+    /* 頂部漸層捲動進度條（同 US-FinanceView） */
+    #scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #00f260, #0575e6);
+      z-index: 99999;
+      transition: width 0.15s ease-out;
+      box-shadow: 0 0 15px rgba(5, 117, 230, 0.7);
+      pointer-events: none;
+    }
+
     html, body {
       margin: 0;
       min-height: 100%;
@@ -189,7 +203,6 @@
       border-radius: 18px;
       background: var(--card);
       box-shadow: var(--glow);
-      overflow: hidden;
     }
 
     .table-meta {
@@ -205,9 +218,9 @@
 
     .table-meta b { color: var(--text); }
 
+    /* 不用內捲軸：表格完整列出，捲動交給頁面外捲軸 */
     .table-wrap {
-      overflow: auto;
-      max-height: min(78vh, 920px);
+      overflow: visible;
     }
 
     table.picks {
@@ -269,6 +282,11 @@
 
     .picks tbody tr.buy { --row-accent: var(--buy); }
     .picks tbody tr.short { --row-accent: var(--short); }
+
+    /* 卡片不再用 overflow 裁切，改由最後一列自行收圓角 */
+    .picks tbody tr:last-child td { border-bottom: 0; }
+    .picks tbody tr:last-child td:first-child { border-bottom-left-radius: 18px; }
+    .picks tbody tr:last-child td:last-child { border-bottom-right-radius: 18px; }
 
     .picks tbody td.symbol {
       position: sticky;
@@ -354,12 +372,6 @@
 
     .error { color: #ffb3c4; border-color: var(--short); }
 
-    footer {
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
     @media (max-width: 900px) {
       .stats { grid-template-columns: 1fr 1fr; }
       h1 { font-size: 30px; }
@@ -368,6 +380,7 @@
   </style>
 </head>
 <body>
+  <div id="scroll-progress-bar"></div>
   <div class="wrap">
     <header>
       <div>
@@ -380,7 +393,6 @@
     <section class="stats" id="stats"></section>
     <section class="toolbar" id="toolbar"></section>
     <section class="grid" id="grid"></section>
-    <footer id="footer"></footer>
   </div>
 
   <script>
@@ -584,12 +596,6 @@
         if (ev.target.id === "q") paint();
       });
       paint();
-
-      const rangeHint = minDate && maxDate
-        ? `　可查詢 ${minDate} ～ ${maxDate}`
-        : "";
-      document.getElementById("footer").textContent =
-        `掃描宇宙：${meta.universe || "S&P 500"}　成功 ${meta.success || 0} / ${meta.scanned || 0}　失敗 ${meta.failed_count || 0}　JSON 保留近 ${meta.retention_days || 10} 日${rangeHint}`;
     }
 
     /**
@@ -719,6 +725,21 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;");
     }
+
+    /**
+     * 依頁面捲動比例更新頂部漸層進度條寬度（rAF 節流）。
+     */
+    let scrollRaf = 0;
+    document.addEventListener("scroll", () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        scrollRaf = 0;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const p = h > 0 ? (window.scrollY / h) * 100 : 100;
+        const bar = document.getElementById("scroll-progress-bar");
+        if (bar) bar.style.width = p + "%";
+      });
+    }, { passive: true });
 
     loadStrategy();
   </script>
