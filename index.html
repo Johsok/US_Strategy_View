@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>US Strategy View｜美股日K策略選股</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-2: #10182a;
+      --card: #151d31;
+      --line: #2a3a5d;
+      --text: #f4f7ff;
+      --muted: #a9b7d6;
+      --buy: #00ffa3;
+      --buy-dim: rgba(0, 255, 163, 0.16);
+      --short: #ff3d6e;
+      --short-dim: rgba(255, 61, 110, 0.16);
+      --s1: #00e5ff;
+      --s2: #ffd400;
+      --s3: #d57bff;
+      --glow: 0 0 24px rgba(0, 229, 255, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(0, 229, 255, 0.16), transparent 50%),
+        radial-gradient(900px 400px at 100% 0%, rgba(213, 123, 255, 0.14), transparent 46%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-end;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 36px;
+      letter-spacing: 0.04em;
+      text-shadow: var(--glow);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .stamp {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 280px;
+    }
+
+    .stamp b {
+      display: block;
+      color: var(--s1);
+      font-size: 22px;
+      margin-top: 4px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #1b2640, var(--card));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 32px;
+      letter-spacing: 0.02em;
+    }
+
+    .stat.s1 strong { color: var(--s1); }
+    .stat.s2 strong { color: var(--s2); }
+    .stat.s3 strong { color: var(--s3); }
+    .stat.all strong { color: #ffffff; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    button.filter, input[type="search"] {
+      font: inherit;
+      font-size: 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      color: var(--text);
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+
+    button.filter.active {
+      border-color: currentColor;
+      box-shadow: 0 0 0 1px currentColor inset;
+    }
+
+    button[data-key="all"].active { color: #fff; }
+    button[data-key="S1"].active { color: var(--s1); }
+    button[data-key="S2"].active { color: var(--s2); }
+    button[data-key="S3"].active { color: var(--s3); }
+    button[data-key="buy"].active { color: var(--buy); }
+    button[data-key="short"].active { color: var(--short); }
+
+    input[type="search"] {
+      min-width: 220px;
+      cursor: text;
+      outline: none;
+    }
+
+    input[type="search"]:focus {
+      border-color: var(--s1);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+    }
+
+    .card.buy::before { background: var(--buy); }
+    .card.short::before { background: var(--short); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .symbol a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .symbol a:hover { color: var(--s1); }
+
+    .name {
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    .badges {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .badge.s1 { color: var(--s1); background: rgba(0, 229, 255, 0.14); }
+    .badge.s2 { color: var(--s2); background: rgba(255, 212, 0, 0.14); }
+    .badge.s3 { color: var(--s3); background: rgba(213, 123, 255, 0.16); }
+    .badge.buy { color: var(--buy); background: var(--buy-dim); }
+    .badge.short { color: var(--short); background: var(--short-dim); }
+
+    .desc {
+      margin: 14px 0 12px;
+      font-size: 17px;
+      color: #e8eeff;
+    }
+
+    .meta-row, .metrics {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .metrics {
+      margin-top: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .metrics b { color: #fff; font-weight: 700; }
+
+    .empty, .error {
+      background: var(--card);
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      padding: 36px 24px;
+      text-align: center;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .error { color: #ffb3c4; border-color: var(--short); }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>US Strategy View</h1>
+        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量</p>
+      </div>
+      <div class="stamp" id="stamp">載入中…</div>
+    </header>
+
+    <section class="stats" id="stats"></section>
+    <section class="toolbar" id="toolbar"></section>
+    <section class="grid" id="grid"></section>
+    <footer id="footer"></footer>
+  </div>
+
+  <script>
+    /**
+     * 載入並渲染 US_Strategy.json。
+     * @returns {Promise<void>}
+     */
+    async function loadStrategy() {
+      const grid = document.getElementById("grid");
+      try {
+        const res = await fetch(`US_Strategy.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        render(data);
+      } catch (err) {
+        grid.innerHTML = `<div class="error">無法讀取 US_Strategy.json。請用本機伺服器或 GitHub Pages 開啟（不要直接雙擊 HTML）。<br>${err}</div>`;
+      }
+    }
+
+    /**
+     * 將資料畫到畫面上。
+     * @param {object} data JSON 內容
+     */
+    function render(data) {
+      const meta = data.meta || {};
+      const picks = Array.isArray(data.picks) ? data.picks : [];
+      const stamp = document.getElementById("stamp");
+      const dateText = meta.date && meta.time
+        ? `${meta.date} ${meta.time}`
+        : "尚未產生選股";
+      stamp.innerHTML = `台灣選股時間<b>${dateText}</b>時區 ${meta.timezone || "Asia/Taipei"}`;
+
+      const count = (strategy, side) => picks.filter((p) =>
+        (!strategy || p.strategy === strategy) && (!side || p.side === side)
+      ).length;
+
+      document.getElementById("stats").innerHTML = `
+        <article class="stat all"><span>全部訊號</span><strong>${picks.length}</strong></article>
+        <article class="stat s1"><span>S1 反轉</span><strong>${count("S1")}</strong></article>
+        <article class="stat s2"><span>S2 影線</span><strong>${count("S2")}</strong></article>
+        <article class="stat s3"><span>S3 爆量</span><strong>${count("S3")}</strong></article>
+      `;
+
+      const toolbar = document.getElementById("toolbar");
+      toolbar.innerHTML = `
+        <button class="filter active" data-key="all">全部 ${picks.length}</button>
+        <button class="filter" data-key="S1">S1 ${count("S1")}</button>
+        <button class="filter" data-key="S2">S2 ${count("S2")}</button>
+        <button class="filter" data-key="S3">S3 ${count("S3")}</button>
+        <button class="filter" data-key="buy">買進 ${count(null, "buy")}</button>
+        <button class="filter" data-key="short">賣空 ${count(null, "short")}</button>
+        <input type="search" id="q" placeholder="搜尋代碼或公司" />
+      `;
+
+      let strategy = "all";
+      let side = "all";
+      const paint = () => {
+        const q = (document.getElementById("q").value || "").trim().toUpperCase();
+        const rows = picks.filter((p) => {
+          const okS = strategy === "all" || p.strategy === strategy;
+          const okSide = side === "all" || p.side === side;
+          const blob = `${p.symbol} ${p.name || ""}`.toUpperCase();
+          const okQ = !q || blob.includes(q);
+          return okS && okSide && okQ;
+        });
+        document.getElementById("grid").innerHTML = rows.length
+          ? rows.map(cardHtml).join("")
+          : `<div class="empty">${meta.note || "今日沒有符合條件的選股。"}</div>`;
+      };
+
+      toolbar.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button.filter");
+        if (!btn) return;
+        const key = btn.dataset.key;
+        if (key === "buy" || key === "short") {
+          side = side === key ? "all" : key;
+        } else {
+          strategy = key;
+        }
+        toolbar.querySelectorAll("button.filter").forEach((el) => {
+          const k = el.dataset.key;
+          el.classList.toggle("active", k === strategy || k === side || (k === "all" && strategy === "all"));
+        });
+        paint();
+      });
+      toolbar.addEventListener("input", paint);
+      paint();
+
+      document.getElementById("footer").textContent =
+        `掃描宇宙：${meta.universe || "S&P 500"}　成功 ${meta.success || 0} / ${meta.scanned || 0}　失敗 ${meta.failed_count || 0}`;
+    }
+
+    /**
+     * 單張選股卡片 HTML。
+     * @param {object} pick 一筆選股
+     * @returns {string}
+     */
+    function cardHtml(pick) {
+      const sideLabel = pick.side === "buy" ? "買進" : "賣空";
+      const metrics = formatMetrics(pick);
+      const href = `https://finance.yahoo.com/quote/${encodeURIComponent(pick.symbol)}`;
+      return `
+        <article class="card ${pick.side}">
+          <div class="card-top">
+            <div class="symbol">
+              <a href="${href}" target="_blank" rel="noreferrer">${esc(pick.symbol)}</a>
+              <div class="name">${esc(pick.name || "")}</div>
+            </div>
+            <div class="badges">
+              <span class="badge ${pick.strategy}">${esc(pick.strategy)}</span>
+              <span class="badge ${pick.side}">${sideLabel}</span>
+            </div>
+          </div>
+          <p class="desc">${esc(pick.strategy_desc || "")}</p>
+          <div class="meta-row">台灣日期 ${esc(pick.date || "")}　時間 ${esc(pick.time || "")}</div>
+          <div class="meta-row">美股K線日 ${esc(pick.signal_date || "")}　收盤 ${esc(String(pick.close ?? ""))}</div>
+          <div class="metrics">${metrics}</div>
+        </article>
+      `;
+    }
+
+    /**
+     * 將 metrics 轉成可讀文字。
+     * @param {object} pick 一筆選股
+     * @returns {string}
+     */
+    function formatMetrics(pick) {
+      const m = pick.metrics || {};
+      const rows = [];
+      if (m.yesterday_change_pct != null) rows.push(`昨日漲跌 <b>${m.yesterday_change_pct}%</b>`);
+      if (m.today_change_pct != null) rows.push(`今日漲跌 <b>${m.today_change_pct}%</b>`);
+      if (m.hit_count != null) rows.push(`影線次數 <b>${m.hit_count}</b>`);
+      if (Array.isArray(m.hits)) {
+        rows.push(`發生日 <b>${m.hits.map((h) => `${h.date}（${h.ratio}%）`).join("、")}</b>`);
+      }
+      if (m.volume_ratio != null) rows.push(`量比 <b>${m.volume_ratio}x</b>`);
+      if (m.volume != null) rows.push(`今日量 <b>${Number(m.volume).toLocaleString()}</b>`);
+      if (m.prev5_avg_volume != null) rows.push(`前5日均量 <b>${Number(m.prev5_avg_volume).toLocaleString()}</b>`);
+      if (m.low3 != null) rows.push(`近3日低 <b>${m.low3}</b> / 近5日低 <b>${m.low5}</b>`);
+      if (m.high3 != null) rows.push(`近3日高 <b>${m.high3}</b> / 近5日高 <b>${m.high5}</b>`);
+      return rows.map((x) => `<div>${x}</div>`).join("");
+    }
+
+    /**
+     * 跳脫 HTML。
+     * @param {string} text 原文
+     * @returns {string}
+     */
+    function esc(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    loadStrategy();
+  </script>
+</body>
+</html>
