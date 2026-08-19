@@ -38,7 +38,7 @@
     }
 
     .wrap {
-      width: min(1280px, calc(100% - 32px));
+      width: min(1480px, calc(100% - 32px));
       margin: 0 auto;
       padding: 28px 0 64px;
     }
@@ -152,42 +152,107 @@
       border-color: var(--s1);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--card);
+    .table-shell {
       border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px;
-      position: relative;
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: var(--glow);
       overflow: hidden;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 6px;
-    }
-
-    .card.buy::before { background: var(--buy); }
-    .card.short::before { background: var(--short); }
-
-    .card-top {
+    .table-meta {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: flex-start;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 15px;
     }
+
+    .table-meta b { color: var(--text); }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: min(78vh, 920px);
+    }
+
+    table.picks {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 1180px;
+      font-size: 15px;
+    }
+
+    .picks thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: linear-gradient(180deg, #223056, #1a243c);
+      color: #d7e4ff;
+      font-weight: 700;
+      text-align: left;
+      padding: 13px 14px;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--line);
+      letter-spacing: 0.04em;
+    }
+
+    .picks thead th:first-child {
+      left: 0;
+      z-index: 4;
+    }
+
+    .picks thead th.num,
+    .picks tbody td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .picks tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(42, 58, 93, 0.72);
+      vertical-align: top;
+    }
+
+    .picks tbody tr {
+      background: var(--card);
+      transition: background 0.15s ease;
+    }
+
+    .picks tbody tr:nth-child(even) {
+      background: #121a2e;
+    }
+
+    .picks tbody tr:hover {
+      background: rgba(0, 229, 255, 0.08);
+    }
+
+    .picks tbody tr.buy td:first-child,
+    .picks tbody tr.short td:first-child {
+      box-shadow: inset 4px 0 0 var(--row-accent);
+    }
+
+    .picks tbody tr.buy { --row-accent: var(--buy); }
+    .picks tbody tr.short { --row-accent: var(--short); }
+
+    .picks tbody td.symbol {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      min-width: 92px;
+    }
+
+    .picks tbody tr:nth-child(odd) td.symbol { background: var(--card); }
+    .picks tbody tr:nth-child(even) td.symbol { background: #121a2e; }
+    .picks tbody tr:hover td.symbol { background: #173044; }
 
     .symbol a {
       color: #fff;
       text-decoration: none;
-      font-size: 28px;
+      font-size: 18px;
       font-weight: 800;
       letter-spacing: 0.03em;
     }
@@ -196,22 +261,18 @@
 
     .name {
       color: var(--muted);
-      font-size: 16px;
-      margin-top: 2px;
-    }
-
-    .badges {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: flex-end;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 180px;
     }
 
     .badge {
+      display: inline-flex;
+      align-items: center;
       border-radius: 999px;
-      padding: 6px 12px;
+      padding: 4px 10px;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 13px;
       white-space: nowrap;
     }
 
@@ -222,20 +283,29 @@
     .badge.short { color: var(--short); background: var(--short-dim); }
 
     .desc {
-      margin: 14px 0 12px;
-      font-size: 17px;
+      margin: 0;
+      max-width: 320px;
       color: #e8eeff;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
-    .meta-row, .metrics {
+    .date-cell {
       color: var(--muted);
-      font-size: 16px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
+
+    .pct.up { color: var(--buy); font-weight: 700; }
+    .pct.down { color: var(--short); font-weight: 700; }
+    .muted-dash { color: #5d6d90; }
 
     .metrics {
-      margin-top: 12px;
       display: grid;
-      gap: 6px;
+      gap: 4px;
+      min-width: 220px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .metrics b { color: #fff; font-weight: 700; }
@@ -261,6 +331,7 @@
     @media (max-width: 900px) {
       .stats { grid-template-columns: 1fr 1fr; }
       h1 { font-size: 30px; }
+      .picks { font-size: 14px; }
     }
   </style>
 </head>
@@ -344,7 +415,7 @@
           return okS && okSide && okQ;
         });
         document.getElementById("grid").innerHTML = rows.length
-          ? rows.map(cardHtml).join("")
+          ? tableHtml(rows)
           : `<div class="empty">${meta.note || "今日沒有符合條件的選股。"}</div>`;
       };
 
@@ -371,46 +442,102 @@
     }
 
     /**
-     * 單張選股卡片 HTML。
-     * @param {object} pick 一筆選股
+     * 選股結果表格 HTML。
+     * @param {object[]} rows 篩選後的選股
      * @returns {string}
      */
-    function cardHtml(pick) {
-      const sideLabel = pick.side === "buy" ? "買進" : "賣空";
-      const metrics = formatMetrics(pick);
-      const href = `https://finance.yahoo.com/quote/${encodeURIComponent(pick.symbol)}`;
+    function tableHtml(rows) {
       return `
-        <article class="card ${pick.side}">
-          <div class="card-top">
-            <div class="symbol">
-              <a href="${href}" target="_blank" rel="noreferrer">${esc(pick.symbol)}</a>
-              <div class="name">${esc(pick.name || "")}</div>
-            </div>
-            <div class="badges">
-              <span class="badge ${pick.strategy}">${esc(pick.strategy)}</span>
-              <span class="badge ${pick.side}">${sideLabel}</span>
-            </div>
+        <div class="table-shell">
+          <div class="table-meta">
+            <span>顯示 <b>${rows.length}</b> 筆符合條件的選股</span>
+            <span>點代碼可開 Yahoo Finance</span>
           </div>
-          <p class="desc">${esc(pick.strategy_desc || "")}</p>
-          <div class="meta-row">台灣日期 ${esc(pick.date || "")}　時間 ${esc(pick.time || "")}</div>
-          <div class="meta-row">美股K線日 ${esc(pick.signal_date || "")}　收盤 ${esc(String(pick.close ?? ""))}</div>
-          <div class="metrics">${metrics}</div>
-        </article>
+          <div class="table-wrap">
+            <table class="picks">
+              <thead>
+                <tr>
+                  <th>代碼</th>
+                  <th>公司</th>
+                  <th>策略</th>
+                  <th>方向</th>
+                  <th>條件</th>
+                  <th class="num">收盤</th>
+                  <th>K線日</th>
+                  <th class="num">昨日漲跌</th>
+                  <th class="num">今日漲跌</th>
+                  <th>驗證數據</th>
+                </tr>
+              </thead>
+              <tbody>${rows.map(rowHtml).join("")}</tbody>
+            </table>
+          </div>
+        </div>
       `;
     }
 
     /**
-     * 將 metrics 轉成可讀文字。
+     * 單列選股 HTML。
+     * @param {object} pick 一筆選股
+     * @returns {string}
+     */
+    function rowHtml(pick) {
+      const sideLabel = pick.side === "buy" ? "買進" : "賣空";
+      const href = `https://finance.yahoo.com/quote/${encodeURIComponent(pick.symbol)}`;
+      const m = pick.metrics || {};
+      return `
+        <tr class="${esc(pick.side)}">
+          <td class="symbol">
+            <a href="${href}" target="_blank" rel="noreferrer">${esc(pick.symbol)}</a>
+          </td>
+          <td class="name">${esc(pick.name || "")}</td>
+          <td><span class="badge ${esc(pick.strategy)}">${esc(pick.strategy)}</span></td>
+          <td><span class="badge ${esc(pick.side)}">${sideLabel}</span></td>
+          <td><p class="desc">${esc(pick.strategy_desc || "")}</p></td>
+          <td class="num">${formatClose(pick.close)}</td>
+          <td class="date-cell">${esc(pick.signal_date || "")}</td>
+          <td class="num">${formatPct(m.yesterday_change_pct)}</td>
+          <td class="num">${formatPct(m.today_change_pct)}</td>
+          <td><div class="metrics">${formatMetrics(pick)}</div></td>
+        </tr>
+      `;
+    }
+
+    /**
+     * 格式化收盤價。
+     * @param {number|string|null|undefined} close 收盤價
+     * @returns {string}
+     */
+    function formatClose(close) {
+      if (close == null || close === "") return `<span class="muted-dash">—</span>`;
+      const n = Number(close);
+      return Number.isFinite(n) ? n.toLocaleString(undefined, { maximumFractionDigits: 4 }) : esc(String(close));
+    }
+
+    /**
+     * 格式化漲跌幅，上漲綠色、下跌紅色。
+     * @param {number|null|undefined} value 百分比
+     * @returns {string}
+     */
+    function formatPct(value) {
+      if (value == null || value === "") return `<span class="muted-dash">—</span>`;
+      const n = Number(value);
+      if (!Number.isFinite(n)) return esc(String(value));
+      const cls = n > 0 ? "up" : n < 0 ? "down" : "";
+      const sign = n > 0 ? "+" : "";
+      return `<span class="pct ${cls}">${sign}${n}%</span>`;
+    }
+
+    /**
+     * 將 metrics 轉成表格內的驗證列。
      * @param {object} pick 一筆選股
      * @returns {string}
      */
     function formatMetrics(pick) {
       const m = pick.metrics || {};
       const rows = [];
-      if (m.yesterday_change_pct != null) rows.push(`昨日漲跌 <b>${m.yesterday_change_pct}%</b>`);
-      if (m.today_change_pct != null) rows.push(`今日漲跌 <b>${m.today_change_pct}%</b>`);
       if (m.hit_count != null) rows.push(`影線次數 <b>${m.hit_count}</b>`);
-      if (Array.isArray(m.hits)) {
+      if (Array.isArray(m.hits) && m.hits.length) {
         rows.push(`發生日 <b>${m.hits.map((h) => `${h.date}（${h.ratio}%）`).join("、")}</b>`);
       }
       if (m.volume_ratio != null) rows.push(`量比 <b>${m.volume_ratio}x</b>`);
@@ -418,6 +545,7 @@
       if (m.prev5_avg_volume != null) rows.push(`前5日均量 <b>${Number(m.prev5_avg_volume).toLocaleString()}</b>`);
       if (m.low3 != null) rows.push(`近3日低 <b>${m.low3}</b> / 近5日低 <b>${m.low5}</b>`);
       if (m.high3 != null) rows.push(`近3日高 <b>${m.high3}</b> / 近5日高 <b>${m.high5}</b>`);
+      if (!rows.length) return `<span class="muted-dash">—</span>`;
       return rows.map((x) => `<div>${x}</div>`).join("");
     }
 

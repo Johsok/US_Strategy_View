@@ -1,6 +1,6 @@
 # US Strategy View 規格說明
 
-本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 S1 / S2 / S3 產出當日選股，寫入 `US_Strategy.json`，再以 `index.html` 深色頁面顯示。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
+本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 S1 / S2 / S3 產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（累積近 10 日、刪除更舊資料），再以 `index.html` 深色頁面顯示。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
 
 ---
 
@@ -8,8 +8,8 @@
 
 | 檔案 | 用途 |
 | --- | --- |
-| `US_Strategy.py` | 選股主程式，寫入 JSON |
-| `US_Strategy.json` | 當日選股結果（每次執行會覆寫） |
+| `US_Strategy.py` | 選股主程式，合併當日結果並清理過期 JSON |
+| `US_Strategy.json` | 近 10 日選股結果（超過 10 日前的資料會刪除） |
 | `index.html` | 深色模式檢視頁，讀取 JSON |
 | `requirements.txt` | Python 套件 |
 | `.github/workflows/us-strategy.yml` | GitHub 每日排程 |
@@ -34,13 +34,33 @@
 | `close` | 最新收盤價 |
 | `metrics` | 該策略的驗證數字 |
 
-`meta` 另有掃描檔數、成功／失敗數、宇宙名稱。
+`meta` 另有掃描檔數、成功／失敗數、宇宙名稱、當日筆數 `today_pick_count`、保留天數 `retention_days`、本次刪除筆數 `pruned_count`。`pick_count` 為檔案內近 10 日合計筆數。
+
+### 2.1 JSON 資料保留（10 日）
+
+每次執行 `US_Strategy.py` 時：
+
+1. 讀取既有 `US_Strategy.json` 的 `picks`（檔案不存在或損毀則視為空白）。
+2. 以**本次台灣日期**的掃描結果，取代同一 `date` 的舊紀錄（同一日重複執行不會堆疊重複）。
+3. 依每筆 `date`（台灣選股日期 `YYYY-MM-DD`）刪除**超過 10 日前**的資料：保留 `date >= 執行日 − 10 日`（含當日與第 10 日前當日），其餘刪除。日期無法解析的紀錄一併刪除，避免無效資料堆積。
+4. 將保留後的清單寫回 JSON，避免檔案無限增大。
+
+例：執行日為 `2026-08-19` 時，保留 `2026-08-09`（含）之後的選股，刪除 `2026-08-08` 及更早的紀錄。
 
 ---
 
 ## 3. 選股規則（日K）
 
 K線顏色採**美股慣例：綠漲、紅跌**（收盤 > 開盤為綠K，收盤 < 開盤為紅K）。漲跌幅為相對**前一日收盤**。
+
+### 3.0 各策略共用門檻
+
+S1 / S2 / S3 **皆須先通過**以下條件，才會進入選股名單（與個別策略訊號為「且」關係）：
+
+- 最新一根日K的**收盤價 `> 30` 元**
+- 最新一根日K的**成交量 `> 2,000,000`（2M 股）**
+
+任一條件不成立，該檔當次掃描不產出任何策略紀錄。
 
 ### S1 紅K + 綠K 反轉
 
@@ -200,7 +220,8 @@ HTML 用相對路徑讀 `US_Strategy.json`，與 Python「執行」是分開的�
 | Actions 顯示 `Resource not accessible by integration` | 5.2 改成 Read and write permissions 後再手動跑一次 |
 | `pages` job 失敗、`scan` 成功 | 5.3 將 Pages source 設成 GitHub Actions，並批准 `github-pages` environment |
 | 網頁空白或 fetch 失敗 | 確認 Pages 網址路徑正確，且該次部署有包含 `US_Strategy.json` |
-| 選股為 0 筆 | 當日可能本來就沒有股票符合條件，屬正常 |
+| 選股為 0 筆 | 當日可能本來就沒有股票符合條件（含共用門檻：收盤價 `> 30` 且成交量 `> 2M`），屬正常 |
+| JSON 越來越大 | 每次執行會刪除超過 10 日前的 `picks`，見 2.1 |
 | Yahoo 下載大量失敗 | 稍後手動再跑；或看 `meta.failed`。GitHub 資料中心 IP 偶發被 Yahoo 限制 |
 | 想改掃描清單 | 編輯 `US_Strategy.py` 的 `load_universe()` / `FALLBACK_TICKERS` |
 

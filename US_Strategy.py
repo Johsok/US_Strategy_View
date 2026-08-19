@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-美股日K策略選股：掃描 S&P 500，將當日訊號寫入 US_Strategy.json。
+美股日K策略選股：掃描 S&P 500，將訊號寫入 US_Strategy.json。
 
+每次執行會合併當日結果，並刪除超過 10 日前的紀錄。
 時間一律使用台灣時區 Asia/Taipei。
 """
 
@@ -11,7 +12,7 @@ from __future__ import annotations
 import json
 import sys
 import time
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -72,6 +73,9 @@ BATCH_SIZE = 40
 DOWNLOAD_RETRIES = 3
 LOOKBACK_CALENDAR_DAYS = "3mo"
 MIN_BARS = 11
+JSON_RETENTION_DAYS = 10
+MIN_CLOSE_PRICE = 30.0
+MIN_VOLUME = 2_000_000
 
 
 def log(message: str) -> None:
@@ -567,12 +571,27 @@ def eval_s3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     return picks
 
 
+def passes_common_filters(df: pd.DataFrame) -> bool:
+    """
+    各策略共用選股門檻：最新K線收盤價大於 30 元，且成交量大於 2,000,000。
+
+    @param df 日K
+    @returns 通過門檻則為 True
+    """
+    last = df.iloc[-1]
+    return float(last["Close"]) > MIN_CLOSE_PRICE and float(last["Volume"]) > MIN_VOLUME
+
+
 def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
     對單一股票執行 S1 / S2 / S3。
 
+    未通過共用價格／成交量門檻者不進入選股名單。
+
     @returns 該檔所有命中訊號
     """
+    if not passes_common_filters(df):
+        return []
     picks: list[dict[str, Any]] = []
     picks.extend(eval_s1(df, taipei, symbol, name))
     picks.extend(eval_s2(df, taipei, symbol, name))
@@ -582,7 +601,7 @@ def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> l
 
 def sort_picks(picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """
-    依策略、方向、代碼排序。
+    依台灣日期（新到舊）、策略、方向、代碼排序。
 
     @param picks 選股清單
     @returns 排序後清單
@@ -592,16 +611,81 @@ def sort_picks(picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(
         picks,
         key=lambda item: (
-            strategy_order.get(item["strategy"], 9),
-            side_order.get(item["side"], 9),
-            item["symbol"],
+            -(parse_pick_date(item.get("date")) or date.min).toordinal(),
+            strategy_order.get(item.get("strategy"), 9),
+            side_order.get(item.get("side"), 9),
+            item.get("symbol", ""),
         ),
     )
 
 
+def parse_pick_date(value: Any) -> date | None:
+    """
+    將選股紀錄的台灣日期解析為 date。
+
+    @param value YYYY-MM-DD 字串或其他值
+    @returns 解析成功則為日期，否則為 None
+    """
+    text = str(value or "").strip()[:10]
+    try:
+        return datetime.strptime(text, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
+def load_existing_picks() -> list[dict[str, Any]]:
+    """
+    讀取既有 US_Strategy.json 的選股清單。
+
+    檔案不存在或格式無法解析時回傳空清單。
+
+    @returns 既有 picks
+    """
+    if not OUTPUT_JSON.exists():
+        return []
+    try:
+        data = json.loads(OUTPUT_JSON.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        log(f"讀取既有 JSON 失敗，改以本次結果重建：{exc}")
+        return []
+    picks = data.get("picks") if isinstance(data, dict) else None
+    if not isinstance(picks, list):
+        return []
+    return [item for item in picks if isinstance(item, dict)]
+
+
+def merge_and_retain_picks(
+    existing: list[dict[str, Any]],
+    today_picks: list[dict[str, Any]],
+    today: date,
+) -> tuple[list[dict[str, Any]], int]:
+    """
+    以當日掃描結果取代同一台灣日期的舊紀錄，並刪除超過保留天數的資料。
+
+    保留條件：`date >= today - JSON_RETENTION_DAYS`（含當日與第 10 日前當日）。
+
+    @param existing 既有選股
+    @param today_picks 本次掃描結果
+    @param today 台灣日期
+    @returns (保留後清單, 因過期或日期無效而刪除的筆數)
+    """
+    today_str = today.isoformat()
+    others = [item for item in existing if str(item.get("date", "")) != today_str]
+    cutoff = today - timedelta(days=JSON_RETENTION_DAYS)
+    kept_old: list[dict[str, Any]] = []
+    removed = 0
+    for item in others:
+        item_date = parse_pick_date(item.get("date"))
+        if item_date is None or item_date < cutoff:
+            removed += 1
+            continue
+        kept_old.append(item)
+    return kept_old + list(today_picks), removed
+
+
 def write_json(payload: dict[str, Any]) -> None:
     """
-    將當日選股結果覆寫寫入 US_Strategy.json。
+    將選股結果寫入 US_Strategy.json。
 
     @param payload 完整 JSON 物件
     """
@@ -609,7 +693,7 @@ def write_json(payload: dict[str, Any]) -> None:
         json.dumps(payload, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    log(f"已寫入 {OUTPUT_JSON.name}（{payload['meta']['pick_count']} 筆）")
+    log(f"已寫入 {OUTPUT_JSON.name}（保留 {payload['meta']['pick_count']} 筆）")
 
 
 def main() -> int:
@@ -629,7 +713,16 @@ def main() -> int:
     for symbol, df in history.items():
         picks.extend(scan_ticker(df, taipei, symbol, universe.get(symbol, symbol)))
 
-    picks = sort_picks(picks)
+    today_picks = sort_picks(picks)
+    kept, removed = merge_and_retain_picks(
+        load_existing_picks(),
+        today_picks,
+        taipei.date(),
+    )
+    kept = sort_picks(kept)
+    if removed:
+        log(f"已刪除超過 {JSON_RETENTION_DAYS} 日前資料 {removed} 筆")
+    log(f"當日 {len(today_picks)} 筆，JSON 保留近 {JSON_RETENTION_DAYS} 日共 {len(kept)} 筆")
     payload = {
         "meta": {
             "date": taipei.strftime("%Y-%m-%d"),
@@ -640,10 +733,13 @@ def main() -> int:
             "success": len(history),
             "failed_count": len(failed),
             "failed": failed,
-            "pick_count": len(picks),
-            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。",
+            "today_pick_count": len(today_picks),
+            "pick_count": len(kept),
+            "retention_days": JSON_RETENTION_DAYS,
+            "pruned_count": removed,
+            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。",
         },
-        "picks": picks,
+        "picks": kept,
     }
     write_json(payload)
     log("選股完成")
