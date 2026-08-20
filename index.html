@@ -19,6 +19,7 @@
       --s1: #00e5ff;
       --s2: #ffd400;
       --s3: #d57bff;
+      --s4: #ff9f43;
       --glow: 0 0 24px rgba(0, 229, 255, 0.18);
     }
 
@@ -52,7 +53,7 @@
     }
 
     .wrap {
-      width: min(1480px, calc(100% - 32px));
+      width: min(1640px, calc(100% - 32px));
       margin: 0 auto;
       padding: 28px 0 64px;
     }
@@ -96,7 +97,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 14px;
       margin-bottom: 22px;
     }
@@ -123,6 +124,7 @@
     .stat.s1 strong { color: var(--s1); }
     .stat.s2 strong { color: var(--s2); }
     .stat.s3 strong { color: var(--s3); }
+    .stat.s4 strong { color: var(--s4); }
     .stat.all strong { color: #ffffff; }
 
     .toolbar {
@@ -153,6 +155,7 @@
     button[data-key="S1"].active { color: var(--s1); }
     button[data-key="S2"].active { color: var(--s2); }
     button[data-key="S3"].active { color: var(--s3); }
+    button[data-key="S4"].active { color: var(--s4); }
     button[data-key="buy"].active { color: var(--buy); }
     button[data-key="short"].active { color: var(--short); }
 
@@ -227,7 +230,7 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 1280px;
+      min-width: 1400px;
       font-size: 15px;
     }
 
@@ -238,7 +241,7 @@
       background: linear-gradient(180deg, #223056, #1a243c);
       color: #d7e4ff;
       font-weight: 700;
-      text-align: left;
+      text-align: center;
       padding: 13px 14px;
       white-space: nowrap;
       border-bottom: 1px solid var(--line);
@@ -250,7 +253,6 @@
       z-index: 4;
     }
 
-    .picks thead th.num,
     .picks tbody td.num {
       text-align: right;
       font-variant-numeric: tabular-nums;
@@ -309,13 +311,6 @@
 
     .symbol a:hover { color: var(--s1); }
 
-    .name {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.4;
-      max-width: 180px;
-    }
-
     .badge {
       display: inline-flex;
       align-items: center;
@@ -329,12 +324,19 @@
     .badge.s1 { color: var(--s1); background: rgba(0, 229, 255, 0.14); }
     .badge.s2 { color: var(--s2); background: rgba(255, 212, 0, 0.14); }
     .badge.s3 { color: var(--s3); background: rgba(213, 123, 255, 0.16); }
+    .badge.s4 { color: var(--s4); background: rgba(255, 159, 67, 0.16); }
     .badge.buy { color: var(--buy); background: var(--buy-dim); }
     .badge.short { color: var(--short); background: var(--short-dim); }
 
+    .picks th.cond,
+    .picks td.cond {
+      min-width: 640px;
+      width: 28%;
+    }
+
     .desc {
       margin: 0;
-      max-width: 320px;
+      max-width: 640px;
       color: #e8eeff;
       font-size: 14px;
       line-height: 1.45;
@@ -385,7 +387,7 @@
     <header>
       <div>
         <h1>US Strategy View</h1>
-        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量</p>
+        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 昨日±30%</p>
       </div>
       <div class="stamp" id="stamp">載入中…</div>
     </header>
@@ -496,6 +498,7 @@
         <button class="filter" data-key="S1">S1 0</button>
         <button class="filter" data-key="S2">S2 0</button>
         <button class="filter" data-key="S3">S3 0</button>
+        <button class="filter" data-key="S4">S4 0</button>
         <button class="filter" data-key="buy">買進 0</button>
         <button class="filter" data-key="short">賣空 0</button>
         <input type="search" id="q" placeholder="搜尋代碼或公司" />
@@ -544,11 +547,13 @@
           <article class="stat s1"><span>S1 反轉</span><strong>${count(dated, "S1")}</strong></article>
           <article class="stat s2"><span>S2 影線</span><strong>${count(dated, "S2")}</strong></article>
           <article class="stat s3"><span>S3 爆量</span><strong>${count(dated, "S3")}</strong></article>
+          <article class="stat s4"><span>S4 昨日±30%</span><strong>${count(dated, "S4")}</strong></article>
         `;
         toolbar.querySelector('[data-key="all"]').textContent = `全部 ${dated.length}`;
         toolbar.querySelector('[data-key="S1"]').textContent = `S1 ${count(dated, "S1")}`;
         toolbar.querySelector('[data-key="S2"]').textContent = `S2 ${count(dated, "S2")}`;
         toolbar.querySelector('[data-key="S3"]').textContent = `S3 ${count(dated, "S3")}`;
+        toolbar.querySelector('[data-key="S4"]').textContent = `S4 ${count(dated, "S4")}`;
         toolbar.querySelector('[data-key="buy"]').textContent = `買進 ${count(dated, null, "buy")}`;
         toolbar.querySelector('[data-key="short"]').textContent = `賣空 ${count(dated, null, "short")}`;
 
@@ -620,15 +625,14 @@
               <thead>
                 <tr>
                   <th>代碼</th>
-                  <th>公司</th>
                   <th>策略</th>
                   <th>方向</th>
-                  <th>條件</th>
-                  <th class="num">收盤</th>
+                  <th class="cond">條件</th>
+                  <th>收盤</th>
                   <th>選股日</th>
                   <th>K線日</th>
-                  <th class="num">昨日漲跌</th>
-                  <th class="num">今日漲跌</th>
+                  <th>昨日漲跌</th>
+                  <th>今日漲跌</th>
                   <th>驗證數據</th>
                 </tr>
               </thead>
@@ -653,10 +657,9 @@
           <td class="symbol">
             <a href="${href}" target="_blank" rel="noreferrer">${esc(pick.symbol)}</a>
           </td>
-          <td class="name">${esc(pick.name || "")}</td>
           <td><span class="badge ${esc(pick.strategy)}">${esc(pick.strategy)}</span></td>
           <td><span class="badge ${esc(pick.side)}">${sideLabel}</span></td>
-          <td><p class="desc">${esc(pick.strategy_desc || "")}</p></td>
+          <td class="cond"><p class="desc">${esc(pick.strategy_desc || "")}</p></td>
           <td class="num">${formatClose(pick.close)}</td>
           <td class="date-cell">${esc(pickDate(pick))}</td>
           <td class="date-cell">${esc(pick.signal_date || "")}</td>

@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 import time
 from datetime import date, datetime, timedelta
@@ -338,6 +339,65 @@ def round_pct(value: float) -> float:
     return round(float(value) * 100.0, 2)
 
 
+def finite_pct(value: Any) -> float | None:
+    """
+    將 pct_change 結果轉成可寫入 JSON 的百分比。
+
+    @param value 小數漲跌幅（可能為 NaN / inf）
+    @returns 百分比，無法計算則為 None
+    """
+    if value is None or pd.isna(value):
+        return None
+    number = float(value)
+    if not math.isfinite(number):
+        return None
+    return round_pct(number)
+
+
+def bars_on_or_before(df: pd.DataFrame, day: str | None) -> pd.DataFrame:
+    """
+    取出指定交易日（含）以前的日K。未指定日期則回傳原資料。
+
+    @param df 日K
+    @param day YYYY-MM-DD；None 表示不裁切
+    @returns 裁切後的日K
+    """
+    if not day:
+        return df
+    cutoff = str(day)[:10]
+    try:
+        dates = df.index.strftime("%Y-%m-%d")
+    except AttributeError:
+        dates = pd.to_datetime(df.index).strftime("%Y-%m-%d")
+    return df[dates <= cutoff]
+
+
+def daily_change_metrics(df: pd.DataFrame, as_of: str | None = None) -> dict[str, float]:
+    """
+    計算指定交易日（含）以前最新兩根日K相對前一日收盤的漲跌幅（百分比）。
+
+    昨日為倒數第二根K線，今日為該切點的最新一根K線。所有策略都會寫入這兩個欄位，
+    讓網頁「昨日漲跌／今日漲跌」都能顯示。無法計算（K線不足或非有限值）時不寫入該鍵。
+
+    @param df 日K
+    @param as_of 交易日 YYYY-MM-DD；None 則用整段資料的最新兩根
+    @returns 含 yesterday_change_pct / today_change_pct 的字典
+    """
+    metrics: dict[str, float] = {}
+    frame = bars_on_or_before(df, as_of)
+    close = frame["Close"]
+    if len(close) < 2:
+        return metrics
+    chg = close.pct_change()
+    yesterday = finite_pct(chg.iloc[-2])
+    today = finite_pct(chg.iloc[-1])
+    if yesterday is not None:
+        metrics["yesterday_change_pct"] = yesterday
+    if today is not None:
+        metrics["today_change_pct"] = today
+    return metrics
+
+
 def signal_date(df: pd.DataFrame) -> str:
     """
     最新一根日K對應的美股交易日。
@@ -365,9 +425,12 @@ def make_pick(
     """
     組成一筆選股紀錄。
 
+    `metrics` 一律合併最新兩根日K的昨日／今日漲跌幅，策略專用數字再疊加上去。
+
     @returns JSON 物件
     """
     last = df.iloc[-1]
+    merged_metrics = {**daily_change_metrics(df), **metrics}
     return {
         "date": taipei.strftime("%Y-%m-%d"),
         "time": taipei.strftime("%H:%M:%S"),
@@ -379,7 +442,7 @@ def make_pick(
         "strategy_desc": strategy_desc,
         "signal_date": signal_date(df),
         "close": round(float(last["Close"]), 4),
-        "metrics": metrics,
+        "metrics": merged_metrics,
     }
 
 
@@ -571,6 +634,64 @@ def eval_s3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     return picks
 
 
+def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    S4 昨日單日大幅漲跌。
+
+    買進：股價昨日下跌超過（含）30% 以上（昨日漲跌幅 <= -30%）。
+    賣空：股價昨日上漲超過（含）30% 以上（昨日漲跌幅 >= +30%）。
+
+    「昨日」為倒數第二根日K，漲跌幅相對其前一日收盤。
+
+    @returns 符合條件的選股
+    """
+    chg = pct_change(df["Close"])
+    if len(chg) < 3:
+        return []
+    y_chg = float(chg.iloc[-2])
+    if not math.isfinite(y_chg):
+        return []
+    yesterday = df.iloc[-2]
+    picks: list[dict[str, Any]] = []
+
+    if y_chg <= -0.30:
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="S4",
+                side="buy",
+                strategy_desc="S4(買進：股價昨日下跌超過含30%以上)：昨日相對前一日收盤跌幅達 30%（含）以上",
+                df=df,
+                metrics={
+                    "yesterday_change_pct": round_pct(y_chg),
+                    "yesterday_open": round(float(yesterday["Open"]), 4),
+                    "yesterday_close": round(float(yesterday["Close"]), 4),
+                },
+            )
+        )
+
+    if y_chg >= 0.30:
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="S4",
+                side="short",
+                strategy_desc="S4(賣空：股價昨日上漲超過含30%以上)：昨日相對前一日收盤漲幅達 30%（含）以上",
+                df=df,
+                metrics={
+                    "yesterday_change_pct": round_pct(y_chg),
+                    "yesterday_open": round(float(yesterday["Open"]), 4),
+                    "yesterday_close": round(float(yesterday["Close"]), 4),
+                },
+            )
+        )
+    return picks
+
+
 def passes_common_filters(df: pd.DataFrame) -> bool:
     """
     各策略共用選股門檻：最新K線收盤價大於 30 元，且成交量大於 2,000,000。
@@ -584,7 +705,7 @@ def passes_common_filters(df: pd.DataFrame) -> bool:
 
 def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    對單一股票執行 S1 / S2 / S3。
+    對單一股票執行 S1 / S2 / S3 / S4。
 
     未通過共用價格／成交量門檻者不進入選股名單。
 
@@ -596,6 +717,7 @@ def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> l
     picks.extend(eval_s1(df, taipei, symbol, name))
     picks.extend(eval_s2(df, taipei, symbol, name))
     picks.extend(eval_s3(df, taipei, symbol, name))
+    picks.extend(eval_s4(df, taipei, symbol, name))
     return picks
 
 
@@ -606,7 +728,7 @@ def sort_picks(picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     @param picks 選股清單
     @returns 排序後清單
     """
-    strategy_order = {"S1": 0, "S2": 1, "S3": 2}
+    strategy_order = {"S1": 0, "S2": 1, "S3": 2, "S4": 3}
     side_order = {"buy": 0, "short": 1}
     return sorted(
         picks,
@@ -683,6 +805,45 @@ def merge_and_retain_picks(
     return kept_old + list(today_picks), removed
 
 
+def fill_missing_change_metrics(
+    picks: list[dict[str, Any]],
+    history: dict[str, pd.DataFrame],
+) -> int:
+    """
+    為缺少昨日／今日漲跌的既有選股補上百分比。
+
+    依該筆 `signal_date` 裁切日K，避免把「今天」的漲跌寫進舊日期紀錄。
+
+    @param picks 選股清單（會就地更新）
+    @param history {代碼: 日K}
+    @returns 補上至少一個漲跌欄位的筆數
+    """
+    filled = 0
+    for item in picks:
+        metrics = item.get("metrics")
+        if not isinstance(metrics, dict):
+            metrics = {}
+            item["metrics"] = metrics
+        need_yesterday = "yesterday_change_pct" not in metrics
+        need_today = "today_change_pct" not in metrics
+        if not need_yesterday and not need_today:
+            continue
+        df = history.get(str(item.get("symbol", "")))
+        if df is None:
+            continue
+        computed = daily_change_metrics(df, item.get("signal_date"))
+        changed = False
+        if need_yesterday and "yesterday_change_pct" in computed:
+            metrics["yesterday_change_pct"] = computed["yesterday_change_pct"]
+            changed = True
+        if need_today and "today_change_pct" in computed:
+            metrics["today_change_pct"] = computed["today_change_pct"]
+            changed = True
+        if changed:
+            filled += 1
+    return filled
+
+
 def write_json(payload: dict[str, Any]) -> None:
     """
     將選股結果寫入 US_Strategy.json。
@@ -720,6 +881,9 @@ def main() -> int:
         taipei.date(),
     )
     kept = sort_picks(kept)
+    backfilled = fill_missing_change_metrics(kept, history)
+    if backfilled:
+        log(f"已為 {backfilled} 筆舊紀錄補上昨日／今日漲跌")
     if removed:
         log(f"已刪除超過 {JSON_RETENTION_DAYS} 日前資料 {removed} 筆")
     log(f"當日 {len(today_picks)} 筆，JSON 保留近 {JSON_RETENTION_DAYS} 日共 {len(kept)} 筆")
