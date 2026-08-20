@@ -301,6 +301,19 @@ def candle_range(row: pd.Series) -> float:
     return float(row["High"]) - float(row["Low"])
 
 
+def candle_range_over_low(row: pd.Series) -> float:
+    """
+    K 線振幅相對最低價的比例：(最高 − 最低) / 最低。
+
+    @param row 單日 OHLCV
+    @returns 小數比例；最低價 <= 0 時為 0
+    """
+    low = float(row["Low"])
+    if low <= 0:
+        return 0.0
+    return candle_range(row) / low
+
+
 def lower_shadow_ratio(row: pd.Series) -> float:
     """
     下影線佔整根K線的比例。
@@ -450,9 +463,8 @@ def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     """
     S1 紅綠K反轉。
 
-    買進：昨日紅K且跌幅 < -3%，今日綠K且漲幅 > 3%。
-    賣空：昨日綠K且漲幅 > 3%，今日紅K且跌幅 < -3%。
-    （原文「紅K(上漲)大於-3%」依反轉語意視為紅K下跌超過 3%。）
+    買進：昨日紅K且跌幅 < -3%，今日綠K且漲幅 > 3%，且今高 <= 昨高 * 1.05。
+    賣空：昨日綠K且漲幅 > 3%，今日紅K且跌幅 < -3%，且今低 >= 昨低 * 0.95。
 
     @returns 符合條件的選股
     """
@@ -461,9 +473,19 @@ def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     today = df.iloc[-1]
     y_chg = float(chg.iloc[-2])
     t_chg = float(chg.iloc[-1])
+    y_high = float(yesterday["High"])
+    y_low = float(yesterday["Low"])
+    t_high = float(today["High"])
+    t_low = float(today["Low"])
     picks: list[dict[str, Any]] = []
 
-    if is_red_bar(yesterday) and y_chg < -0.03 and is_green_bar(today) and t_chg > 0.03:
+    if (
+        is_red_bar(yesterday)
+        and y_chg < -0.03
+        and is_green_bar(today)
+        and t_chg > 0.03
+        and t_high <= y_high * 1.05
+    ):
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -471,20 +493,28 @@ def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S1",
                 side="buy",
-                strategy_desc="S1(買進：紅K+綠K反轉)：昨日紅K下跌超過3%，今日綠K上漲超過3%",
+                strategy_desc="S1(買進：紅K+綠K反轉)：昨日紅K下跌超過3%，今日綠K上漲超過3%，且今高<=昨高*1.05",
                 df=df,
                 metrics={
                     "yesterday_change_pct": round_pct(y_chg),
                     "today_change_pct": round_pct(t_chg),
                     "yesterday_open": round(float(yesterday["Open"]), 4),
                     "yesterday_close": round(float(yesterday["Close"]), 4),
+                    "yesterday_high": round(y_high, 4),
                     "today_open": round(float(today["Open"]), 4),
                     "today_close": round(float(today["Close"]), 4),
+                    "today_high": round(t_high, 4),
                 },
             )
         )
 
-    if is_green_bar(yesterday) and y_chg > 0.03 and is_red_bar(today) and t_chg < -0.03:
+    if (
+        is_green_bar(yesterday)
+        and y_chg > 0.03
+        and is_red_bar(today)
+        and t_chg < -0.03
+        and t_low >= y_low * 0.95
+    ):
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -492,15 +522,17 @@ def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S1",
                 side="short",
-                strategy_desc="S1(賣空：綠K+紅K反轉)：昨日綠K上漲超過3%，今日紅K下跌超過3%",
+                strategy_desc="S1(賣空：綠K+紅K反轉)：昨日綠K上漲超過3%，今日紅K下跌超過3%，且今低>=昨低*0.95",
                 df=df,
                 metrics={
                     "yesterday_change_pct": round_pct(y_chg),
                     "today_change_pct": round_pct(t_chg),
                     "yesterday_open": round(float(yesterday["Open"]), 4),
                     "yesterday_close": round(float(yesterday["Close"]), 4),
+                    "yesterday_low": round(y_low, 4),
                     "today_open": round(float(today["Open"]), 4),
                     "today_close": round(float(today["Close"]), 4),
+                    "today_low": round(t_low, 4),
                 },
             )
         )
@@ -509,7 +541,10 @@ def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
 def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    S2 影線策略：近 10 日內至少 2 根影線佔比超過 50%。
+    S2 影線（支撐／壓力）。
+
+    買進：近 10 日內至少 2 根下影線占比 > 50%，且該根 K 的 (最高−最低)/最低 >= 3%。
+    賣空：近 10 日內至少 2 根上影線占比 > 50%，且該根 K 的 (最高−最低)/最低 >= 3%。
 
     @returns 符合條件的選股
     """
@@ -520,10 +555,25 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
         day = idx.strftime("%Y-%m-%d") if hasattr(idx, "strftime") else str(idx)[:10]
         lower = lower_shadow_ratio(row)
         upper = upper_shadow_ratio(row)
+        range_pct = candle_range_over_low(row)
+        if range_pct < 0.03:
+            continue
         if lower > 0.5:
-            lower_hits.append({"date": day, "ratio": round(lower * 100.0, 2)})
+            lower_hits.append(
+                {
+                    "date": day,
+                    "ratio": round(lower * 100.0, 2),
+                    "range_pct": round(range_pct * 100.0, 2),
+                }
+            )
         if upper > 0.5:
-            upper_hits.append({"date": day, "ratio": round(upper * 100.0, 2)})
+            upper_hits.append(
+                {
+                    "date": day,
+                    "ratio": round(upper * 100.0, 2),
+                    "range_pct": round(range_pct * 100.0, 2),
+                }
+            )
 
     picks: list[dict[str, Any]] = []
     if len(lower_hits) >= 2:
@@ -534,7 +584,7 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S2",
                 side="buy",
-                strategy_desc="S2(買進：2下影線)：近10日內至少2次下影線佔整根K線超過50%",
+                strategy_desc="S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
                 df=df,
                 metrics={
                     "lookback_days": 10,
@@ -551,7 +601,7 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S2",
                 side="short",
-                strategy_desc="S2(賣空：2上影線)：近10日內至少2次上影線佔整根K線超過50%",
+                strategy_desc="S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
                 df=df,
                 metrics={
                     "lookback_days": 10,
