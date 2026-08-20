@@ -387,7 +387,7 @@
     <header>
       <div>
         <h1>US Strategy View</h1>
-        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 昨日±30%</p>
+        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 近2日±30%</p>
       </div>
       <div class="stamp" id="stamp">載入中…</div>
     </header>
@@ -547,7 +547,7 @@
           <article class="stat s1"><span>S1 反轉</span><strong>${count(dated, "S1")}</strong></article>
           <article class="stat s2"><span>S2 影線</span><strong>${count(dated, "S2")}</strong></article>
           <article class="stat s3"><span>S3 爆量</span><strong>${count(dated, "S3")}</strong></article>
-          <article class="stat s4"><span>S4 昨日±30%</span><strong>${count(dated, "S4")}</strong></article>
+          <article class="stat s4"><span>S4 近2日±30%</span><strong>${count(dated, "S4")}</strong></article>
         `;
         toolbar.querySelector('[data-key="all"]').textContent = `全部 ${dated.length}`;
         toolbar.querySelector('[data-key="S1"]').textContent = `S1 ${count(dated, "S1")}`;

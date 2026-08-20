@@ -636,12 +636,12 @@ def eval_s3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
 def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    S4 昨日單日大幅漲跌。
+    S4 最新兩根日K單日大幅漲跌。
 
-    買進：股價昨日下跌超過（含）30% 以上（昨日漲跌幅 <= -30%）。
-    賣空：股價昨日上漲超過（含）30% 以上（昨日漲跌幅 >= +30%）。
+    買進：最新 2 根日K收盤價漲跌幅中，至少 1 根 <= -30%。
+    賣空：最新 2 根日K收盤價漲跌幅中，至少 1 根 >= +30%。
 
-    「昨日」為倒數第二根日K，漲跌幅相對其前一日收盤。
+    漲跌幅相對各根K線的前一日收盤。同一檔可同時命中買進與賣空。
 
     @returns 符合條件的選股
     """
@@ -649,12 +649,30 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     if len(chg) < 3:
         return []
     y_chg = float(chg.iloc[-2])
-    if not math.isfinite(y_chg):
+    t_chg = float(chg.iloc[-1])
+    y_ok = math.isfinite(y_chg)
+    t_ok = math.isfinite(t_chg)
+    if not y_ok and not t_ok:
         return []
-    yesterday = df.iloc[-2]
-    picks: list[dict[str, Any]] = []
 
-    if y_chg <= -0.30:
+    yesterday = df.iloc[-2]
+    today = df.iloc[-1]
+    picks: list[dict[str, Any]] = []
+    metrics: dict[str, Any] = {
+        "yesterday_open": round(float(yesterday["Open"]), 4),
+        "yesterday_close": round(float(yesterday["Close"]), 4),
+        "today_open": round(float(today["Open"]), 4),
+        "today_close": round(float(today["Close"]), 4),
+    }
+    if y_ok:
+        metrics["yesterday_change_pct"] = round_pct(y_chg)
+    if t_ok:
+        metrics["today_change_pct"] = round_pct(t_chg)
+
+    has_drop = (y_ok and y_chg <= -0.30) or (t_ok and t_chg <= -0.30)
+    has_rise = (y_ok and y_chg >= 0.30) or (t_ok and t_chg >= 0.30)
+
+    if has_drop:
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -662,17 +680,13 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S4",
                 side="buy",
-                strategy_desc="S4(買進：股價昨日下跌超過含30%以上)：昨日相對前一日收盤跌幅達 30%（含）以上",
+                strategy_desc="S4(買進：最新的2個日K的個股收盤價，其中1個收盤價漲跌幅小於含-30%以上)：最新兩根日K相對前一日收盤，至少一根跌幅達 30%（含）以上",
                 df=df,
-                metrics={
-                    "yesterday_change_pct": round_pct(y_chg),
-                    "yesterday_open": round(float(yesterday["Open"]), 4),
-                    "yesterday_close": round(float(yesterday["Close"]), 4),
-                },
+                metrics=metrics,
             )
         )
 
-    if y_chg >= 0.30:
+    if has_rise:
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -680,13 +694,9 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 name=name,
                 strategy="S4",
                 side="short",
-                strategy_desc="S4(賣空：股價昨日上漲超過含30%以上)：昨日相對前一日收盤漲幅達 30%（含）以上",
+                strategy_desc="S4(賣空：最新的2個日K的個股收盤價，其中1個收盤價漲跌幅大於含30%以上)：最新兩根日K相對前一日收盤，至少一根漲幅達 30%（含）以上",
                 df=df,
-                metrics={
-                    "yesterday_change_pct": round_pct(y_chg),
-                    "yesterday_open": round(float(yesterday["Open"]), 4),
-                    "yesterday_close": round(float(yesterday["Close"]), 4),
-                },
+                metrics=metrics,
             )
         )
     return picks
