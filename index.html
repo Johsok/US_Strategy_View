@@ -667,7 +667,7 @@
           el.classList.toggle("active", el.dataset.tab === currentTab);
         });
         subtitleEl.innerHTML = currentTab === "daytrade"
-          ? "S&amp;P 500 當沖策略選股｜D1 相對量　D2 NR7　D3 趨勢日　D4 RSI2　D5 通道　D6 連續動能"
+          ? "S&amp;P 500 短線日K 策略選股｜D1 相對量　D2 NR7　D3 趨勢日　D4 RSI2　D5 通道　D6 連續動能"
           : "S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 近2日±30%";
         toolbar.querySelectorAll(".tab-daily").forEach((el) => {
           el.hidden = currentTab !== "daily";
@@ -770,7 +770,7 @@
         ? from
         : `${from || "—"} ～ ${to || "—"}`;
       const hint = tab === "daytrade"
-        ? "策略選股為次日當沖觀察名單（依最新日K）　點代碼可開 Yahoo Finance"
+        ? "策略選股為短線日K名單（依最新日K）　點代碼可開 Yahoo Finance"
         : "點代碼可開 Yahoo Finance";
       return `
         <div class="table-shell">
@@ -878,7 +878,7 @@
       if (m.range != null) rows.push(`振幅 <b>${m.range}</b>`);
       if (m.range_atr_ratio != null) rows.push(`振幅/ATR <b>${m.range_atr_ratio}x</b>`);
       if (m.inside_day != null) rows.push(`Inside Day <b>${m.inside_day ? "是" : "否"}</b>`);
-      if (m.breakout_high != null) rows.push(`次日觀察高 <b>${m.breakout_high}</b> / 低 <b>${m.breakout_low}</b>`);
+      if (m.breakout_high != null) rows.push(`觀察高 <b>${m.breakout_high}</b> / 低 <b>${m.breakout_low}</b>`);
       if (m.rsi2 != null) rows.push(`RSI(2) <b>${m.rsi2}</b>`);
       if (m.sma200 != null) rows.push(`SMA(200) <b>${m.sma200}</b>`);
       if (m.high20 != null) rows.push(`20日高 <b>${m.high20}</b> / 20日低 <b>${m.low20}</b>`);

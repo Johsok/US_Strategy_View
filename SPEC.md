@@ -1,6 +1,6 @@
 # US Strategy View 規格說明
 
-本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 **日K選股** S1 / S2 / S3 / S4 與 **策略選股** D1–D6（次日當沖觀察）產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（每日新增、不整檔覆蓋，累積近 10 日並刪除更舊資料），再以 `index.html` 深色頁面顯示（**預設只看最新一日**，可用日期範圍查舊資料；頂部分頁切換日K選股／策略選股）。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
+本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 **日K選股** S1 / S2 / S3 / S4 與 **策略選股** D1–D6（短線日K）產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（每日新增、不整檔覆蓋，累積近 10 日並刪除更舊資料），再以 `index.html` 深色頁面顯示（**預設只看最新一日**，可用日期範圍查舊資料；頂部分頁切換日K選股／策略選股）。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
 
 ---
 
@@ -27,7 +27,7 @@
 | `time` | 台灣選股時間 `HH:MM:SS` |
 | `symbol` | 美股代碼 |
 | `strategy_desc` | 策略說明 |
-| `strategy` | `S1` / `S2` / `S3` / `S4`（日K選股）或 `D1`–`D6`（策略選股／次日當沖觀察） |
+| `strategy` | `S1` / `S2` / `S3` / `S4`（日K選股）或 `D1`–`D6`（策略選股／短線日K） |
 | `side` | `buy`（買進）或 `short`（賣空） |
 | `signal_date` | 最新日K的美股交易日 |
 | `name` | 公司名稱（仍寫入 JSON，網頁表格不顯示此欄） |
@@ -67,7 +67,7 @@
 4. **表格欄位**：顯示「代碼、策略、方向、條件、收盤、選股日、K線日、昨日漲跌、今日漲跌、驗證數據」。**不顯示「公司」欄**（JSON 仍保留 `name`，搜尋可用）。
 5. **「條件」欄寬度為原先的 2 倍**（約 `640px`），以完整顯示策略說明。
 6. **標題列置中**：表頭「代碼、策略、方向、條件、收盤、選股日、K線日、昨日漲跌、今日漲跌、驗證數據」一律水平置中。
-7. **分頁**：標題下方提供兩個小分頁。**日K選股**只列出 S1–S4；**策略選股**只列出 D1–D6（次日當沖觀察名單）。統計卡片與策略篩選按鈕隨分頁切換；買進／賣空、日期範圍、搜尋共用。分頁選擇會記在瀏覽器 `localStorage`。
+7. **分頁**：標題下方提供兩個小分頁。**日K選股**只列出 S1–S4；**策略選股**只列出 D1–D6（短線日K）。統計卡片與策略篩選按鈕隨分頁切換；買進／賣空、日期範圍、搜尋共用。分頁選擇會記在瀏覽器 `localStorage`。
 
 ---
 
@@ -130,31 +130,31 @@ S1 / S2 / S3 / S4 / D1–D6 **皆須先通過**以下條件，才會進入選股
 
 掃描宇宙預設為 S&P 500（優先讀 [constituents.csv](https://raw.githubusercontent.com/datasets/s-and-p-500-companies/main/data/constituents.csv)，失敗則改 Wikipedia，再失敗則用程式內建備援清單）。
 
-### 3.1 策略選股（D1–D6，次日當沖觀察）
+### 3.1 策略選股（D1–D6，短線日K）
 
-網頁「策略選股」分頁使用 D1–D6。這六條是依主流當沖教材與可公開文獻，挑出**期望值較高、且可用日K 在收盤後排出次日觀察名單**的選股法（真正進場仍在次日盤中，例如 5 分鐘 ORB）。掃描時同樣通過 3.0 共用門檻。
+網頁「策略選股」分頁使用 D1–D6。這六條是依主流短線教材與可公開文獻，挑出**期望值較高、且可用日K 排出短線觀察名單**的選股法。掃描時同樣通過 3.0 共用門檻。
 
 #### D1 相對量 In Play
 
-來源：[Aziz《How to Day Trade for a Living》](https://traderlion.com/trading-books/how-to-day-trade-for-a-living/)（Stocks in Play／Alpha Predator）；Zarattini, Barbon, Aziz, [*A Profitable Day Trading Strategy for the U.S. Equity Market*](https://doi.org/10.2139/ssrn.4729284)（SSRN 4729284；5 分鐘 ORB 搭配 In Play，前 20 檔相對量組合淨績效與 Sharpe 顯著優於未篩選宇宙）。
+來源：[Aziz《How to Day Trade for a Living》](https://traderlion.com/trading-books/how-to-day-trade-for-a-living/)（Stocks in Play／Alpha Predator）；Zarattini, Barbon, Aziz, [*A Profitable Day Trading Strategy for the U.S. Equity Market*](https://doi.org/10.2139/ssrn.4729284)（SSRN 4729284；相對量篩選後動能延續顯著較佳）。
 
 三項為「且」關係，方向由收盤在當日振幅中的位置決定：
 
 - 今日成交量 `>=` 前 20 日均量（不含今日）的 **2 倍**
 - `ATR(14) > 0.50` 美元
 - 今日漲跌幅絕對值 `>= 2%`
-- **買進**：收盤位於當日振幅上半 `(Close − Low) / (High − Low) >= 0.5`（偏多 ORB）
-- **賣空**：收盤位於當日振幅下半（偏空 ORB）
+- **買進**：收盤位於當日振幅上半 `(Close − Low) / (High − Low) >= 0.5`（偏多延續）
+- **賣空**：收盤位於當日振幅下半（偏空延續）
 
-全市場掃描後，D1 **只保留相對成交量最高的前 20 筆**（對齊文獻 top 20 Stocks in Play）。`metrics` 含 `rvol`、`atr14`、`clv_pct`、`volume`、`prev20_avg_volume`。
+全市場掃描後，D1 **只保留相對成交量最高的前 20 筆**。`metrics` 含 `rvol`、`atr14`、`clv_pct`、`volume`、`prev20_avg_volume`。
 
 #### D2 NR7 波動收縮突破
 
 來源：Crabel (1990) *Day Trading with Short Term Price Patterns and Opening Range Breakout*；[StockCharts ChartSchool：Narrow Range Day (NR7)](https://chartschool.stockcharts.com/table-of-contents/trading-strategies-and-models/trading-strategies/narrow-range-day-nr7)；Connors & Raschke (1995) *Street Smarts*（NR7 後突破進場）。原理：波動收縮後常接擴張。
 
 - 今日振幅 `(High − Low)` **嚴格小於**前 6 日每一日的振幅（近 7 日最窄）
-- **買進**：收盤 `>=` 當日中點 `(High + Low) / 2`，次日觀察突破今高
-- **賣空**：收盤 `<` 當日中點，次日觀察跌破今低
+- **買進**：收盤 `>=` 當日中點 `(High + Low) / 2`，觀察突破今高
+- **賣空**：收盤 `<` 當日中點，觀察跌破今低
 
 `metrics` 含 `range`、`prior6_min_range`、`midpoint`、`inside_day`（今日完全包在昨日內則為 true，屬更高信念）、`breakout_high` / `breakout_low`。
 
@@ -179,16 +179,16 @@ K 線不足 200 根者不產出 D4。`metrics` 含 `rsi2`、`sma200`。
 
 #### D5 20 日通道突破
 
-來源：Donchian Channel／Turtle Traders 突破系統；動能文獻 George & Hwang (2004) *The 52-Week High and Momentum Investing*（靠近前高的動能溢價）。以 20 日通道作當沖前篩，並要求量能確認以降低假突破。
+來源：Donchian Channel／Turtle Traders 突破系統；動能文獻 George & Hwang (2004) *The 52-Week High and Momentum Investing*（靠近前高的動能溢價）。以 20 日通道作短線突破篩選，並要求量能確認以降低假突破。
 
 - **買進**：今日最高價 = 近 20 日最高價，今日量 `>=` 前 20 日均量的 1.5 倍，且收陽（綠K）
 - **賣空**：今日最低價 = 近 20 日最低價，今日量 `>=` 前 20 日均量的 1.5 倍，且收陰（紅K）
 
 `metrics` 含 `rvol`、`volume`、`prev20_avg_volume`、`high20`、`low20`。
 
-#### D6 連續動能（Gap-and-Go／ABCD 日K前篩）
+#### D6 連續動能
 
-來源：Aziz ABCD／Bull Flag（連續強勢後的隔日延續）；Ross Cameron / Warrior Trading **Gap-and-Go**（強勢股 + 量能，作為次日開盤動能觀察）。用日K 在收盤後找出已連續走強／走弱的標的。
+來源：Aziz ABCD／Bull Flag（連續強勢後的隔日延續）。用日K 找出已連續走強／走弱的短線標的。
 
 - **買進**：昨日與今日漲幅皆 `> 2%`，今日量 `>=` 前 20 日均量的 1.5 倍，且今日收盤 `>` 昨日最高價
 - **賣空**：昨日與今日跌幅皆 `< -2%`，今日量 `>=` 前 20 日均量的 1.5 倍，且今日收盤 `<` 昨日最低價
@@ -340,4 +340,4 @@ HTML 用相對路徑讀 `US_Strategy.json`，與 Python「執行」是分開的�
 
 ## 7. 免責
 
-本工具僅供研究與排程展示，不是投資建議。美股有缺口、停牌、調整價差，訊號可能與券商K線略有出入。D1–D6 為收盤後日K 掃描的**次日當沖觀察名單**，不是自動下單；文獻績效含樣本期、成本與流動性假設，實盤結果會不同。
+本工具僅供研究與排程展示，不是投資建議。美股有缺口、停牌、調整價差，訊號可能與券商K線略有出入。D1–D6 為收盤後日K 掃描的**短線觀察名單**，不是自動下單；文獻績效含樣本期、成本與流動性假設，實盤結果會不同。

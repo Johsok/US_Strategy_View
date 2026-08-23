@@ -3,7 +3,7 @@
 """
 美股日K策略選股：掃描 S&P 500，將訊號寫入 US_Strategy.json。
 
-日K選股為 S1 / S2 / S3 / S4；策略選股為 D1–D6（次日當沖觀察名單）。
+日K選股為 S1 / S2 / S3 / S4；策略選股為 D1–D6（短線日K）。
 每次執行會合併當日結果（新增、不整檔覆蓋），並刪除超過 10 日前的紀錄。
 時間一律使用台灣時區 Asia/Taipei。
 """
@@ -884,7 +884,7 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
 def eval_d1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    D1 相對量 In Play（次日當沖／ORB 觀察）。
+    D1 相對量 In Play（短線日K）。
 
     文獻：Aziz《How to Day Trade for a Living》；Zarattini, Barbon, Aziz,
     *A Profitable Day Trading Strategy for the U.S. Equity Market*（SSRN 4729284）。
@@ -910,7 +910,7 @@ def eval_d1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     if clv is None:
         return []
     side = "buy" if clv >= 0.5 else "short"
-    direction = "上半（偏多 ORB）" if side == "buy" else "下半（偏空 ORB）"
+    direction = "上半（偏多延續）" if side == "buy" else "下半（偏空延續）"
     return [
         make_pick(
             taipei=taipei,
@@ -919,7 +919,7 @@ def eval_d1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
             strategy="D1",
             side=side,
             strategy_desc=(
-                f"D1(當沖：相對量 In Play)：今日量為前{RVOL_LOOKBACK}日均量 "
+                f"D1(短線：相對量 In Play)：今日量為前{RVOL_LOOKBACK}日均量 "
                 f"{D1_MIN_RVOL:g} 倍以上、ATR(14)>${D1_MIN_ATR:g}、"
                 f"|漲跌幅|>={D1_MIN_ABS_CHANGE * 100:.0f}%，收盤在當日振幅{direction}"
             ),
@@ -937,7 +937,7 @@ def eval_d1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
 def eval_d2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    D2 NR7 波動收縮突破（次日突破觀察）。
+    D2 NR7 波動收縮突破（短線日K）。
 
     文獻：Crabel (1990) *Day Trading with Short Term Price Patterns and Opening Range Breakout*；
     StockCharts ChartSchool Narrow Range Day (NR7)；Connors & Raschke (1995) *Street Smarts*。
@@ -963,7 +963,7 @@ def eval_d2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
         and float(today["Low"]) > float(yesterday["Low"])
     )
     side = "buy" if float(today["Close"]) >= midpoint else "short"
-    direction = "高於中點，觀察次日突破今高" if side == "buy" else "低於中點，觀察次日跌破今低"
+    direction = "高於中點，觀察突破今高" if side == "buy" else "低於中點，觀察跌破今低"
     return [
         make_pick(
             taipei=taipei,
@@ -972,7 +972,7 @@ def eval_d2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
             strategy="D2",
             side=side,
             strategy_desc=(
-                "D2(當沖：NR7 收縮突破)：今日振幅為近 7 日最窄，"
+                "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，"
                 f"收盤{direction}"
                 + ("；同時為 Inside Day" if inside_day else "")
             ),
@@ -1010,10 +1010,10 @@ def eval_d3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
         return []
     if clv >= D3_CLOSE_LOC_EXTREME:
         side = "buy"
-        loc_text = "最高 20%，觀察次日延續走高"
+        loc_text = "最高 20%，觀察延續走高"
     elif clv <= 1.0 - D3_CLOSE_LOC_EXTREME:
         side = "short"
-        loc_text = "最低 20%，觀察次日延續走低"
+        loc_text = "最低 20%，觀察延續走低"
     else:
         return []
     return [
@@ -1024,7 +1024,7 @@ def eval_d3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
             strategy="D3",
             side=side,
             strategy_desc=(
-                f"D3(當沖：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅{loc_text}"
+                f"D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅{loc_text}"
             ),
             df=df,
             metrics={
@@ -1057,14 +1057,14 @@ def eval_d4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     if rsi_val <= D4_RSI_OVERSOLD and last_close > sma200:
         side = "buy"
         desc = (
-            "D4(當沖：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，"
-            "上升趨勢內超賣，觀察次日反彈"
+            "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，"
+            "上升趨勢內超賣，觀察隔日反彈"
         )
     elif rsi_val >= D4_RSI_OVERBOUGHT and last_close < sma200:
         side = "short"
         desc = (
-            "D4(當沖：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，"
-            "下降趨勢內超買，觀察次日回落"
+            "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，"
+            "下降趨勢內超買，觀察隔日回落"
         )
     else:
         return []
@@ -1125,8 +1125,8 @@ def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 strategy="D5",
                 side="buy",
                 strategy_desc=(
-                    "D5(當沖：20日通道突破)：今日最高價為近 20 日最高，"
-                    "量比>=1.5 且收陽，觀察次日動能延續"
+                    "D5(短線：20日通道突破)：今日最高價為近 20 日最高，"
+                    "量比>=1.5 且收陽，觀察短線動能延續"
                 ),
                 df=df,
                 metrics=metrics,
@@ -1141,8 +1141,8 @@ def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 strategy="D5",
                 side="short",
                 strategy_desc=(
-                    "D5(當沖：20日通道跌破)：今日最低價為近 20 日最低，"
-                    "量比>=1.5 且收陰，觀察次日動能延續"
+                    "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，"
+                    "量比>=1.5 且收陰，觀察短線動能延續"
                 ),
                 df=df,
                 metrics=metrics,
@@ -1153,9 +1153,9 @@ def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
 def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    D6 連續動能（Gap-and-Go／ABCD 日K前篩）。
+    D6 連續動能（短線日K）。
 
-    文獻：Aziz ABCD／Bull Flag；Ross Cameron / Warrior Trading Gap-and-Go。
+    文獻：Aziz ABCD／Bull Flag；連續兩日同向突破。
     買進：近 2 日漲幅皆 > 2%、量比 >= 1.5、今日收盤突破昨高。
     賣空：近 2 日跌幅皆 < -2%、量比 >= 1.5、今日收盤跌破昨低。
 
@@ -1197,8 +1197,8 @@ def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 strategy="D6",
                 side="buy",
                 strategy_desc=(
-                    "D6(當沖：連續動能)：近 2 日漲幅皆超過 2%，量比>=1.5，"
-                    "且今日收盤突破昨高，作為次日 Gap-and-Go／ABCD 觀察"
+                    "D6(短線：連續動能)：近 2 日漲幅皆超過 2%，量比>=1.5，"
+                    "且今日收盤突破昨高"
                 ),
                 df=df,
                 metrics=metrics,
@@ -1217,8 +1217,8 @@ def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 strategy="D6",
                 side="short",
                 strategy_desc=(
-                    "D6(當沖：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，"
-                    "且今日收盤跌破昨低，作為次日向下 Gap-and-Go 觀察"
+                    "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，"
+                    "且今日收盤跌破昨低"
                 ),
                 df=df,
                 metrics=metrics,
@@ -1240,7 +1240,7 @@ def passes_common_filters(df: pd.DataFrame) -> bool:
 
 def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    對單一股票執行 S1–S4 日K策略與 D1–D6 當沖策略選股。
+    對單一股票執行 S1–S4 日K策略與 D1–D6 短線日K策略選股。
 
     未通過共用價格／成交量門檻者不進入選股名單。
 
@@ -1422,7 +1422,7 @@ def main() -> int:
     @returns 程式結束碼
     """
     taipei = now_taipei()
-    log("開始美股策略選股（日K S1–S4＋當沖 D1–D6）")
+    log("開始美股策略選股（日K S1–S4＋短線 D1–D6）")
     universe = load_universe()
     tickers = list(universe.keys())
     history = download_history(tickers)
@@ -1460,7 +1460,7 @@ def main() -> int:
             "pick_count": len(kept),
             "retention_days": JSON_RETENTION_DAYS,
             "pruned_count": removed,
-            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。S1–S4 為日K選股，D1–D6 為策略選股（次日當沖觀察）。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。",
+            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。S1–S4 為日K選股，D1–D6 為策略選股（短線日K）。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。",
         },
         "picks": kept,
     }
