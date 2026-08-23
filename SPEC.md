@@ -1,6 +1,6 @@
 # US Strategy View 規格說明
 
-本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 S1 / S2 / S3 / S4 產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（每日新增、不整檔覆蓋，累積近 10 日並刪除更舊資料），再以 `index.html` 深色頁面顯示（**預設只看最新一日**，可用日期範圍查舊資料）。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
+本專案用 Python + `yfinance` 掃描 **S&P 500** 日K，依 **日K選股** S1 / S2 / S3 / S4 與 **策略選股** D1–D6（次日當沖觀察）產出選股（須先通過最新K線收盤價 `> 30` 且成交量 `> 2M`），寫入 `US_Strategy.json`（每日新增、不整檔覆蓋，累積近 10 日並刪除更舊資料），再以 `index.html` 深色頁面顯示（**預設只看最新一日**，可用日期範圍查舊資料；頂部分頁切換日K選股／策略選股）。GitHub Actions 於**台灣時間每天 05:00**自動執行，並可部署到 GitHub Pages。
 
 ---
 
@@ -8,9 +8,9 @@
 
 | 檔案 | 用途 |
 | --- | --- |
-| `US_Strategy.py` | 選股主程式，將當日結果新增至 JSON，並刪除超過 10 日前的資料 |
+| `US_Strategy.py` | 選股主程式（S1–S4 日K選股、D1–D6 策略選股），將當日結果新增至 JSON，並刪除超過 10 日前的資料 |
 | `US_Strategy.json` | 近 10 日選股結果（每日新增、不整檔覆蓋；超過 10 日前的資料會刪除） |
-| `index.html` | 深色模式檢視頁；預設只顯示最新一日，可用日期範圍查舊資料 |
+| `index.html` | 深色模式檢視頁；預設只顯示最新一日，可用日期範圍查舊資料；「日K選股／策略選股」分頁 |
 | `requirements.txt` | Python 套件 |
 | `.github/workflows/us-strategy.yml` | GitHub 每日排程 |
 | `.nojekyll` | 讓 GitHub Pages 不要用 Jekyll 處理檔案 |
@@ -27,7 +27,7 @@
 | `time` | 台灣選股時間 `HH:MM:SS` |
 | `symbol` | 美股代碼 |
 | `strategy_desc` | 策略說明 |
-| `strategy` | `S1` / `S2` / `S3` / `S4` |
+| `strategy` | `S1` / `S2` / `S3` / `S4`（日K選股）或 `D1`–`D6`（策略選股／次日當沖觀察） |
 | `side` | `buy`（買進）或 `short`（賣空） |
 | `signal_date` | 最新日K的美股交易日 |
 | `name` | 公司名稱（仍寫入 JSON，網頁表格不顯示此欄） |
@@ -55,7 +55,7 @@
 2. **日期範圍**：工具列提供起日／迄日，可查 JSON 內仍保留的舊資料（最多近 10 日）。統計數字、策略／買賣篩選與表格都依目前選取的範圍重算。
 3. **最新一日按鈕**：一鍵把起迄日重設回 `meta.date`。
 4. 表格另顯示「選股日」（台灣 `date`）與「K線日」（`signal_date`），方便跨日比對。
-5. **昨日漲跌／今日漲跌**：每筆選股都顯示最新兩根日K相對前一日收盤的漲跌幅（來自 `metrics.yesterday_change_pct` / `metrics.today_change_pct`）。S1 / S2 / S3 / S4 皆寫入這兩個欄位，不得因策略不同而空白。重新掃描時，若近 10 日舊紀錄缺少這兩個欄位，會依該筆 `signal_date` 從日K補上。
+5. **昨日漲跌／今日漲跌**：每筆選股都顯示最新兩根日K相對前一日收盤的漲跌幅（來自 `metrics.yesterday_change_pct` / `metrics.today_change_pct`）。S1–S4 與 D1–D6 皆寫入這兩個欄位，不得因策略不同而空白。重新掃描時，若近 10 日舊紀錄缺少這兩個欄位，會依該筆 `signal_date` 從日K補上。
 
 可查區間下限為檔案內最早的 `picks.date`，上限為 `meta.date` 與檔案內最晚選股日的較大者。
 
@@ -67,6 +67,7 @@
 4. **表格欄位**：顯示「代碼、策略、方向、條件、收盤、選股日、K線日、昨日漲跌、今日漲跌、驗證數據」。**不顯示「公司」欄**（JSON 仍保留 `name`，搜尋可用）。
 5. **「條件」欄寬度為原先的 2 倍**（約 `640px`），以完整顯示策略說明。
 6. **標題列置中**：表頭「代碼、策略、方向、條件、收盤、選股日、K線日、昨日漲跌、今日漲跌、驗證數據」一律水平置中。
+7. **分頁**：標題下方提供兩個小分頁。**日K選股**只列出 S1–S4；**策略選股**只列出 D1–D6（次日當沖觀察名單）。統計卡片與策略篩選按鈕隨分頁切換；買進／賣空、日期範圍、搜尋共用。分頁選擇會記在瀏覽器 `localStorage`。
 
 ---
 
@@ -76,7 +77,7 @@ K線顏色採**美股慣例：綠漲、紅跌**（收盤 > 開盤為綠K，收�
 
 ### 3.0 各策略共用門檻
 
-S1 / S2 / S3 / S4 **皆須先通過**以下條件，才會進入選股名單（與個別策略訊號為「且」關係）：
+S1 / S2 / S3 / S4 / D1–D6 **皆須先通過**以下條件，才會進入選股名單（與個別策略訊號為「且」關係）：
 
 - 最新一根日K的**收盤價 `> 30` 元**
 - 最新一根日K的**成交量 `> 2,000,000`（2M 股）**
@@ -123,9 +124,76 @@ S1 / S2 / S3 / S4 **皆須先通過**以下條件，才會進入選股名單（�
 
 同一檔若兩根分別大跌與大漲，可同時寫入買進與賣空各一筆。`metrics` 另寫入 `yesterday_open`、`yesterday_close`、`today_open`、`today_close` 供驗證。
 
-同一檔股票可同時命中多個策略，會各寫一筆。
+同一檔股票可同時命中多個策略（含日K 與策略選股），會各寫一筆。
+
+日K 下載區間為 **1 年**（供 D4 的 SMA(200) 與 ATR／相對量計算）。資料不足的個股會跳過對應策略，不影響其他策略。
 
 掃描宇宙預設為 S&P 500（優先讀 [constituents.csv](https://raw.githubusercontent.com/datasets/s-and-p-500-companies/main/data/constituents.csv)，失敗則改 Wikipedia，再失敗則用程式內建備援清單）。
+
+### 3.1 策略選股（D1–D6，次日當沖觀察）
+
+網頁「策略選股」分頁使用 D1–D6。這六條是依主流當沖教材與可公開文獻，挑出**期望值較高、且可用日K 在收盤後排出次日觀察名單**的選股法（真正進場仍在次日盤中，例如 5 分鐘 ORB）。掃描時同樣通過 3.0 共用門檻。
+
+#### D1 相對量 In Play
+
+來源：[Aziz《How to Day Trade for a Living》](https://traderlion.com/trading-books/how-to-day-trade-for-a-living/)（Stocks in Play／Alpha Predator）；Zarattini, Barbon, Aziz, [*A Profitable Day Trading Strategy for the U.S. Equity Market*](https://doi.org/10.2139/ssrn.4729284)（SSRN 4729284；5 分鐘 ORB 搭配 In Play，前 20 檔相對量組合淨績效與 Sharpe 顯著優於未篩選宇宙）。
+
+三項為「且」關係，方向由收盤在當日振幅中的位置決定：
+
+- 今日成交量 `>=` 前 20 日均量（不含今日）的 **2 倍**
+- `ATR(14) > 0.50` 美元
+- 今日漲跌幅絕對值 `>= 2%`
+- **買進**：收盤位於當日振幅上半 `(Close − Low) / (High − Low) >= 0.5`（偏多 ORB）
+- **賣空**：收盤位於當日振幅下半（偏空 ORB）
+
+全市場掃描後，D1 **只保留相對成交量最高的前 20 筆**（對齊文獻 top 20 Stocks in Play）。`metrics` 含 `rvol`、`atr14`、`clv_pct`、`volume`、`prev20_avg_volume`。
+
+#### D2 NR7 波動收縮突破
+
+來源：Crabel (1990) *Day Trading with Short Term Price Patterns and Opening Range Breakout*；[StockCharts ChartSchool：Narrow Range Day (NR7)](https://chartschool.stockcharts.com/table-of-contents/trading-strategies-and-models/trading-strategies/narrow-range-day-nr7)；Connors & Raschke (1995) *Street Smarts*（NR7 後突破進場）。原理：波動收縮後常接擴張。
+
+- 今日振幅 `(High − Low)` **嚴格小於**前 6 日每一日的振幅（近 7 日最窄）
+- **買進**：收盤 `>=` 當日中點 `(High + Low) / 2`，次日觀察突破今高
+- **賣空**：收盤 `<` 當日中點，次日觀察跌破今低
+
+`metrics` 含 `range`、`prior6_min_range`、`midpoint`、`inside_day`（今日完全包在昨日內則為 true，屬更高信念）、`breakout_high` / `breakout_low`。
+
+#### D3 趨勢日延續
+
+來源：Connors & Raschke (1995) *Street Smarts* 趨勢日／寬幅日延續：大振幅且收盤靠近當日極端，隔日延續機率較高。
+
+- 今日振幅 `(High − Low) >= 1.5 × ATR(14)`
+- **買進**：收盤在當日振幅 **最高 20%**（`(Close − Low) / (High − Low) >= 0.80`）
+- **賣空**：收盤在當日振幅 **最低 20%**（`<= 0.20`）
+
+`metrics` 含 `atr14`、`range`、`range_atr_ratio`、`clv_pct`。
+
+#### D4 RSI(2) 均值回歸
+
+來源：Larry Connors *Short-Term Trading Strategies That Work*；業界常見 [RSI(2) 短線回歸](https://www.quantifiedstrategies.com/) 實作。在長期趨勢內等待極短週期 RSI 極端，隔日回歸期望值較高。
+
+- **買進**：`RSI(2) <= 10` 且收盤 `>` `SMA(200)`（上升趨勢內超賣）
+- **賣空**：`RSI(2) >= 90` 且收盤 `<` `SMA(200)`（下降趨勢內超買）
+
+K 線不足 200 根者不產出 D4。`metrics` 含 `rsi2`、`sma200`。
+
+#### D5 20 日通道突破
+
+來源：Donchian Channel／Turtle Traders 突破系統；動能文獻 George & Hwang (2004) *The 52-Week High and Momentum Investing*（靠近前高的動能溢價）。以 20 日通道作當沖前篩，並要求量能確認以降低假突破。
+
+- **買進**：今日最高價 = 近 20 日最高價，今日量 `>=` 前 20 日均量的 1.5 倍，且收陽（綠K）
+- **賣空**：今日最低價 = 近 20 日最低價，今日量 `>=` 前 20 日均量的 1.5 倍，且收陰（紅K）
+
+`metrics` 含 `rvol`、`volume`、`prev20_avg_volume`、`high20`、`low20`。
+
+#### D6 連續動能（Gap-and-Go／ABCD 日K前篩）
+
+來源：Aziz ABCD／Bull Flag（連續強勢後的隔日延續）；Ross Cameron / Warrior Trading **Gap-and-Go**（強勢股 + 量能，作為次日開盤動能觀察）。用日K 在收盤後找出已連續走強／走弱的標的。
+
+- **買進**：昨日與今日漲幅皆 `> 2%`，今日量 `>=` 前 20 日均量的 1.5 倍，且今日收盤 `>` 昨日最高價
+- **賣空**：昨日與今日跌幅皆 `< -2%`，今日量 `>=` 前 20 日均量的 1.5 倍，且今日收盤 `<` 昨日最低價
+
+`metrics` 含 `rvol`、`volume`、`prev20_avg_volume`、`yesterday_high` / `yesterday_low`。
 
 ---
 
@@ -261,14 +329,15 @@ HTML 用相對路徑讀 `US_Strategy.json`，與 Python「執行」是分開的�
 | `pages` job 失敗、`scan` 成功 | 5.3 將 Pages source 設成 GitHub Actions，並批准 `github-pages` environment |
 | 網頁空白或 fetch 失敗 | 確認 Pages 網址路徑正確，且該次部署有包含 `US_Strategy.json` |
 | 網頁只看到一天的選股 | 這是預設（最新一日）。用工具列「日期範圍」可查 JSON 內仍保留的舊資料 |
-| 選股為 0 筆 | 當日可能本來就沒有股票符合條件（含共用門檻：收盤價 `> 30` 且成交量 `> 2M`），屬正常。可改日期範圍查看其他日 |
+| 選股為 0 筆 | 當日可能本來就沒有股票符合條件（含共用門檻：收盤價 `> 30` 且成交量 `> 2M`），屬正常。可改日期範圍查看其他日。策略選股分頁若為 0，代表當日沒有 D1–D6 命中（D1 另限制最多 20 筆） |
 | JSON 越來越大 | 每次執行會新增當日、不整檔覆蓋，並刪除超過 10 日前的 `picks`，見 2.1 |
 | Yahoo 下載大量失敗 | 稍後手動再跑；或看 `meta.failed`。GitHub 資料中心 IP 偶發被 Yahoo 限制 |
 | 想改掃描清單 | 編輯 `US_Strategy.py` 的 `load_universe()` / `FALLBACK_TICKERS` |
 | 昨日漲跌／今日漲跌顯示「—」 | 舊 JSON 可能缺欄。重新執行 `US_Strategy.py` 後，當日每筆 `metrics` 都會寫入這兩個百分比 |
+| 策略選股分頁看不到 D1–D6 | 需重新執行 `US_Strategy.py`（或等每日排程）寫入新 JSON；舊檔只有 S1–S4 |
 
 ---
 
 ## 7. 免責
 
-本工具僅供研究與排程展示，不是投資建議。美股有缺口、停牌、調整價差，訊號可能與券商K線略有出入。
+本工具僅供研究與排程展示，不是投資建議。美股有缺口、停牌、調整價差，訊號可能與券商K線略有出入。D1–D6 為收盤後日K 掃描的**次日當沖觀察名單**，不是自動下單；文獻績效含樣本期、成本與流動性假設，實盤結果會不同。

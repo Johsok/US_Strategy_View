@@ -3,6 +3,7 @@
 """
 美股日K策略選股：掃描 S&P 500，將訊號寫入 US_Strategy.json。
 
+日K選股為 S1 / S2 / S3 / S4；策略選股為 D1–D6（次日當沖觀察名單）。
 每次執行會合併當日結果（新增、不整檔覆蓋），並刪除超過 10 日前的紀錄。
 時間一律使用台灣時區 Asia/Taipei。
 """
@@ -72,11 +73,39 @@ FALLBACK_TICKERS = {
 
 BATCH_SIZE = 40
 DOWNLOAD_RETRIES = 3
-LOOKBACK_CALENDAR_DAYS = "3mo"
+LOOKBACK_CALENDAR_DAYS = "1y"
 MIN_BARS = 11
 JSON_RETENTION_DAYS = 10
 MIN_CLOSE_PRICE = 30.0
 MIN_VOLUME = 2_000_000
+ATR_PERIOD = 14
+RVOL_LOOKBACK = 20
+D1_MIN_RVOL = 2.0
+D1_MIN_ATR = 0.50
+D1_MIN_ABS_CHANGE = 0.02
+D1_TOP_RVOL = 20
+D3_RANGE_ATR_MULT = 1.5
+D3_CLOSE_LOC_EXTREME = 0.80
+D4_RSI_PERIOD = 2
+D4_RSI_OVERSOLD = 10.0
+D4_RSI_OVERBOUGHT = 90.0
+D4_SMA_PERIOD = 200
+D5_CHANNEL_DAYS = 20
+D5_MIN_RVOL = 1.5
+D6_MIN_ABS_CHANGE = 0.02
+D6_MIN_RVOL = 1.5
+STRATEGY_SORT_ORDER = {
+    "S1": 0,
+    "S2": 1,
+    "S3": 2,
+    "S4": 3,
+    "D1": 10,
+    "D2": 11,
+    "D3": 12,
+    "D4": 13,
+    "D5": 14,
+    "D6": 15,
+}
 
 
 def log(message: str) -> None:
@@ -350,6 +379,107 @@ def round_pct(value: float) -> float:
     @returns 百分比數字
     """
     return round(float(value) * 100.0, 2)
+
+
+def wilder_rma(series: pd.Series, period: int) -> pd.Series:
+    """
+    Wilder 平滑平均（RMA），用於 ATR / RSI。
+
+    @param series 數值序列
+    @param period 週期
+    @returns 平滑後序列
+    """
+    return series.ewm(alpha=1.0 / period, min_periods=period, adjust=False).mean()
+
+
+def true_range(df: pd.DataFrame) -> pd.Series:
+    """
+    計算 True Range。
+
+    @param df 日K
+    @returns 每日 True Range
+    """
+    prev_close = df["Close"].shift(1)
+    high_low = df["High"] - df["Low"]
+    high_prev = (df["High"] - prev_close).abs()
+    low_prev = (df["Low"] - prev_close).abs()
+    return pd.concat([high_low, high_prev, low_prev], axis=1).max(axis=1)
+
+
+def calc_atr(df: pd.DataFrame, period: int = ATR_PERIOD) -> pd.Series:
+    """
+    計算 Average True Range。
+
+    @param df 日K
+    @param period ATR 週期
+    @returns ATR 序列
+    """
+    return wilder_rma(true_range(df), period)
+
+
+def calc_rsi(close: pd.Series, period: int = D4_RSI_PERIOD) -> pd.Series:
+    """
+    計算 Wilder RSI。
+
+    @param close 收盤價
+    @param period RSI 週期
+    @returns RSI 序列（0–100）
+    """
+    delta = close.diff()
+    gain = delta.clip(lower=0.0)
+    loss = (-delta).clip(lower=0.0)
+    avg_gain = wilder_rma(gain, period)
+    avg_loss = wilder_rma(loss, period)
+    rs = avg_gain / avg_loss
+    rsi = 100.0 - (100.0 / (1.0 + rs))
+    rsi = rsi.mask(avg_loss.eq(0) & avg_gain.gt(0), 100.0)
+    rsi = rsi.mask(avg_loss.eq(0) & avg_gain.eq(0), 50.0)
+    return rsi.astype(float)
+
+
+def close_location_ratio(row: pd.Series) -> float | None:
+    """
+    收盤在當日振幅中的位置：(收盤 − 最低) / (最高 − 最低)。
+
+    @param row 單日 OHLCV
+    @returns 0–1；無振幅則為 None
+    """
+    rng = candle_range(row)
+    if rng <= 0:
+        return None
+    return (float(row["Close"]) - float(row["Low"])) / rng
+
+
+def prior_avg_volume(df: pd.DataFrame, lookback: int) -> float | None:
+    """
+    計算不含今日的前 N 日平均成交量。
+
+    @param df 日K
+    @param lookback 回看日數
+    @returns 均量；資料不足或均量 <= 0 則為 None
+    """
+    if len(df) < lookback + 1:
+        return None
+    avg_vol = float(df["Volume"].iloc[-(lookback + 1) : -1].mean())
+    if avg_vol <= 0 or not math.isfinite(avg_vol):
+        return None
+    return avg_vol
+
+
+def latest_atr(df: pd.DataFrame, period: int = ATR_PERIOD) -> float | None:
+    """
+    取最新一根 ATR。
+
+    @param df 日K
+    @param period ATR 週期
+    @returns ATR；無法計算則為 None
+    """
+    if len(df) < period + 1:
+        return None
+    value = float(calc_atr(df, period).iloc[-1])
+    if not math.isfinite(value) or value <= 0:
+        return None
+    return value
 
 
 def finite_pct(value: Any) -> float | None:
@@ -752,6 +882,351 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     return picks
 
 
+def eval_d1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D1 相對量 In Play（次日當沖／ORB 觀察）。
+
+    文獻：Aziz《How to Day Trade for a Living》；Zarattini, Barbon, Aziz,
+    *A Profitable Day Trading Strategy for the U.S. Equity Market*（SSRN 4729284）。
+    條件：相對成交量 >= 2、ATR(14) > $0.50、|漲跌幅| >= 2%。
+    收盤在當日振幅上半為買進，下半為賣空。全市場掃描後另保留 RVOL 前 20 名。
+
+    @returns 符合條件的選股
+    """
+    avg_vol = prior_avg_volume(df, RVOL_LOOKBACK)
+    atr_value = latest_atr(df)
+    if avg_vol is None or atr_value is None:
+        return []
+    today = df.iloc[-1]
+    t_chg = float(df["Close"].pct_change().iloc[-1])
+    if not math.isfinite(t_chg) or abs(t_chg) < D1_MIN_ABS_CHANGE:
+        return []
+    if atr_value <= D1_MIN_ATR:
+        return []
+    rvol = float(today["Volume"]) / avg_vol
+    if rvol < D1_MIN_RVOL:
+        return []
+    clv = close_location_ratio(today)
+    if clv is None:
+        return []
+    side = "buy" if clv >= 0.5 else "short"
+    direction = "上半（偏多 ORB）" if side == "buy" else "下半（偏空 ORB）"
+    return [
+        make_pick(
+            taipei=taipei,
+            symbol=symbol,
+            name=name,
+            strategy="D1",
+            side=side,
+            strategy_desc=(
+                f"D1(當沖：相對量 In Play)：今日量為前{RVOL_LOOKBACK}日均量 "
+                f"{D1_MIN_RVOL:g} 倍以上、ATR(14)>${D1_MIN_ATR:g}、"
+                f"|漲跌幅|>={D1_MIN_ABS_CHANGE * 100:.0f}%，收盤在當日振幅{direction}"
+            ),
+            df=df,
+            metrics={
+                "rvol": round(rvol, 2),
+                "atr14": round(atr_value, 4),
+                "clv_pct": round(clv * 100.0, 2),
+                "volume": int(today["Volume"]),
+                "prev20_avg_volume": int(round(avg_vol)),
+            },
+        )
+    ]
+
+
+def eval_d2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D2 NR7 波動收縮突破（次日突破觀察）。
+
+    文獻：Crabel (1990) *Day Trading with Short Term Price Patterns and Opening Range Breakout*；
+    StockCharts ChartSchool Narrow Range Day (NR7)；Connors & Raschke (1995) *Street Smarts*。
+    今日振幅嚴格小於前 6 日每一日。收盤高於當日中點為買進，低於為賣空。
+
+    @returns 符合條件的選股
+    """
+    if len(df) < 7:
+        return []
+    window = df.tail(7)
+    ranges = (window["High"] - window["Low"]).astype(float)
+    today_range = float(ranges.iloc[-1])
+    prior_min = float(ranges.iloc[:-1].min())
+    if not math.isfinite(today_range) or today_range <= 0:
+        return []
+    if not math.isfinite(prior_min) or today_range >= prior_min:
+        return []
+    today = df.iloc[-1]
+    yesterday = df.iloc[-2]
+    midpoint = (float(today["High"]) + float(today["Low"])) / 2.0
+    inside_day = (
+        float(today["High"]) < float(yesterday["High"])
+        and float(today["Low"]) > float(yesterday["Low"])
+    )
+    side = "buy" if float(today["Close"]) >= midpoint else "short"
+    direction = "高於中點，觀察次日突破今高" if side == "buy" else "低於中點，觀察次日跌破今低"
+    return [
+        make_pick(
+            taipei=taipei,
+            symbol=symbol,
+            name=name,
+            strategy="D2",
+            side=side,
+            strategy_desc=(
+                "D2(當沖：NR7 收縮突破)：今日振幅為近 7 日最窄，"
+                f"收盤{direction}"
+                + ("；同時為 Inside Day" if inside_day else "")
+            ),
+            df=df,
+            metrics={
+                "range": round(today_range, 4),
+                "prior6_min_range": round(prior_min, 4),
+                "midpoint": round(midpoint, 4),
+                "inside_day": inside_day,
+                "breakout_high": round(float(today["High"]), 4),
+                "breakout_low": round(float(today["Low"]), 4),
+            },
+        )
+    ]
+
+
+def eval_d3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D3 趨勢日延續（寬幅日 + 收盤極端位置）。
+
+    文獻：Connors & Raschke (1995) *Street Smarts* 趨勢日／振幅擴張延續。
+    今日振幅 >= 1.5 × ATR(14)；收盤在最高 20% 買進、最低 20% 賣空。
+
+    @returns 符合條件的選股
+    """
+    atr_value = latest_atr(df)
+    if atr_value is None:
+        return []
+    today = df.iloc[-1]
+    day_range = candle_range(today)
+    if day_range < D3_RANGE_ATR_MULT * atr_value:
+        return []
+    clv = close_location_ratio(today)
+    if clv is None:
+        return []
+    if clv >= D3_CLOSE_LOC_EXTREME:
+        side = "buy"
+        loc_text = "最高 20%，觀察次日延續走高"
+    elif clv <= 1.0 - D3_CLOSE_LOC_EXTREME:
+        side = "short"
+        loc_text = "最低 20%，觀察次日延續走低"
+    else:
+        return []
+    return [
+        make_pick(
+            taipei=taipei,
+            symbol=symbol,
+            name=name,
+            strategy="D3",
+            side=side,
+            strategy_desc=(
+                f"D3(當沖：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅{loc_text}"
+            ),
+            df=df,
+            metrics={
+                "atr14": round(atr_value, 4),
+                "range": round(day_range, 4),
+                "range_atr_ratio": round(day_range / atr_value, 2),
+                "clv_pct": round(clv * 100.0, 2),
+            },
+        )
+    ]
+
+
+def eval_d4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D4 RSI(2) 均值回歸（趨勢內極端超買超賣）。
+
+    文獻：Connors *Short-Term Trading Strategies That Work*；Quantpedia RSI(2)。
+    買進：RSI(2) <= 10 且收盤 > SMA(200)。賣空：RSI(2) >= 90 且收盤 < SMA(200)。
+
+    @returns 符合條件的選股
+    """
+    if len(df) < D4_SMA_PERIOD + D4_RSI_PERIOD:
+        return []
+    close = df["Close"]
+    rsi_val = float(calc_rsi(close, D4_RSI_PERIOD).iloc[-1])
+    sma200 = float(close.rolling(D4_SMA_PERIOD).mean().iloc[-1])
+    last_close = float(close.iloc[-1])
+    if not math.isfinite(rsi_val) or not math.isfinite(sma200):
+        return []
+    if rsi_val <= D4_RSI_OVERSOLD and last_close > sma200:
+        side = "buy"
+        desc = (
+            "D4(當沖：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，"
+            "上升趨勢內超賣，觀察次日反彈"
+        )
+    elif rsi_val >= D4_RSI_OVERBOUGHT and last_close < sma200:
+        side = "short"
+        desc = (
+            "D4(當沖：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，"
+            "下降趨勢內超買，觀察次日回落"
+        )
+    else:
+        return []
+    return [
+        make_pick(
+            taipei=taipei,
+            symbol=symbol,
+            name=name,
+            strategy="D4",
+            side=side,
+            strategy_desc=desc,
+            df=df,
+            metrics={
+                "rsi2": round(rsi_val, 2),
+                "sma200": round(sma200, 4),
+            },
+        )
+    ]
+
+
+def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D5 20 日通道突破（Donchian／Turtle 簡化 + 量能確認）。
+
+    文獻：Donchian Channel；Turtle Traders；George & Hwang (2004) 52-week high 動能。
+    買進：今日高 = 近 20 日高、量比 >= 1.5、收陽。賣空：今日低 = 近 20 日低、量比 >= 1.5、收陰。
+
+    @returns 符合條件的選股
+    """
+    if len(df) < D5_CHANNEL_DAYS:
+        return []
+    avg_vol = prior_avg_volume(df, D5_CHANNEL_DAYS)
+    if avg_vol is None:
+        return []
+    today = df.iloc[-1]
+    rvol = float(today["Volume"]) / avg_vol
+    if rvol < D5_MIN_RVOL:
+        return []
+    window = df.tail(D5_CHANNEL_DAYS)
+    high20 = float(window["High"].max())
+    low20 = float(window["Low"].min())
+    t_high = float(today["High"])
+    t_low = float(today["Low"])
+    picks: list[dict[str, Any]] = []
+    metrics = {
+        "rvol": round(rvol, 2),
+        "volume": int(today["Volume"]),
+        "prev20_avg_volume": int(round(avg_vol)),
+        "high20": round(high20, 4),
+        "low20": round(low20, 4),
+    }
+    if t_high >= high20 - 1e-9 and is_green_bar(today):
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="D5",
+                side="buy",
+                strategy_desc=(
+                    "D5(當沖：20日通道突破)：今日最高價為近 20 日最高，"
+                    "量比>=1.5 且收陽，觀察次日動能延續"
+                ),
+                df=df,
+                metrics=metrics,
+            )
+        )
+    if t_low <= low20 + 1e-9 and is_red_bar(today):
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="D5",
+                side="short",
+                strategy_desc=(
+                    "D5(當沖：20日通道跌破)：今日最低價為近 20 日最低，"
+                    "量比>=1.5 且收陰，觀察次日動能延續"
+                ),
+                df=df,
+                metrics=metrics,
+            )
+        )
+    return picks
+
+
+def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
+    """
+    D6 連續動能（Gap-and-Go／ABCD 日K前篩）。
+
+    文獻：Aziz ABCD／Bull Flag；Ross Cameron / Warrior Trading Gap-and-Go。
+    買進：近 2 日漲幅皆 > 2%、量比 >= 1.5、今日收盤突破昨高。
+    賣空：近 2 日跌幅皆 < -2%、量比 >= 1.5、今日收盤跌破昨低。
+
+    @returns 符合條件的選股
+    """
+    if len(df) < RVOL_LOOKBACK + 2:
+        return []
+    avg_vol = prior_avg_volume(df, RVOL_LOOKBACK)
+    if avg_vol is None:
+        return []
+    chg = pct_change(df["Close"])
+    y_chg = float(chg.iloc[-2])
+    t_chg = float(chg.iloc[-1])
+    if not math.isfinite(y_chg) or not math.isfinite(t_chg):
+        return []
+    today = df.iloc[-1]
+    yesterday = df.iloc[-2]
+    rvol = float(today["Volume"]) / avg_vol
+    if rvol < D6_MIN_RVOL:
+        return []
+    picks: list[dict[str, Any]] = []
+    metrics = {
+        "rvol": round(rvol, 2),
+        "volume": int(today["Volume"]),
+        "prev20_avg_volume": int(round(avg_vol)),
+        "yesterday_high": round(float(yesterday["High"]), 4),
+        "yesterday_low": round(float(yesterday["Low"]), 4),
+    }
+    if (
+        y_chg > D6_MIN_ABS_CHANGE
+        and t_chg > D6_MIN_ABS_CHANGE
+        and float(today["Close"]) > float(yesterday["High"])
+    ):
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="D6",
+                side="buy",
+                strategy_desc=(
+                    "D6(當沖：連續動能)：近 2 日漲幅皆超過 2%，量比>=1.5，"
+                    "且今日收盤突破昨高，作為次日 Gap-and-Go／ABCD 觀察"
+                ),
+                df=df,
+                metrics=metrics,
+            )
+        )
+    if (
+        y_chg < -D6_MIN_ABS_CHANGE
+        and t_chg < -D6_MIN_ABS_CHANGE
+        and float(today["Close"]) < float(yesterday["Low"])
+    ):
+        picks.append(
+            make_pick(
+                taipei=taipei,
+                symbol=symbol,
+                name=name,
+                strategy="D6",
+                side="short",
+                strategy_desc=(
+                    "D6(當沖：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，"
+                    "且今日收盤跌破昨低，作為次日向下 Gap-and-Go 觀察"
+                ),
+                df=df,
+                metrics=metrics,
+            )
+        )
+    return picks
+
+
 def passes_common_filters(df: pd.DataFrame) -> bool:
     """
     各策略共用選股門檻：最新K線收盤價大於 30 元，且成交量大於 2,000,000。
@@ -765,7 +1240,7 @@ def passes_common_filters(df: pd.DataFrame) -> bool:
 
 def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
-    對單一股票執行 S1 / S2 / S3 / S4。
+    對單一股票執行 S1–S4 日K策略與 D1–D6 當沖策略選股。
 
     未通過共用價格／成交量門檻者不進入選股名單。
 
@@ -778,23 +1253,46 @@ def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> l
     picks.extend(eval_s2(df, taipei, symbol, name))
     picks.extend(eval_s3(df, taipei, symbol, name))
     picks.extend(eval_s4(df, taipei, symbol, name))
+    picks.extend(eval_d1(df, taipei, symbol, name))
+    picks.extend(eval_d2(df, taipei, symbol, name))
+    picks.extend(eval_d3(df, taipei, symbol, name))
+    picks.extend(eval_d4(df, taipei, symbol, name))
+    picks.extend(eval_d5(df, taipei, symbol, name))
+    picks.extend(eval_d6(df, taipei, symbol, name))
     return picks
+
+
+def limit_d1_top_rvol(picks: list[dict[str, Any]], limit: int = D1_TOP_RVOL) -> list[dict[str, Any]]:
+    """
+    D1 只保留相對成交量最高的前 N 名（文獻：In Play 前 20 檔）。
+
+    @param picks 全部選股
+    @param limit 保留檔數
+    @returns 過濾後清單
+    """
+    d1 = [item for item in picks if item.get("strategy") == "D1"]
+    others = [item for item in picks if item.get("strategy") != "D1"]
+    d1_sorted = sorted(
+        d1,
+        key=lambda item: float((item.get("metrics") or {}).get("rvol") or 0.0),
+        reverse=True,
+    )
+    return others + d1_sorted[:limit]
 
 
 def sort_picks(picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """
-    依台灣日期（新到舊）、策略、方向、代碼排序。
+    依台灣日期（新到舊）、策略（S1–S4 後接 D1–D6）、方向、代碼排序。
 
     @param picks 選股清單
     @returns 排序後清單
     """
-    strategy_order = {"S1": 0, "S2": 1, "S3": 2, "S4": 3}
     side_order = {"buy": 0, "short": 1}
     return sorted(
         picks,
         key=lambda item: (
             -(parse_pick_date(item.get("date")) or date.min).toordinal(),
-            strategy_order.get(item.get("strategy"), 9),
+            STRATEGY_SORT_ORDER.get(item.get("strategy"), 99),
             side_order.get(item.get("side"), 9),
             item.get("symbol", ""),
         ),
@@ -924,7 +1422,7 @@ def main() -> int:
     @returns 程式結束碼
     """
     taipei = now_taipei()
-    log("開始美股策略選股")
+    log("開始美股策略選股（日K S1–S4＋當沖 D1–D6）")
     universe = load_universe()
     tickers = list(universe.keys())
     history = download_history(tickers)
@@ -934,6 +1432,7 @@ def main() -> int:
     for symbol, df in history.items():
         picks.extend(scan_ticker(df, taipei, symbol, universe.get(symbol, symbol)))
 
+    picks = limit_d1_top_rvol(picks)
     today_picks = sort_picks(picks)
     kept, removed = merge_and_retain_picks(
         load_existing_picks(),
@@ -961,7 +1460,7 @@ def main() -> int:
             "pick_count": len(kept),
             "retention_days": JSON_RETENTION_DAYS,
             "pruned_count": removed,
-            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。",
+            "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。S1–S4 為日K選股，D1–D6 為策略選股（次日當沖觀察）。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。",
         },
         "picks": kept,
     }

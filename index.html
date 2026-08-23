@@ -20,6 +20,12 @@
       --s2: #ffd400;
       --s3: #d57bff;
       --s4: #ff9f43;
+      --d1: #5eead4;
+      --d2: #a78bfa;
+      --d3: #fb7185;
+      --d4: #34d399;
+      --d5: #fbbf24;
+      --d6: #38bdf8;
       --glow: 0 0 24px rgba(0, 229, 255, 0.18);
     }
 
@@ -97,7 +103,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 14px;
       margin-bottom: 22px;
     }
@@ -125,7 +131,38 @@
     .stat.s2 strong { color: var(--s2); }
     .stat.s3 strong { color: var(--s3); }
     .stat.s4 strong { color: var(--s4); }
+    .stat.d1 strong { color: var(--d1); }
+    .stat.d2 strong { color: var(--d2); }
+    .stat.d3 strong { color: var(--d3); }
+    .stat.d4 strong { color: var(--d4); }
+    .stat.d5 strong { color: var(--d5); }
+    .stat.d6 strong { color: var(--d6); }
     .stat.all strong { color: #ffffff; }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    button.tab {
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      color: var(--muted);
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    button.tab.active {
+      color: var(--s1);
+      border-color: var(--s1);
+      box-shadow: 0 0 0 1px var(--s1) inset;
+    }
 
     .toolbar {
       display: flex;
@@ -151,11 +188,23 @@
       box-shadow: 0 0 0 1px currentColor inset;
     }
 
+    button.filter[hidden],
+    button.tab-daily[hidden],
+    button.tab-daytrade[hidden] {
+      display: none !important;
+    }
+
     button[data-key="all"].active { color: #fff; }
     button[data-key="S1"].active { color: var(--s1); }
     button[data-key="S2"].active { color: var(--s2); }
     button[data-key="S3"].active { color: var(--s3); }
     button[data-key="S4"].active { color: var(--s4); }
+    button[data-key="D1"].active { color: var(--d1); }
+    button[data-key="D2"].active { color: var(--d2); }
+    button[data-key="D3"].active { color: var(--d3); }
+    button[data-key="D4"].active { color: var(--d4); }
+    button[data-key="D5"].active { color: var(--d5); }
+    button[data-key="D6"].active { color: var(--d6); }
     button[data-key="buy"].active { color: var(--buy); }
     button[data-key="short"].active { color: var(--short); }
 
@@ -325,6 +374,12 @@
     .badge.s2 { color: var(--s2); background: rgba(255, 212, 0, 0.14); }
     .badge.s3 { color: var(--s3); background: rgba(213, 123, 255, 0.16); }
     .badge.s4 { color: var(--s4); background: rgba(255, 159, 67, 0.16); }
+    .badge.d1 { color: var(--d1); background: rgba(94, 234, 212, 0.16); }
+    .badge.d2 { color: var(--d2); background: rgba(167, 139, 250, 0.16); }
+    .badge.d3 { color: var(--d3); background: rgba(251, 113, 133, 0.16); }
+    .badge.d4 { color: var(--d4); background: rgba(52, 211, 153, 0.16); }
+    .badge.d5 { color: var(--d5); background: rgba(251, 191, 36, 0.16); }
+    .badge.d6 { color: var(--d6); background: rgba(56, 189, 248, 0.16); }
     .badge.buy { color: var(--buy); background: var(--buy-dim); }
     .badge.short { color: var(--short); background: var(--short-dim); }
 
@@ -387,11 +442,15 @@
     <header>
       <div>
         <h1>US Strategy View</h1>
-        <p class="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 近2日±30%</p>
+        <p class="subtitle" id="subtitle">S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 近2日±30%</p>
       </div>
       <div class="stamp" id="stamp">載入中…</div>
     </header>
 
+    <nav class="tabs" id="tabs" aria-label="選股分頁">
+      <button type="button" class="tab active" data-tab="daily">日K選股</button>
+      <button type="button" class="tab" data-tab="daytrade">策略選股</button>
+    </nav>
     <section class="stats" id="stats"></section>
     <section class="toolbar" id="toolbar"></section>
     <section class="grid" id="grid"></section>
@@ -452,6 +511,56 @@
       return true;
     }
 
+    const TAB_STORAGE_KEY = "usStrategyTab";
+    const DAILY_STRATEGIES = ["S1", "S2", "S3", "S4"];
+    const DAYTRADE_STRATEGIES = ["D1", "D2", "D3", "D4", "D5", "D6"];
+    const STRATEGY_LABELS = {
+      S1: "S1 反轉",
+      S2: "S2 影線",
+      S3: "S3 爆量",
+      S4: "S4 近2日±30%",
+      D1: "D1 相對量",
+      D2: "D2 NR7",
+      D3: "D3 趨勢日",
+      D4: "D4 RSI2",
+      D5: "D5 通道",
+      D6: "D6 連續動能",
+    };
+
+    /**
+     * 判斷選股是否屬於策略選股（D1–D6）。
+     * @param {object} pick 一筆選股
+     * @returns {boolean}
+     */
+    function isDaytradePick(pick) {
+      return String(pick && pick.strategy || "").startsWith("D");
+    }
+
+    /**
+     * 讀取上次選取的分頁。
+     * @returns {"daily"|"daytrade"}
+     */
+    function readSavedTab() {
+      try {
+        return localStorage.getItem(TAB_STORAGE_KEY) === "daytrade" ? "daytrade" : "daily";
+      } catch (err) {
+        return "daily";
+      }
+    }
+
+    /**
+     * 記住目前分頁。
+     * @param {"daily"|"daytrade"} tab 分頁代碼
+     * @returns {void}
+     */
+    function saveTab(tab) {
+      try {
+        localStorage.setItem(TAB_STORAGE_KEY, tab);
+      } catch (err) {
+        /* 私密模式可能無法寫入 */
+      }
+    }
+
     /**
      * 將資料畫到畫面上。預設只顯示最新一日，可用日期範圍查舊資料。
      * @param {object} data JSON 內容
@@ -483,6 +592,8 @@
       ).length;
 
       const toolbar = document.getElementById("toolbar");
+      const tabsEl = document.getElementById("tabs");
+      const subtitleEl = document.getElementById("subtitle");
       const dateAttr = minDate && maxDate
         ? `min="${esc(minDate)}" max="${esc(maxDate)}"`
         : "";
@@ -495,10 +606,16 @@
           <button type="button" class="btn-latest active" id="latestDay">最新一日</button>
         </div>
         <button class="filter active" data-key="all">全部 0</button>
-        <button class="filter" data-key="S1">S1 0</button>
-        <button class="filter" data-key="S2">S2 0</button>
-        <button class="filter" data-key="S3">S3 0</button>
-        <button class="filter" data-key="S4">S4 0</button>
+        <button class="filter tab-daily" data-key="S1">S1 0</button>
+        <button class="filter tab-daily" data-key="S2">S2 0</button>
+        <button class="filter tab-daily" data-key="S3">S3 0</button>
+        <button class="filter tab-daily" data-key="S4">S4 0</button>
+        <button class="filter tab-daytrade" data-key="D1">D1 0</button>
+        <button class="filter tab-daytrade" data-key="D2">D2 0</button>
+        <button class="filter tab-daytrade" data-key="D3">D3 0</button>
+        <button class="filter tab-daytrade" data-key="D4">D4 0</button>
+        <button class="filter tab-daytrade" data-key="D5">D5 0</button>
+        <button class="filter tab-daytrade" data-key="D6">D6 0</button>
         <button class="filter" data-key="buy">買進 0</button>
         <button class="filter" data-key="short">賣空 0</button>
         <input type="search" id="q" placeholder="搜尋代碼或公司" />
@@ -508,8 +625,15 @@
       const dateToEl = document.getElementById("dateTo");
       const latestBtn = document.getElementById("latestDay");
 
+      let currentTab = readSavedTab();
       let strategy = "all";
       let side = "all";
+
+      /**
+       * 目前分頁對應的策略代碼。
+       * @returns {string[]}
+       */
+      const tabStrategies = () => currentTab === "daytrade" ? DAYTRADE_STRATEGIES : DAILY_STRATEGIES;
 
       /**
        * 將起迄日限制在可查區間，並避免起日晚於迄日。
@@ -535,25 +659,51 @@
       };
 
       /**
+       * 同步分頁按鈕、副標與策略篩選顯示。
+       * @returns {void}
+       */
+      const syncTabUi = () => {
+        tabsEl.querySelectorAll("button.tab").forEach((el) => {
+          el.classList.toggle("active", el.dataset.tab === currentTab);
+        });
+        subtitleEl.innerHTML = currentTab === "daytrade"
+          ? "S&amp;P 500 當沖策略選股｜D1 相對量　D2 NR7　D3 趨勢日　D4 RSI2　D5 通道　D6 連續動能"
+          : "S&amp;P 500 日K 策略選股｜S1 反轉　S2 影線　S3 爆量　S4 近2日±30%";
+        toolbar.querySelectorAll(".tab-daily").forEach((el) => {
+          el.hidden = currentTab !== "daily";
+        });
+        toolbar.querySelectorAll(".tab-daytrade").forEach((el) => {
+          el.hidden = currentTab !== "daytrade";
+        });
+        toolbar.querySelectorAll("button.filter").forEach((el) => {
+          const k = el.dataset.key;
+          el.classList.toggle("active", k === strategy || k === side || (k === "all" && strategy === "all"));
+        });
+      };
+
+      /**
        * 重繪統計、篩選按鈕與表格。
        * @param {string} [changedId] 剛被改動的日期欄位 id
        * @returns {void}
        */
       const paint = (changedId) => {
+        syncTabUi();
         const { from, to } = normalizeRange(changedId);
-        const dated = allPicks.filter((p) => inDateRange(pickDate(p), from, to));
-        document.getElementById("stats").innerHTML = `
-          <article class="stat all"><span>全部訊號</span><strong>${dated.length}</strong></article>
-          <article class="stat s1"><span>S1 反轉</span><strong>${count(dated, "S1")}</strong></article>
-          <article class="stat s2"><span>S2 影線</span><strong>${count(dated, "S2")}</strong></article>
-          <article class="stat s3"><span>S3 爆量</span><strong>${count(dated, "S3")}</strong></article>
-          <article class="stat s4"><span>S4 近2日±30%</span><strong>${count(dated, "S4")}</strong></article>
-        `;
+        const inTab = (p) => currentTab === "daytrade" ? isDaytradePick(p) : !isDaytradePick(p);
+        const dated = allPicks.filter((p) => inDateRange(pickDate(p), from, to) && inTab(p));
+        const codes = tabStrategies();
+        const statCards = [
+          `<article class="stat all"><span>全部訊號</span><strong>${dated.length}</strong></article>`,
+          ...codes.map((code) => (
+            `<article class="stat ${code.toLowerCase()}"><span>${esc(STRATEGY_LABELS[code])}</span><strong>${count(dated, code)}</strong></article>`
+          )),
+        ];
+        document.getElementById("stats").innerHTML = statCards.join("");
         toolbar.querySelector('[data-key="all"]').textContent = `全部 ${dated.length}`;
-        toolbar.querySelector('[data-key="S1"]').textContent = `S1 ${count(dated, "S1")}`;
-        toolbar.querySelector('[data-key="S2"]').textContent = `S2 ${count(dated, "S2")}`;
-        toolbar.querySelector('[data-key="S3"]').textContent = `S3 ${count(dated, "S3")}`;
-        toolbar.querySelector('[data-key="S4"]').textContent = `S4 ${count(dated, "S4")}`;
+        codes.forEach((code) => {
+          const btn = toolbar.querySelector(`[data-key="${code}"]`);
+          if (btn) btn.textContent = `${code} ${count(dated, code)}`;
+        });
         toolbar.querySelector('[data-key="buy"]').textContent = `買進 ${count(dated, null, "buy")}`;
         toolbar.querySelector('[data-key="short"]').textContent = `賣空 ${count(dated, null, "short")}`;
 
@@ -569,10 +719,18 @@
           ? `${from} 沒有符合條件的選股。`
           : "此日期範圍沒有符合條件的選股。";
         document.getElementById("grid").innerHTML = rows.length
-          ? tableHtml(rows, from, to)
+          ? tableHtml(rows, from, to, currentTab)
           : `<div class="empty">${emptyText}</div>`;
       };
 
+      tabsEl.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button.tab");
+        if (!btn || btn.dataset.tab === currentTab) return;
+        currentTab = btn.dataset.tab === "daytrade" ? "daytrade" : "daily";
+        strategy = "all";
+        saveTab(currentTab);
+        paint();
+      });
       toolbar.addEventListener("click", (ev) => {
         if (ev.target.closest("#latestDay")) {
           dateFromEl.value = latestDate;
@@ -588,10 +746,6 @@
         } else {
           strategy = key;
         }
-        toolbar.querySelectorAll("button.filter").forEach((el) => {
-          const k = el.dataset.key;
-          el.classList.toggle("active", k === strategy || k === side || (k === "all" && strategy === "all"));
-        });
         paint();
       });
       toolbar.addEventListener("change", (ev) => {
@@ -608,17 +762,21 @@
      * @param {object[]} rows 篩選後的選股
      * @param {string} from 起日
      * @param {string} to 迄日
+     * @param {"daily"|"daytrade"} [tab] 目前分頁
      * @returns {string}
      */
-    function tableHtml(rows, from, to) {
+    function tableHtml(rows, from, to, tab) {
       const rangeText = from && to && from === to
         ? from
         : `${from || "—"} ～ ${to || "—"}`;
+      const hint = tab === "daytrade"
+        ? "策略選股為次日當沖觀察名單（依最新日K）　點代碼可開 Yahoo Finance"
+        : "點代碼可開 Yahoo Finance";
       return `
         <div class="table-shell">
           <div class="table-meta">
             <span>選股日 <b>${esc(rangeText)}</b>　顯示 <b>${rows.length}</b> 筆</span>
-            <span>點代碼可開 Yahoo Finance</span>
+            <span>${hint}</span>
           </div>
           <div class="table-wrap">
             <table class="picks">
@@ -652,12 +810,13 @@
       const sideLabel = pick.side === "buy" ? "買進" : "賣空";
       const href = `https://finance.yahoo.com/quote/${encodeURIComponent(pick.symbol)}`;
       const m = pick.metrics || {};
+      const strategyClass = String(pick.strategy || "").toLowerCase();
       return `
         <tr class="${esc(pick.side)}">
           <td class="symbol">
             <a href="${href}" target="_blank" rel="noreferrer">${esc(pick.symbol)}</a>
           </td>
-          <td><span class="badge ${esc(pick.strategy)}">${esc(pick.strategy)}</span></td>
+          <td><span class="badge ${esc(strategyClass)}">${esc(pick.strategy)}</span></td>
           <td><span class="badge ${esc(pick.side)}">${sideLabel}</span></td>
           <td class="cond"><p class="desc">${esc(pick.strategy_desc || "")}</p></td>
           <td class="num">${formatClose(pick.close)}</td>
@@ -707,11 +866,22 @@
       if (Array.isArray(m.hits) && m.hits.length) {
         rows.push(`發生日 <b>${m.hits.map((h) => `${h.date}（${h.ratio}%）`).join("、")}</b>`);
       }
+      if (m.rvol != null) rows.push(`相對量 <b>${m.rvol}x</b>`);
       if (m.volume_ratio != null) rows.push(`量比 <b>${m.volume_ratio}x</b>`);
       if (m.volume != null) rows.push(`今日量 <b>${Number(m.volume).toLocaleString()}</b>`);
       if (m.prev5_avg_volume != null) rows.push(`前5日均量 <b>${Number(m.prev5_avg_volume).toLocaleString()}</b>`);
+      if (m.prev20_avg_volume != null) rows.push(`前20日均量 <b>${Number(m.prev20_avg_volume).toLocaleString()}</b>`);
       if (m.low3 != null) rows.push(`近3日低 <b>${m.low3}</b> / 近5日低 <b>${m.low5}</b>`);
       if (m.high3 != null) rows.push(`近3日高 <b>${m.high3}</b> / 近5日高 <b>${m.high5}</b>`);
+      if (m.atr14 != null) rows.push(`ATR(14) <b>${m.atr14}</b>`);
+      if (m.clv_pct != null) rows.push(`收盤位置 <b>${m.clv_pct}%</b>`);
+      if (m.range != null) rows.push(`振幅 <b>${m.range}</b>`);
+      if (m.range_atr_ratio != null) rows.push(`振幅/ATR <b>${m.range_atr_ratio}x</b>`);
+      if (m.inside_day != null) rows.push(`Inside Day <b>${m.inside_day ? "是" : "否"}</b>`);
+      if (m.breakout_high != null) rows.push(`次日觀察高 <b>${m.breakout_high}</b> / 低 <b>${m.breakout_low}</b>`);
+      if (m.rsi2 != null) rows.push(`RSI(2) <b>${m.rsi2}</b>`);
+      if (m.sma200 != null) rows.push(`SMA(200) <b>${m.sma200}</b>`);
+      if (m.high20 != null) rows.push(`20日高 <b>${m.high20}</b> / 20日低 <b>${m.low20}</b>`);
       if (!rows.length) return `<span class="muted-dash">—</span>`;
       return rows.map((x) => `<div>${x}</div>`).join("");
     }
