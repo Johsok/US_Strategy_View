@@ -8,8 +8,8 @@
     "success": 503,
     "failed_count": 0,
     "failed": [],
-    "today_pick_count": 132,
-    "pick_count": 190,
+    "today_pick_count": 130,
+    "pick_count": 182,
     "retention_days": 10,
     "pruned_count": 0,
     "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。S1–S4 為日K選股，D1–D6 為策略選股（短線日K）。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。"
@@ -344,46 +344,6 @@
       "date": "2026-08-23",
       "time": "17:05:02",
       "timezone": "Asia/Taipei",
-      "symbol": "MRNA",
-      "name": "Moderna",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-21",
-      "close": 145.13,
-      "metrics": {
-        "yesterday_change_pct": -23.55,
-        "today_change_pct": 8.86,
-        "lookback_days": 10,
-        "hit_count": 4,
-        "hits": [
-          {
-            "date": "2026-08-10",
-            "ratio": 56.78,
-            "range_pct": 4.04
-          },
-          {
-            "date": "2026-08-11",
-            "ratio": 57.5,
-            "range_pct": 4.78
-          },
-          {
-            "date": "2026-08-14",
-            "ratio": 69.89,
-            "range_pct": 4.87
-          },
-          {
-            "date": "2026-08-17",
-            "ratio": 59.27,
-            "range_pct": 4.16
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-23",
-      "time": "17:05:02",
-      "timezone": "Asia/Taipei",
       "symbol": "MRVL",
       "name": "Marvell Technology",
       "strategy": "S2",
@@ -436,41 +396,6 @@
             "date": "2026-08-19",
             "ratio": 60.92,
             "range_pct": 6.29
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-23",
-      "time": "17:05:02",
-      "timezone": "Asia/Taipei",
-      "symbol": "SWKS",
-      "name": "Skyworks Solutions",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-21",
-      "close": 67.14,
-      "metrics": {
-        "yesterday_change_pct": -0.79,
-        "today_change_pct": -1.18,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-08-12",
-            "ratio": 51.11,
-            "range_pct": 4.02
-          },
-          {
-            "date": "2026-08-14",
-            "ratio": 71.17,
-            "range_pct": 4.05
-          },
-          {
-            "date": "2026-08-18",
-            "ratio": 60.99,
-            "range_pct": 4.98
           }
         ]
       }
@@ -3374,41 +3299,6 @@
       "date": "2026-08-20",
       "time": "20:42:14",
       "timezone": "Asia/Taipei",
-      "symbol": "HPE",
-      "name": "Hewlett Packard Enterprise",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 53.13,
-      "metrics": {
-        "yesterday_change_pct": -3.33,
-        "today_change_pct": -4.6,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-08-06",
-            "ratio": 55.12,
-            "range_pct": 8.35
-          },
-          {
-            "date": "2026-08-07",
-            "ratio": 88.16,
-            "range_pct": 5.76
-          },
-          {
-            "date": "2026-08-11",
-            "ratio": 76.62,
-            "range_pct": 4.39
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
       "symbol": "LRCX",
       "name": "Lam Research",
       "strategy": "S2",
@@ -3431,46 +3321,6 @@
             "date": "2026-08-18",
             "ratio": 58.06,
             "range_pct": 3.67
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
-      "symbol": "MRNA",
-      "name": "Moderna",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 174.38,
-      "metrics": {
-        "yesterday_change_pct": -2.33,
-        "today_change_pct": 176.97,
-        "lookback_days": 10,
-        "hit_count": 4,
-        "hits": [
-          {
-            "date": "2026-08-10",
-            "ratio": 56.78,
-            "range_pct": 4.04
-          },
-          {
-            "date": "2026-08-11",
-            "ratio": 57.5,
-            "range_pct": 4.78
-          },
-          {
-            "date": "2026-08-14",
-            "ratio": 69.89,
-            "range_pct": 4.87
-          },
-          {
-            "date": "2026-08-17",
-            "ratio": 59.27,
-            "range_pct": 4.16
           }
         ]
       }
@@ -3506,36 +3356,6 @@
             "date": "2026-08-19",
             "ratio": 52.73,
             "range_pct": 7.62
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
-      "symbol": "MU",
-      "name": "Micron Technology",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 937.11,
-      "metrics": {
-        "yesterday_change_pct": -7.02,
-        "today_change_pct": -0.39,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-08-07",
-            "ratio": 52.87,
-            "range_pct": 6.82
-          },
-          {
-            "date": "2026-08-11",
-            "ratio": 69.52,
-            "range_pct": 4.07
           }
         ]
       }
@@ -3884,36 +3704,6 @@
       "date": "2026-08-20",
       "time": "20:42:14",
       "timezone": "Asia/Taipei",
-      "symbol": "CVNA",
-      "name": "Carvana",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 70.44,
-      "metrics": {
-        "yesterday_change_pct": -7.26,
-        "today_change_pct": 8.37,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-08-06",
-            "ratio": 53.12,
-            "range_pct": 3.81
-          },
-          {
-            "date": "2026-08-07",
-            "ratio": 60.34,
-            "range_pct": 5.55
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
       "symbol": "DASH",
       "name": "DoorDash",
       "strategy": "S2",
@@ -4095,41 +3885,6 @@
           {
             "date": "2026-08-13",
             "ratio": 64.82,
-            "range_pct": 3.22
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
-      "symbol": "GEV",
-      "name": "GE Vernova",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 987.46,
-      "metrics": {
-        "yesterday_change_pct": -6.9,
-        "today_change_pct": -1.7,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-08-06",
-            "ratio": 70.19,
-            "range_pct": 4.0
-          },
-          {
-            "date": "2026-08-11",
-            "ratio": 66.36,
-            "range_pct": 3.23
-          },
-          {
-            "date": "2026-08-17",
-            "ratio": 60.31,
             "range_pct": 3.22
           }
         ]
@@ -4351,36 +4106,6 @@
             "date": "2026-08-18",
             "ratio": 60.92,
             "range_pct": 3.75
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "time": "20:42:14",
-      "timezone": "Asia/Taipei",
-      "symbol": "MRVL",
-      "name": "Marvell Technology",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-08-19",
-      "close": 237.27,
-      "metrics": {
-        "yesterday_change_pct": -7.82,
-        "today_change_pct": 9.85,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-08-06",
-            "ratio": 50.34,
-            "range_pct": 8.78
-          },
-          {
-            "date": "2026-08-13",
-            "ratio": 64.79,
-            "range_pct": 6.54
           }
         ]
       }

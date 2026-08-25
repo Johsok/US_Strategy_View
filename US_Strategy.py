@@ -589,6 +589,155 @@ def make_pick(
     }
 
 
+def _hit_list(metrics: dict[str, Any] | None) -> list[dict[str, Any]]:
+    """
+    取出影線命中清單。
+
+    @param metrics 策略 metrics
+    @returns hits 陣列
+    """
+    hits = (metrics or {}).get("hits")
+    if not isinstance(hits, list):
+        return []
+    return [item for item in hits if isinstance(item, dict)]
+
+
+def _latest_hit_date(hits: list[dict[str, Any]]) -> str:
+    """
+    命中清單中最晚的日期。
+
+    @param hits 影線命中
+    @returns YYYY-MM-DD；沒有日期則為空字串
+    """
+    dates = [str(item.get("date") or "")[:10] for item in hits]
+    return max(dates) if dates else ""
+
+
+def _avg_hit_ratio(hits: list[dict[str, Any]]) -> float:
+    """
+    命中清單的平均影線占比。
+
+    @param hits 影線命中
+    @returns 平均 ratio
+    """
+    ratios: list[float] = []
+    for item in hits:
+        try:
+            ratios.append(float(item.get("ratio") or 0.0))
+        except (TypeError, ValueError):
+            continue
+    return sum(ratios) / len(ratios) if ratios else 0.0
+
+
+def choose_s2_side(
+    lower_hits: list[dict[str, Any]],
+    upper_hits: list[dict[str, Any]],
+) -> str | None:
+    """
+    S2 只選一個方向。
+
+    僅下影線達標則買進，僅上影線達標則賣空；兩邊都達標時，保留最近一次命中日的方向
+    （日期相同則比命中次數、再比平均影線占比）。
+
+    @param lower_hits 下影線命中
+    @param upper_hits 上影線命中
+    @returns `buy` / `short`；兩邊都不足則為 None
+    """
+    buy_ok = len(lower_hits) >= 2
+    short_ok = len(upper_hits) >= 2
+    if buy_ok and not short_ok:
+        return "buy"
+    if short_ok and not buy_ok:
+        return "short"
+    if not buy_ok:
+        return None
+    buy_rank = (
+        _latest_hit_date(lower_hits),
+        len(lower_hits),
+        _avg_hit_ratio(lower_hits),
+    )
+    short_rank = (
+        _latest_hit_date(upper_hits),
+        len(upper_hits),
+        _avg_hit_ratio(upper_hits),
+    )
+    return "buy" if buy_rank >= short_rank else "short"
+
+
+def choose_exclusive_pick(
+    buy_pick: dict[str, Any],
+    short_pick: dict[str, Any],
+) -> dict[str, Any]:
+    """
+    同一策略買賣同時存在時只留一筆。
+
+    S2 比最近影線命中日（再比次數、平均占比）；其餘策略看今日漲跌：
+    上漲留買進、下跌留賣空。
+
+    @param buy_pick 買進紀錄
+    @param short_pick 賣空紀錄
+    @returns 保留的那一筆
+    """
+    strategy = buy_pick.get("strategy") or short_pick.get("strategy")
+    if strategy == "S2":
+        buy_metrics = buy_pick.get("metrics")
+        short_metrics = short_pick.get("metrics")
+        side = choose_s2_side(
+            _hit_list(buy_metrics if isinstance(buy_metrics, dict) else None),
+            _hit_list(short_metrics if isinstance(short_metrics, dict) else None),
+        )
+        return buy_pick if side == "buy" else short_pick
+    today: float | None = None
+    for item in (buy_pick, short_pick):
+        metrics = item.get("metrics")
+        if not isinstance(metrics, dict) or "today_change_pct" not in metrics:
+            continue
+        try:
+            today = float(metrics["today_change_pct"])
+            break
+        except (TypeError, ValueError):
+            continue
+    if today is not None and today < 0:
+        return short_pick
+    return buy_pick
+
+
+def keep_single_side_per_strategy(picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """
+    同一選股日、同一檔、同一策略只保留一個方向。
+
+    @param picks 選股清單
+    @returns 每個 (date, symbol, strategy) 最多一筆
+    """
+    grouped: dict[tuple[str, str, str], dict[str, dict[str, Any]]] = {}
+    order: list[tuple[str, str, str]] = []
+    for item in picks:
+        key = (
+            str(item.get("date") or ""),
+            str(item.get("symbol") or ""),
+            str(item.get("strategy") or ""),
+        )
+        if key not in grouped:
+            grouped[key] = {}
+            order.append(key)
+        side = str(item.get("side") or "")
+        grouped[key][side] = item
+    resolved: list[dict[str, Any]] = []
+    for key in order:
+        sides = grouped[key]
+        buy_pick = sides.get("buy")
+        short_pick = sides.get("short")
+        if buy_pick is not None and short_pick is not None:
+            resolved.append(choose_exclusive_pick(buy_pick, short_pick))
+        elif buy_pick is not None:
+            resolved.append(buy_pick)
+        elif short_pick is not None:
+            resolved.append(short_pick)
+        else:
+            resolved.extend(sides.values())
+    return resolved
+
+
 def eval_s1(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
     """
     S1 紅綠K反轉。
@@ -675,8 +824,9 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
     買進：近 10 日內至少 2 根下影線占比 > 50%，且該根 K 的 (最高−最低)/最低 >= 3%。
     賣空：近 10 日內至少 2 根上影線占比 > 50%，且該根 K 的 (最高−最低)/最低 >= 3%。
+    兩邊同時達標時只保留最近一次命中影線的方向。
 
-    @returns 符合條件的選股
+    @returns 符合條件的選股（同一檔最多一筆）
     """
     window = df.tail(10)
     lower_hits = []
@@ -705,9 +855,9 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 }
             )
 
-    picks: list[dict[str, Any]] = []
-    if len(lower_hits) >= 2:
-        picks.append(
+    side = choose_s2_side(lower_hits, upper_hits)
+    if side == "buy":
+        return [
             make_pick(
                 taipei=taipei,
                 symbol=symbol,
@@ -722,9 +872,9 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                     "hits": lower_hits,
                 },
             )
-        )
-    if len(upper_hits) >= 2:
-        picks.append(
+        ]
+    if side == "short":
+        return [
             make_pick(
                 taipei=taipei,
                 symbol=symbol,
@@ -739,8 +889,8 @@ def eval_s2(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                     "hits": upper_hits,
                 },
             )
-        )
-    return picks
+        ]
+    return []
 
 
 def eval_s3(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[dict[str, Any]]:
@@ -821,9 +971,9 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     買進：最新 2 根日K收盤價漲跌幅中，至少 1 根 <= -30%。
     賣空：最新 2 根日K收盤價漲跌幅中，至少 1 根 >= +30%。
 
-    漲跌幅相對各根K線的前一日收盤。同一檔可同時命中買進與賣空。
+    漲跌幅相對各根K線的前一日收盤。若兩根分別大跌與大漲，只保留較晚那根（今日優先）的方向。
 
-    @returns 符合條件的選股
+    @returns 符合條件的選股（同一檔最多一筆）
     """
     chg = pct_change(df["Close"])
     if len(chg) < 3:
@@ -849,8 +999,20 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     if t_ok:
         metrics["today_change_pct"] = round_pct(t_chg)
 
-    has_drop = (y_ok and y_chg <= -0.30) or (t_ok and t_chg <= -0.30)
-    has_rise = (y_ok and y_chg >= 0.30) or (t_ok and t_chg >= 0.30)
+    today_drop = t_ok and t_chg <= -0.30
+    today_rise = t_ok and t_chg >= 0.30
+    yest_drop = y_ok and y_chg <= -0.30
+    yest_rise = y_ok and y_chg >= 0.30
+    has_drop = today_drop or yest_drop
+    has_rise = today_rise or yest_rise
+    if has_drop and has_rise:
+        if today_drop:
+            has_rise = False
+        elif today_rise:
+            has_drop = False
+        else:
+            has_drop = yest_drop
+            has_rise = yest_rise
 
     if has_drop:
         picks.append(
@@ -866,7 +1028,7 @@ def eval_s4(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
             )
         )
 
-    if has_rise:
+    elif has_rise:
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -1091,8 +1253,9 @@ def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
 
     文獻：Donchian Channel；Turtle Traders；George & Hwang (2004) 52-week high 動能。
     買進：今日高 = 近 20 日高、量比 >= 1.5、收陽。賣空：今日低 = 近 20 日低、量比 >= 1.5、收陰。
+    買進與賣空互斥；極端情況同時成立時只保留收盤方向（綠K買進／紅K賣空）。
 
-    @returns 符合條件的選股
+    @returns 符合條件的選股（同一檔最多一筆）
     """
     if len(df) < D5_CHANNEL_DAYS:
         return []
@@ -1132,7 +1295,7 @@ def eval_d5(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 metrics=metrics,
             )
         )
-    if t_low <= low20 + 1e-9 and is_red_bar(today):
+    elif t_low <= low20 + 1e-9 and is_red_bar(today):
         picks.append(
             make_pick(
                 taipei=taipei,
@@ -1158,8 +1321,9 @@ def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
     文獻：Aziz ABCD／Bull Flag；連續兩日同向突破。
     買進：近 2 日漲幅皆 > 2%、量比 >= 1.5、今日收盤突破昨高。
     賣空：近 2 日跌幅皆 < -2%、量比 >= 1.5、今日收盤跌破昨低。
+    買進與賣空互斥（連續上漲與連續下跌不可能同時成立）。
 
-    @returns 符合條件的選股
+    @returns 符合條件的選股（同一檔最多一筆）
     """
     if len(df) < RVOL_LOOKBACK + 2:
         return []
@@ -1204,7 +1368,7 @@ def eval_d6(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> list[
                 metrics=metrics,
             )
         )
-    if (
+    elif (
         y_chg < -D6_MIN_ABS_CHANGE
         and t_chg < -D6_MIN_ABS_CHANGE
         and float(today["Close"]) < float(yesterday["Low"])
@@ -1259,7 +1423,7 @@ def scan_ticker(df: pd.DataFrame, taipei: datetime, symbol: str, name: str) -> l
     picks.extend(eval_d4(df, taipei, symbol, name))
     picks.extend(eval_d5(df, taipei, symbol, name))
     picks.extend(eval_d6(df, taipei, symbol, name))
-    return picks
+    return keep_single_side_per_strategy(picks)
 
 
 def limit_d1_top_rvol(picks: list[dict[str, Any]], limit: int = D1_TOP_RVOL) -> list[dict[str, Any]]:
@@ -1360,7 +1524,8 @@ def merge_and_retain_picks(
             removed += 1
             continue
         kept_old.append(item)
-    return kept_old + list(today_picks), removed
+    merged = keep_single_side_per_strategy(kept_old + list(today_picks))
+    return merged, removed
 
 
 def fill_missing_change_metrics(
