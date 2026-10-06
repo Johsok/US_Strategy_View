@@ -1,20 +1,3488 @@
 {
   "meta": {
-    "date": "2026-10-05",
-    "time": "07:52:50",
+    "date": "2026-10-06",
+    "time": "09:41:46",
     "timezone": "Asia/Taipei",
     "universe": "S&P 500",
     "scanned": 503,
     "success": 503,
     "failed_count": 0,
     "failed": [],
-    "today_pick_count": 131,
-    "pick_count": 1427,
+    "today_pick_count": 141,
+    "pick_count": 1441,
     "retention_days": 10,
-    "pruned_count": 144,
+    "pruned_count": 127,
     "note": "日期與時間為台灣時區；signal_date 為最新日K的美股交易日。S1–S4 為日K選股，D1–D6 為策略選股（短線日K）。僅保留近 10 日（含當日）選股，超過 10 日前的紀錄會刪除。"
   },
   "picks": [
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "APP",
+      "name": "AppLovin",
+      "strategy": "S1",
+      "side": "buy",
+      "strategy_desc": "S1(買進：紅K+綠K反轉)：昨日紅K下跌超過3%，今日綠K上漲超過3%，且今高<=昨高*1.05",
+      "signal_date": "2026-10-05",
+      "close": 281.97,
+      "metrics": {
+        "yesterday_change_pct": -4.65,
+        "today_change_pct": 5.13,
+        "yesterday_open": 270.175,
+        "yesterday_close": 268.22,
+        "yesterday_high": 279.94,
+        "today_open": 270.615,
+        "today_close": 281.97,
+        "today_high": 287.2
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "WDC",
+      "name": "Western Digital",
+      "strategy": "S1",
+      "side": "buy",
+      "strategy_desc": "S1(買進：紅K+綠K反轉)：昨日紅K下跌超過3%，今日綠K上漲超過3%，且今高<=昨高*1.05",
+      "signal_date": "2026-10-05",
+      "close": 441.64,
+      "metrics": {
+        "yesterday_change_pct": -10.22,
+        "today_change_pct": 6.34,
+        "yesterday_open": 423.2,
+        "yesterday_close": 415.29,
+        "yesterday_high": 427.71,
+        "today_open": 430.5,
+        "today_close": 441.64,
+        "today_high": 447.71
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ADSK",
+      "name": "Autodesk",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 221.56,
+      "metrics": {
+        "yesterday_change_pct": 0.33,
+        "today_change_pct": 4.51,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 64.95,
+            "range_pct": 3.16
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 79.58,
+            "range_pct": 3.03
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 58.22,
+            "range_pct": 3.45
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AKAM",
+      "name": "Akamai Technologies",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 107.99,
+      "metrics": {
+        "yesterday_change_pct": 1.86,
+        "today_change_pct": -0.85,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 62.41,
+            "range_pct": 5.03
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 71.46,
+            "range_pct": 3.94
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 52.6,
+            "range_pct": 3.08
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AMAT",
+      "name": "Applied Materials",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 542.28,
+      "metrics": {
+        "yesterday_change_pct": 2.03,
+        "today_change_pct": 0.41,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 73.6,
+            "range_pct": 3.02
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 67.33,
+            "range_pct": 3.41
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "APP",
+      "name": "AppLovin",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 281.97,
+      "metrics": {
+        "yesterday_change_pct": -4.65,
+        "today_change_pct": 5.13,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 50.88,
+            "range_pct": 3.07
+          },
+          {
+            "date": "2026-09-23",
+            "ratio": 89.34,
+            "range_pct": 3.85
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CHTR",
+      "name": "Charter Communications",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 107.77,
+      "metrics": {
+        "yesterday_change_pct": -1.87,
+        "today_change_pct": -1.39,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-24",
+            "ratio": 57.1,
+            "range_pct": 3.06
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 69.39,
+            "range_pct": 3.61
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 64.27,
+            "range_pct": 4.24
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DAL",
+      "name": "Delta Air Lines",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 83.08,
+      "metrics": {
+        "yesterday_change_pct": -0.05,
+        "today_change_pct": -1.2,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-25",
+            "ratio": 53.18,
+            "range_pct": 3.81
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 52.73,
+            "range_pct": 3.12
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DASH",
+      "name": "DoorDash",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 191.77,
+      "metrics": {
+        "yesterday_change_pct": 3.83,
+        "today_change_pct": 1.39,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 67.9,
+            "range_pct": 3.52
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 51.73,
+            "range_pct": 5.72
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DDOG",
+      "name": "Datadog",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 276.415,
+      "metrics": {
+        "yesterday_change_pct": 0.27,
+        "today_change_pct": -0.29,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-29",
+            "ratio": 76.33,
+            "range_pct": 3.93
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 59.75,
+            "range_pct": 3.29
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "FISV",
+      "name": "Fiserv",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 46.14,
+      "metrics": {
+        "yesterday_change_pct": -2.25,
+        "today_change_pct": 4.01,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-24",
+            "ratio": 54.74,
+            "range_pct": 3.03
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 66.11,
+            "range_pct": 4.02
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "FTNT",
+      "name": "Fortinet",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 184.13,
+      "metrics": {
+        "yesterday_change_pct": 1.25,
+        "today_change_pct": 1.76,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 68.77,
+            "range_pct": 3.44
+          },
+          {
+            "date": "2026-09-23",
+            "ratio": 51.84,
+            "range_pct": 3.45
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HPE",
+      "name": "Hewlett Packard Enterprise",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 68.36,
+      "metrics": {
+        "yesterday_change_pct": 7.36,
+        "today_change_pct": -1.4,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-28",
+            "ratio": 68.49,
+            "range_pct": 3.9
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 64.83,
+            "range_pct": 7.04
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 65.58,
+            "range_pct": 3.21
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HPQ",
+      "name": "HP Inc.",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 31.47,
+      "metrics": {
+        "yesterday_change_pct": -0.09,
+        "today_change_pct": -2.02,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-25",
+            "ratio": 51.04,
+            "range_pct": 3.12
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 51.89,
+            "range_pct": 3.45
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "INTU",
+      "name": "Intuit",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 284.68,
+      "metrics": {
+        "yesterday_change_pct": -0.6,
+        "today_change_pct": 1.28,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-28",
+            "ratio": 72.1,
+            "range_pct": 3.74
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 68.19,
+            "range_pct": 3.09
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "KLAC",
+      "name": "KLA Corporation",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 206.85,
+      "metrics": {
+        "yesterday_change_pct": 3.27,
+        "today_change_pct": -0.02,
+        "lookback_days": 10,
+        "hit_count": 4,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 72.09,
+            "range_pct": 3.45
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 61.33,
+            "range_pct": 3.05
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 50.13,
+            "range_pct": 4.38
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 78.24,
+            "range_pct": 3.64
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LRCX",
+      "name": "Lam Research",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 345.8,
+      "metrics": {
+        "yesterday_change_pct": 2.17,
+        "today_change_pct": -0.49,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 77.93,
+            "range_pct": 3.75
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 77.52,
+            "range_pct": 3.54
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LULU",
+      "name": "Lululemon Athletica",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 93.14,
+      "metrics": {
+        "yesterday_change_pct": -1.46,
+        "today_change_pct": -1.4,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-24",
+            "ratio": 63.76,
+            "range_pct": 3.7
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 62.21,
+            "range_pct": 3.28
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MRNA",
+      "name": "Moderna",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 203.21,
+      "metrics": {
+        "yesterday_change_pct": 0.57,
+        "today_change_pct": 6.95,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-28",
+            "ratio": 56.46,
+            "range_pct": 5.67
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 64.46,
+            "range_pct": 5.7
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MRVL",
+      "name": "Marvell Technology",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 271.25,
+      "metrics": {
+        "yesterday_change_pct": 1.57,
+        "today_change_pct": -0.38,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 53.49,
+            "range_pct": 3.42
+          },
+          {
+            "date": "2026-09-30",
+            "ratio": 90.98,
+            "range_pct": 3.42
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 59.21,
+            "range_pct": 4.93
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ON",
+      "name": "ON Semiconductor",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 85.93,
+      "metrics": {
+        "yesterday_change_pct": 6.01,
+        "today_change_pct": 1.23,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 68.72,
+            "range_pct": 3.14
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 51.29,
+            "range_pct": 4.21
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "P",
+      "name": "Everpure",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 143.88,
+      "metrics": {
+        "yesterday_change_pct": 4.48,
+        "today_change_pct": 2.67,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 88.07,
+            "range_pct": 3.91
+          },
+          {
+            "date": "2026-09-23",
+            "ratio": 52.04,
+            "range_pct": 4.58
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PANW",
+      "name": "Palo Alto Networks",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 406.76,
+      "metrics": {
+        "yesterday_change_pct": 1.76,
+        "today_change_pct": 0.87,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 76.69,
+            "range_pct": 3.94
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 76.06,
+            "range_pct": 3.69
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PTC",
+      "name": "PTC Inc.",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 192.26,
+      "metrics": {
+        "yesterday_change_pct": -1.67,
+        "today_change_pct": 33.49,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 55.05,
+            "range_pct": 4.73
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 54.24,
+            "range_pct": 4.68
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 71.43,
+            "range_pct": 3.39
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "RCL",
+      "name": "Royal Caribbean Group",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 275.03,
+      "metrics": {
+        "yesterday_change_pct": 2.87,
+        "today_change_pct": -0.98,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 54.19,
+            "range_pct": 6.71
+          },
+          {
+            "date": "2026-09-25",
+            "ratio": 53.31,
+            "range_pct": 4.03
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "RDDT",
+      "name": "Reddit",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 150.42,
+      "metrics": {
+        "yesterday_change_pct": -1.12,
+        "today_change_pct": 1.73,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 58.72,
+            "range_pct": 4.85
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 58.25,
+            "range_pct": 4.41
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "SNDK",
+      "name": "Sandisk",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 1704.16,
+      "metrics": {
+        "yesterday_change_pct": -3.79,
+        "today_change_pct": -0.92,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-28",
+            "ratio": 52.31,
+            "range_pct": 6.21
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 64.74,
+            "range_pct": 3.35
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "STX",
+      "name": "Seagate Technology",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 887.09,
+      "metrics": {
+        "yesterday_change_pct": -10.21,
+        "today_change_pct": 4.49,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 67.14,
+            "range_pct": 4.75
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 66.76,
+            "range_pct": 7.18
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 50.89,
+            "range_pct": 7.65
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "SW",
+      "name": "Smurfit Westrock",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 42.41,
+      "metrics": {
+        "yesterday_change_pct": -1.16,
+        "today_change_pct": -0.31,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-24",
+            "ratio": 61.32,
+            "range_pct": 3.88
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 62.28,
+            "range_pct": 3.98
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "SWKS",
+      "name": "Skyworks Solutions",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 83.91,
+      "metrics": {
+        "yesterday_change_pct": 2.25,
+        "today_change_pct": -1.32,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-29",
+            "ratio": 56.14,
+            "range_pct": 3.97
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 75.43,
+            "range_pct": 4.98
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VST",
+      "name": "Vistra Corp.",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 144.89,
+      "metrics": {
+        "yesterday_change_pct": 0.19,
+        "today_change_pct": 3.48,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-30",
+            "ratio": 67.08,
+            "range_pct": 5.49
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 63.55,
+            "range_pct": 6.11
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 51.99,
+            "range_pct": 4.29
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "WDC",
+      "name": "Western Digital",
+      "strategy": "S2",
+      "side": "buy",
+      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 441.64,
+      "metrics": {
+        "yesterday_change_pct": -10.22,
+        "today_change_pct": 6.34,
+        "lookback_days": 10,
+        "hit_count": 4,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 58.49,
+            "range_pct": 6.89
+          },
+          {
+            "date": "2026-09-25",
+            "ratio": 52.83,
+            "range_pct": 3.19
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 60.72,
+            "range_pct": 6.47
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 60.12,
+            "range_pct": 7.85
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ACN",
+      "name": "Accenture",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 195.05,
+      "metrics": {
+        "yesterday_change_pct": -6.31,
+        "today_change_pct": -1.94,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-10-01",
+            "ratio": 70.22,
+            "range_pct": 7.86
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 57.62,
+            "range_pct": 3.08
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BA",
+      "name": "Boeing",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 192.72,
+      "metrics": {
+        "yesterday_change_pct": 0.67,
+        "today_change_pct": -0.43,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-23",
+            "ratio": 67.98,
+            "range_pct": 3.08
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 54.65,
+            "range_pct": 3.19
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BE",
+      "name": "Bloom Energy",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 286.65,
+      "metrics": {
+        "yesterday_change_pct": 4.17,
+        "today_change_pct": -0.86,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 50.52,
+            "range_pct": 5.68
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 58.25,
+            "range_pct": 5.12
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CEG",
+      "name": "Constellation Energy",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 267.62,
+      "metrics": {
+        "yesterday_change_pct": -0.55,
+        "today_change_pct": 3.93,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-29",
+            "ratio": 62.23,
+            "range_pct": 3.41
+          },
+          {
+            "date": "2026-10-01",
+            "ratio": 64.3,
+            "range_pct": 5.76
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CF",
+      "name": "CF Industries",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 116.02,
+      "metrics": {
+        "yesterday_change_pct": 0.41,
+        "today_change_pct": 0.88,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-29",
+            "ratio": 53.2,
+            "range_pct": 3.15
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 55.15,
+            "range_pct": 3.4
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "COHR",
+      "name": "Coherent Corp.",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 333.64,
+      "metrics": {
+        "yesterday_change_pct": 5.59,
+        "today_change_pct": -1.01,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 70.75,
+            "range_pct": 6.04
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 56.03,
+            "range_pct": 3.68
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 62.3,
+            "range_pct": 5.9
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CVNA",
+      "name": "Carvana",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 63.72,
+      "metrics": {
+        "yesterday_change_pct": 1.16,
+        "today_change_pct": -0.08,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-10-02",
+            "ratio": 60.14,
+            "range_pct": 4.45
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 68.23,
+            "range_pct": 3.25
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DLTR",
+      "name": "Dollar Tree",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 113.19,
+      "metrics": {
+        "yesterday_change_pct": -1.98,
+        "today_change_pct": 0.92,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 51.88,
+            "range_pct": 4.0
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 53.99,
+            "range_pct": 3.83
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 98.21,
+      "metrics": {
+        "yesterday_change_pct": 6.8,
+        "today_change_pct": 4.2,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-25",
+            "ratio": 80.43,
+            "range_pct": 3.58
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 64.65,
+            "range_pct": 3.35
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "EFX",
+      "name": "Equifax",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 142.6,
+      "metrics": {
+        "yesterday_change_pct": 0.19,
+        "today_change_pct": 1.86,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-29",
+            "ratio": 51.88,
+            "range_pct": 4.62
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 68.95,
+            "range_pct": 4.88
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "FLEX",
+      "name": "Flex Ltd.",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 116.76,
+      "metrics": {
+        "yesterday_change_pct": 3.4,
+        "today_change_pct": 0.13,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-25",
+            "ratio": 93.39,
+            "range_pct": 5.7
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 90.16,
+            "range_pct": 4.27
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HOOD",
+      "name": "Robinhood Markets",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 114.11,
+      "metrics": {
+        "yesterday_change_pct": 1.43,
+        "today_change_pct": 1.22,
+        "lookback_days": 10,
+        "hit_count": 5,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 51.62,
+            "range_pct": 3.02
+          },
+          {
+            "date": "2026-09-23",
+            "ratio": 88.0,
+            "range_pct": 3.68
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 61.31,
+            "range_pct": 3.75
+          },
+          {
+            "date": "2026-09-28",
+            "ratio": 52.19,
+            "range_pct": 3.54
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 83.5,
+            "range_pct": 6.17
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ILMN",
+      "name": "Illumina, Inc.",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 293.69,
+      "metrics": {
+        "yesterday_change_pct": 2.75,
+        "today_change_pct": 7.56,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-25",
+            "ratio": 51.66,
+            "range_pct": 3.48
+          },
+          {
+            "date": "2026-09-30",
+            "ratio": 65.75,
+            "range_pct": 3.65
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LITE",
+      "name": "Lumentum",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 1091.67,
+      "metrics": {
+        "yesterday_change_pct": 3.79,
+        "today_change_pct": 0.58,
+        "lookback_days": 10,
+        "hit_count": 3,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 83.3,
+            "range_pct": 7.24
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 59.86,
+            "range_pct": 4.65
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 61.33,
+            "range_pct": 4.88
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "META",
+      "name": "Meta Platforms",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 741.9,
+      "metrics": {
+        "yesterday_change_pct": 0.3,
+        "today_change_pct": 1.9,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 75.8,
+            "range_pct": 3.74
+          },
+          {
+            "date": "2026-09-23",
+            "ratio": 66.83,
+            "range_pct": 3.3
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MPC",
+      "name": "Marathon Petroleum",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 433.47,
+      "metrics": {
+        "yesterday_change_pct": 0.52,
+        "today_change_pct": 2.64,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 73.35,
+            "range_pct": 4.59
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 52.06,
+            "range_pct": 3.44
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "NTAP",
+      "name": "NetApp",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 223.77,
+      "metrics": {
+        "yesterday_change_pct": 5.22,
+        "today_change_pct": -1.1,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-24",
+            "ratio": 60.91,
+            "range_pct": 5.67
+          },
+          {
+            "date": "2026-09-30",
+            "ratio": 88.55,
+            "range_pct": 3.63
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ORCL",
+      "name": "Oracle Corporation",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 142.48,
+      "metrics": {
+        "yesterday_change_pct": 3.06,
+        "today_change_pct": 0.13,
+        "lookback_days": 10,
+        "hit_count": 4,
+        "hits": [
+          {
+            "date": "2026-09-28",
+            "ratio": 72.02,
+            "range_pct": 3.12
+          },
+          {
+            "date": "2026-09-29",
+            "ratio": 52.78,
+            "range_pct": 8.41
+          },
+          {
+            "date": "2026-10-02",
+            "ratio": 55.65,
+            "range_pct": 3.28
+          },
+          {
+            "date": "2026-10-05",
+            "ratio": 96.27,
+            "range_pct": 3.01
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PSX",
+      "name": "Phillips 66",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 269.72,
+      "metrics": {
+        "yesterday_change_pct": 0.13,
+        "today_change_pct": 1.94,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 76.95,
+            "range_pct": 3.94
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 60.66,
+            "range_pct": 3.06
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VLO",
+      "name": "Valero Energy",
+      "strategy": "S2",
+      "side": "short",
+      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
+      "signal_date": "2026-10-05",
+      "close": 419.33,
+      "metrics": {
+        "yesterday_change_pct": -0.53,
+        "today_change_pct": 3.21,
+        "lookback_days": 10,
+        "hit_count": 2,
+        "hits": [
+          {
+            "date": "2026-09-22",
+            "ratio": 53.38,
+            "range_pct": 5.64
+          },
+          {
+            "date": "2026-09-24",
+            "ratio": 51.13,
+            "range_pct": 5.31
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CHRW",
+      "name": "C.H. Robinson",
+      "strategy": "S3",
+      "side": "short",
+      "strategy_desc": "S3(賣空：爆量+向下反轉)：近3日最高點為近5日最高點，今日量大於前5日均量2倍，且下跌超過3%",
+      "signal_date": "2026-10-05",
+      "close": 140.61,
+      "metrics": {
+        "yesterday_change_pct": 2.99,
+        "today_change_pct": -10.85,
+        "volume": 8657100,
+        "prev5_avg_volume": 1234640,
+        "volume_ratio": 7.01,
+        "high3": 158.35,
+        "high5": 158.35
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PTC",
+      "name": "PTC Inc.",
+      "strategy": "S4",
+      "side": "short",
+      "strategy_desc": "S4(賣空：最新的2個日K的個股收盤價，其中1個收盤價漲跌幅大於含30%以上)：最新兩根日K相對前一日收盤，至少一根漲幅達 30%（含）以上",
+      "signal_date": "2026-10-05",
+      "close": 192.26,
+      "metrics": {
+        "yesterday_change_pct": -1.67,
+        "today_change_pct": 33.49,
+        "yesterday_open": 148.03,
+        "yesterday_close": 144.03,
+        "today_open": 195.84,
+        "today_close": 192.26
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CHRW",
+      "name": "C.H. Robinson",
+      "strategy": "D1",
+      "side": "buy",
+      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅上半（偏多延續）",
+      "signal_date": "2026-10-05",
+      "close": 140.61,
+      "metrics": {
+        "yesterday_change_pct": 2.99,
+        "today_change_pct": -10.85,
+        "rvol": 6.0,
+        "atr14": 5.8322,
+        "clv_pct": 67.4,
+        "volume": 8657100,
+        "prev20_avg_volume": 1443085
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "strategy": "D1",
+      "side": "buy",
+      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅上半（偏多延續）",
+      "signal_date": "2026-10-05",
+      "close": 98.21,
+      "metrics": {
+        "yesterday_change_pct": 6.8,
+        "today_change_pct": 4.2,
+        "rvol": 2.01,
+        "atr14": 3.2354,
+        "clv_pct": 74.86,
+        "volume": 6793800,
+        "prev20_avg_volume": 3382005
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VST",
+      "name": "Vistra Corp.",
+      "strategy": "D1",
+      "side": "buy",
+      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅上半（偏多延續）",
+      "signal_date": "2026-10-05",
+      "close": 144.89,
+      "metrics": {
+        "yesterday_change_pct": 0.19,
+        "today_change_pct": 3.48,
+        "rvol": 2.07,
+        "atr14": 5.0771,
+        "clv_pct": 66.06,
+        "volume": 10795000,
+        "prev20_avg_volume": 5207910
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PTC",
+      "name": "PTC Inc.",
+      "strategy": "D1",
+      "side": "short",
+      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅下半（偏空延續）",
+      "signal_date": "2026-10-05",
+      "close": 192.26,
+      "metrics": {
+        "yesterday_change_pct": -1.67,
+        "today_change_pct": 33.49,
+        "rvol": 16.89,
+        "atr14": 8.3826,
+        "clv_pct": 8.23,
+        "volume": 29552500,
+        "prev20_avg_volume": 1749945
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ABNB",
+      "name": "Airbnb",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 164.07,
+      "metrics": {
+        "yesterday_change_pct": 1.22,
+        "today_change_pct": 1.01,
+        "range": 3.01,
+        "prior6_min_range": 3.62,
+        "midpoint": 163.355,
+        "inside_day": true,
+        "breakout_high": 164.86,
+        "breakout_low": 161.85
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AKAM",
+      "name": "Akamai Technologies",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 107.99,
+      "metrics": {
+        "yesterday_change_pct": 1.86,
+        "today_change_pct": -0.85,
+        "range": 3.27,
+        "prior6_min_range": 4.1,
+        "midpoint": 107.905,
+        "inside_day": false,
+        "breakout_high": 109.54,
+        "breakout_low": 106.27
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AMT",
+      "name": "American Tower",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 162.26,
+      "metrics": {
+        "yesterday_change_pct": 0.71,
+        "today_change_pct": 0.04,
+        "range": 2.37,
+        "prior6_min_range": 2.7503,
+        "midpoint": 161.485,
+        "inside_day": false,
+        "breakout_high": 162.67,
+        "breakout_low": 160.3
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "APH",
+      "name": "Amphenol",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 87.27,
+      "metrics": {
+        "yesterday_change_pct": 1.51,
+        "today_change_pct": 0.36,
+        "range": 1.09,
+        "prior6_min_range": 1.53,
+        "midpoint": 87.155,
+        "inside_day": true,
+        "breakout_high": 87.7,
+        "breakout_low": 86.61
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CVS",
+      "name": "CVS Health",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 87.01,
+      "metrics": {
+        "yesterday_change_pct": 1.48,
+        "today_change_pct": 0.64,
+        "range": 1.18,
+        "prior6_min_range": 1.2,
+        "midpoint": 86.92,
+        "inside_day": false,
+        "breakout_high": 87.51,
+        "breakout_low": 86.33
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DASH",
+      "name": "DoorDash",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 191.77,
+      "metrics": {
+        "yesterday_change_pct": 3.83,
+        "today_change_pct": 1.39,
+        "range": 6.11,
+        "prior6_min_range": 6.14,
+        "midpoint": 191.185,
+        "inside_day": false,
+        "breakout_high": 194.24,
+        "breakout_low": 188.13
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DUK",
+      "name": "Duke Energy",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 113.84,
+      "metrics": {
+        "yesterday_change_pct": 0.34,
+        "today_change_pct": -0.25,
+        "range": 1.02,
+        "prior6_min_range": 1.06,
+        "midpoint": 113.8,
+        "inside_day": false,
+        "breakout_high": 114.31,
+        "breakout_low": 113.29
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HOOD",
+      "name": "Robinhood Markets",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 114.11,
+      "metrics": {
+        "yesterday_change_pct": 1.43,
+        "today_change_pct": 1.22,
+        "range": 2.88,
+        "prior6_min_range": 3.15,
+        "midpoint": 114.04,
+        "inside_day": true,
+        "breakout_high": 115.48,
+        "breakout_low": 112.6
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HPE",
+      "name": "Hewlett Packard Enterprise",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 68.36,
+      "metrics": {
+        "yesterday_change_pct": 7.36,
+        "today_change_pct": -1.4,
+        "range": 2.15,
+        "prior6_min_range": 2.38,
+        "midpoint": 68.025,
+        "inside_day": true,
+        "breakout_high": 69.1,
+        "breakout_low": 66.95
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "IBKR",
+      "name": "Interactive Brokers",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 89.05,
+      "metrics": {
+        "yesterday_change_pct": 2.9,
+        "today_change_pct": 0.85,
+        "range": 1.47,
+        "prior6_min_range": 1.54,
+        "midpoint": 88.825,
+        "inside_day": false,
+        "breakout_high": 89.56,
+        "breakout_low": 88.09
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "JPM",
+      "name": "JPMorgan Chase",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 332.38,
+      "metrics": {
+        "yesterday_change_pct": -0.24,
+        "today_change_pct": 0.0,
+        "range": 3.16,
+        "prior6_min_range": 4.67,
+        "midpoint": 332.17,
+        "inside_day": true,
+        "breakout_high": 333.75,
+        "breakout_low": 330.59
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "KR",
+      "name": "Kroger",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 58.78,
+      "metrics": {
+        "yesterday_change_pct": -0.76,
+        "today_change_pct": -0.42,
+        "range": 0.64,
+        "prior6_min_range": 0.97,
+        "midpoint": 58.64,
+        "inside_day": false,
+        "breakout_high": 58.96,
+        "breakout_low": 58.32
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MCHP",
+      "name": "Microchip Technology",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 81.49,
+      "metrics": {
+        "yesterday_change_pct": 3.59,
+        "today_change_pct": 0.21,
+        "range": 1.72,
+        "prior6_min_range": 1.9,
+        "midpoint": 80.91,
+        "inside_day": false,
+        "breakout_high": 81.77,
+        "breakout_low": 80.05
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "NOW",
+      "name": "ServiceNow",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 136.08,
+      "metrics": {
+        "yesterday_change_pct": -2.45,
+        "today_change_pct": 1.27,
+        "range": 3.75,
+        "prior6_min_range": 4.23,
+        "midpoint": 136.025,
+        "inside_day": true,
+        "breakout_high": 137.9,
+        "breakout_low": 134.15
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PANW",
+      "name": "Palo Alto Networks",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 406.76,
+      "metrics": {
+        "yesterday_change_pct": 1.76,
+        "today_change_pct": 0.87,
+        "range": 8.75,
+        "prior6_min_range": 9.55,
+        "midpoint": 403.545,
+        "inside_day": false,
+        "breakout_high": 407.92,
+        "breakout_low": 399.17
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PAYX",
+      "name": "Paychex",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 99.78,
+      "metrics": {
+        "yesterday_change_pct": -1.88,
+        "today_change_pct": 0.85,
+        "range": 1.32,
+        "prior6_min_range": 1.67,
+        "midpoint": 99.18,
+        "inside_day": true,
+        "breakout_high": 99.84,
+        "breakout_low": 98.52
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "RCL",
+      "name": "Royal Caribbean Group",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
+      "signal_date": "2026-10-05",
+      "close": 275.03,
+      "metrics": {
+        "yesterday_change_pct": 2.87,
+        "today_change_pct": -0.98,
+        "range": 7.39,
+        "prior6_min_range": 7.64,
+        "midpoint": 273.385,
+        "inside_day": false,
+        "breakout_high": 277.08,
+        "breakout_low": 269.69
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "TTWO",
+      "name": "Take-Two Interactive",
+      "strategy": "D2",
+      "side": "buy",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 203.46,
+      "metrics": {
+        "yesterday_change_pct": -0.44,
+        "today_change_pct": 0.36,
+        "range": 3.01,
+        "prior6_min_range": 3.08,
+        "midpoint": 203.085,
+        "inside_day": true,
+        "breakout_high": 204.59,
+        "breakout_low": 201.58
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AEE",
+      "name": "Ameren",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 99.7,
+      "metrics": {
+        "yesterday_change_pct": 0.3,
+        "today_change_pct": -0.24,
+        "range": 1.12,
+        "prior6_min_range": 1.2,
+        "midpoint": 99.78,
+        "inside_day": false,
+        "breakout_high": 100.34,
+        "breakout_low": 99.22
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BA",
+      "name": "Boeing",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 192.72,
+      "metrics": {
+        "yesterday_change_pct": 0.67,
+        "today_change_pct": -0.43,
+        "range": 3.89,
+        "prior6_min_range": 4.6,
+        "midpoint": 193.285,
+        "inside_day": true,
+        "breakout_high": 195.23,
+        "breakout_low": 191.34
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BAC",
+      "name": "Bank of America",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 54.0,
+      "metrics": {
+        "yesterday_change_pct": 0.04,
+        "today_change_pct": 0.47,
+        "range": 0.65,
+        "prior6_min_range": 0.69,
+        "midpoint": 54.015,
+        "inside_day": false,
+        "breakout_high": 54.34,
+        "breakout_low": 53.69
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BE",
+      "name": "Bloom Energy",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 286.65,
+      "metrics": {
+        "yesterday_change_pct": 4.17,
+        "today_change_pct": -0.86,
+        "range": 9.62,
+        "prior6_min_range": 14.49,
+        "midpoint": 287.15,
+        "inside_day": false,
+        "breakout_high": 291.96,
+        "breakout_low": 282.34
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "C",
+      "name": "Citigroup",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 128.55,
+      "metrics": {
+        "yesterday_change_pct": 1.18,
+        "today_change_pct": 0.04,
+        "range": 1.43,
+        "prior6_min_range": 1.75,
+        "midpoint": 128.805,
+        "inside_day": false,
+        "breakout_high": 129.52,
+        "breakout_low": 128.09
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CVNA",
+      "name": "Carvana",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 63.72,
+      "metrics": {
+        "yesterday_change_pct": 1.16,
+        "today_change_pct": -0.08,
+        "range": 2.052,
+        "prior6_min_range": 2.08,
+        "midpoint": 64.094,
+        "inside_day": false,
+        "breakout_high": 65.12,
+        "breakout_low": 63.068
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DDOG",
+      "name": "Datadog",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 276.415,
+      "metrics": {
+        "yesterday_change_pct": 0.27,
+        "today_change_pct": -0.29,
+        "range": 6.525,
+        "prior6_min_range": 7.425,
+        "midpoint": 278.5875,
+        "inside_day": true,
+        "breakout_high": 281.85,
+        "breakout_low": 275.325
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DELL",
+      "name": "Dell Technologies",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 552.29,
+      "metrics": {
+        "yesterday_change_pct": 3.84,
+        "today_change_pct": -1.82,
+        "range": 14.56,
+        "prior6_min_range": 14.81,
+        "midpoint": 553.28,
+        "inside_day": false,
+        "breakout_high": 560.56,
+        "breakout_low": 546.0
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "EL",
+      "name": "Estée Lauder Companies (The)",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 93.3,
+      "metrics": {
+        "yesterday_change_pct": 1.97,
+        "today_change_pct": 1.45,
+        "range": 1.87,
+        "prior6_min_range": 2.34,
+        "midpoint": 93.865,
+        "inside_day": false,
+        "breakout_high": 94.8,
+        "breakout_low": 92.93
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "GE",
+      "name": "GE Aerospace",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 306.34,
+      "metrics": {
+        "yesterday_change_pct": -0.91,
+        "today_change_pct": -0.89,
+        "range": 4.32,
+        "prior6_min_range": 5.6514,
+        "midpoint": 307.52,
+        "inside_day": false,
+        "breakout_high": 309.68,
+        "breakout_low": 305.36
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "GIS",
+      "name": "General Mills",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 31.68,
+      "metrics": {
+        "yesterday_change_pct": 1.07,
+        "today_change_pct": -1.03,
+        "range": 0.79,
+        "prior6_min_range": 0.81,
+        "midpoint": 31.695,
+        "inside_day": false,
+        "breakout_high": 32.09,
+        "breakout_low": 31.3
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HD",
+      "name": "Home Depot (The)",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 281.15,
+      "metrics": {
+        "yesterday_change_pct": 0.14,
+        "today_change_pct": -0.6,
+        "range": 3.78,
+        "prior6_min_range": 4.49,
+        "midpoint": 281.65,
+        "inside_day": false,
+        "breakout_high": 283.54,
+        "breakout_low": 279.76
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HWM",
+      "name": "Howmet Aerospace",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 229.57,
+      "metrics": {
+        "yesterday_change_pct": 1.27,
+        "today_change_pct": -0.74,
+        "range": 3.71,
+        "prior6_min_range": 4.3,
+        "midpoint": 230.445,
+        "inside_day": true,
+        "breakout_high": 232.3,
+        "breakout_low": 228.59
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "IBM",
+      "name": "IBM",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 221.58,
+      "metrics": {
+        "yesterday_change_pct": -1.32,
+        "today_change_pct": -0.48,
+        "range": 2.58,
+        "prior6_min_range": 3.21,
+        "midpoint": 221.59,
+        "inside_day": false,
+        "breakout_high": 222.88,
+        "breakout_low": 220.3
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "INTC",
+      "name": "Intel",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 116.19,
+      "metrics": {
+        "yesterday_change_pct": -0.56,
+        "today_change_pct": -2.63,
+        "range": 2.75,
+        "prior6_min_range": 4.09,
+        "midpoint": 116.685,
+        "inside_day": false,
+        "breakout_high": 118.06,
+        "breakout_low": 115.31
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LNT",
+      "name": "Alliant Energy",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 64.29,
+      "metrics": {
+        "yesterday_change_pct": 0.97,
+        "today_change_pct": -0.06,
+        "range": 0.83,
+        "prior6_min_range": 0.95,
+        "midpoint": 64.385,
+        "inside_day": true,
+        "breakout_high": 64.8,
+        "breakout_low": 63.97
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LOW",
+      "name": "Lowe's",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 179.5,
+      "metrics": {
+        "yesterday_change_pct": -0.87,
+        "today_change_pct": -0.72,
+        "range": 2.4,
+        "prior6_min_range": 2.48,
+        "midpoint": 179.65,
+        "inside_day": false,
+        "breakout_high": 180.85,
+        "breakout_low": 178.45
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MU",
+      "name": "Micron Technology",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 1063.96,
+      "metrics": {
+        "yesterday_change_pct": -2.05,
+        "today_change_pct": -1.02,
+        "range": 19.3199,
+        "prior6_min_range": 21.14,
+        "midpoint": 1065.22,
+        "inside_day": false,
+        "breakout_high": 1074.88,
+        "breakout_low": 1055.5601
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PLD",
+      "name": "Prologis",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 128.08,
+      "metrics": {
+        "yesterday_change_pct": 0.57,
+        "today_change_pct": -0.64,
+        "range": 1.41,
+        "prior6_min_range": 1.64,
+        "midpoint": 128.525,
+        "inside_day": false,
+        "breakout_high": 129.23,
+        "breakout_low": 127.82
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "RDDT",
+      "name": "Reddit",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
+      "signal_date": "2026-10-05",
+      "close": 150.42,
+      "metrics": {
+        "yesterday_change_pct": -1.12,
+        "today_change_pct": 1.73,
+        "range": 4.606,
+        "prior6_min_range": 4.94,
+        "midpoint": 150.547,
+        "inside_day": false,
+        "breakout_high": 152.85,
+        "breakout_low": 148.244
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "SMCI",
+      "name": "Supermicro",
+      "strategy": "D2",
+      "side": "short",
+      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
+      "signal_date": "2026-10-05",
+      "close": 43.19,
+      "metrics": {
+        "yesterday_change_pct": 4.22,
+        "today_change_pct": -1.14,
+        "range": 1.25,
+        "prior6_min_range": 1.83,
+        "midpoint": 43.425,
+        "inside_day": true,
+        "breakout_high": 44.05,
+        "breakout_low": 42.8
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "EQT",
+      "name": "EQT Corporation",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 51.12,
+      "metrics": {
+        "yesterday_change_pct": 0.16,
+        "today_change_pct": 1.89,
+        "atr14": 1.4273,
+        "range": 2.2,
+        "range_atr_ratio": 1.54,
+        "clv_pct": 81.36
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "GEHC",
+      "name": "GE HealthCare",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 65.74,
+      "metrics": {
+        "yesterday_change_pct": 0.48,
+        "today_change_pct": 2.26,
+        "atr14": 1.5411,
+        "range": 2.495,
+        "range_atr_ratio": 1.62,
+        "clv_pct": 94.99
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "GPN",
+      "name": "Global Payments",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 82.18,
+      "metrics": {
+        "yesterday_change_pct": -2.38,
+        "today_change_pct": 4.85,
+        "atr14": 2.6656,
+        "range": 4.44,
+        "range_atr_ratio": 1.67,
+        "clv_pct": 93.47
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ILMN",
+      "name": "Illumina, Inc.",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 293.69,
+      "metrics": {
+        "yesterday_change_pct": 2.75,
+        "today_change_pct": 7.56,
+        "atr14": 12.1563,
+        "range": 24.64,
+        "range_atr_ratio": 2.03,
+        "clv_pct": 89.61
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "IR",
+      "name": "Ingersoll Rand",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 78.55,
+      "metrics": {
+        "yesterday_change_pct": 1.09,
+        "today_change_pct": 3.26,
+        "atr14": 2.103,
+        "range": 3.42,
+        "range_atr_ratio": 1.63,
+        "clv_pct": 89.77
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MA",
+      "name": "Mastercard",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 564.59,
+      "metrics": {
+        "yesterday_change_pct": 0.41,
+        "today_change_pct": 2.23,
+        "atr14": 9.671,
+        "range": 14.72,
+        "range_atr_ratio": 1.52,
+        "clv_pct": 91.3
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MO",
+      "name": "Altria",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 67.88,
+      "metrics": {
+        "yesterday_change_pct": 0.6,
+        "today_change_pct": 0.79,
+        "atr14": 1.3731,
+        "range": 2.25,
+        "range_atr_ratio": 1.64,
+        "clv_pct": 93.33
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "TMO",
+      "name": "Thermo Fisher Scientific",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 676.76,
+      "metrics": {
+        "yesterday_change_pct": 0.35,
+        "today_change_pct": 3.35,
+        "atr14": 16.5098,
+        "range": 28.72,
+        "range_atr_ratio": 1.74,
+        "clv_pct": 100.0
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 369.71,
+      "metrics": {
+        "yesterday_change_pct": 0.23,
+        "today_change_pct": 2.51,
+        "atr14": 6.1186,
+        "range": 11.12,
+        "range_atr_ratio": 1.82,
+        "clv_pct": 95.86
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VLTO",
+      "name": "Veralto",
+      "strategy": "D3",
+      "side": "buy",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
+      "signal_date": "2026-10-05",
+      "close": 96.57,
+      "metrics": {
+        "yesterday_change_pct": 0.08,
+        "today_change_pct": 2.0,
+        "atr14": 1.7631,
+        "range": 2.93,
+        "range_atr_ratio": 1.66,
+        "clv_pct": 94.88
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LEN",
+      "name": "Lennar",
+      "strategy": "D3",
+      "side": "short",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
+      "signal_date": "2026-10-05",
+      "close": 74.44,
+      "metrics": {
+        "yesterday_change_pct": -2.8,
+        "today_change_pct": -6.73,
+        "atr14": 3.2297,
+        "range": 5.98,
+        "range_atr_ratio": 1.85,
+        "clv_pct": 11.54
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VTR",
+      "name": "Ventas",
+      "strategy": "D3",
+      "side": "short",
+      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
+      "signal_date": "2026-10-05",
+      "close": 81.36,
+      "metrics": {
+        "yesterday_change_pct": 0.33,
+        "today_change_pct": -3.15,
+        "atr14": 1.7582,
+        "range": 2.92,
+        "range_atr_ratio": 1.66,
+        "clv_pct": 7.88
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "AMGN",
+      "name": "Amgen",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 402.98,
+      "metrics": {
+        "yesterday_change_pct": -1.04,
+        "today_change_pct": -0.01,
+        "rsi2": 9.52,
+        "sma200": 361.3963
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BMY",
+      "name": "Bristol Myers Squibb",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 58.81,
+      "metrics": {
+        "yesterday_change_pct": 0.53,
+        "today_change_pct": -3.83,
+        "rsi2": 7.39,
+        "sma200": 58.1517
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "GILD",
+      "name": "Gilead Sciences",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 144.63,
+      "metrics": {
+        "yesterday_change_pct": -1.87,
+        "today_change_pct": -0.08,
+        "rsi2": 2.83,
+        "sma200": 135.3631
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 252.93,
+      "metrics": {
+        "yesterday_change_pct": -1.02,
+        "today_change_pct": -1.21,
+        "rsi2": 0.66,
+        "sma200": 239.9604
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "MRK",
+      "name": "Merck & Co.",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 139.54,
+      "metrics": {
+        "yesterday_change_pct": 0.34,
+        "today_change_pct": -3.3,
+        "rsi2": 5.05,
+        "sma200": 121.6655
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ROST",
+      "name": "Ross Stores",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 226.37,
+      "metrics": {
+        "yesterday_change_pct": -2.38,
+        "today_change_pct": -0.95,
+        "rsi2": 4.4,
+        "sma200": 217.357
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "TGT",
+      "name": "Target Corporation",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 152.99,
+      "metrics": {
+        "yesterday_change_pct": -0.45,
+        "today_change_pct": -1.93,
+        "rsi2": 2.5,
+        "sma200": 127.6086
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "WELL",
+      "name": "Welltower",
+      "strategy": "D4",
+      "side": "buy",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
+      "signal_date": "2026-10-05",
+      "close": 224.16,
+      "metrics": {
+        "yesterday_change_pct": 0.34,
+        "today_change_pct": -1.56,
+        "rsi2": 8.96,
+        "sma200": 213.1192
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ADSK",
+      "name": "Autodesk",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 221.56,
+      "metrics": {
+        "yesterday_change_pct": 0.33,
+        "today_change_pct": 4.51,
+        "rsi2": 96.5,
+        "sma200": 238.6041
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 98.21,
+      "metrics": {
+        "yesterday_change_pct": 6.8,
+        "today_change_pct": 4.2,
+        "rsi2": 94.45,
+        "sma200": 108.7003
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "EIX",
+      "name": "Edison International",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 54.24,
+      "metrics": {
+        "yesterday_change_pct": 0.17,
+        "today_change_pct": 0.65,
+        "rsi2": 91.74,
+        "sma200": 67.2667
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "EQT",
+      "name": "EQT Corporation",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 51.12,
+      "metrics": {
+        "yesterday_change_pct": 0.16,
+        "today_change_pct": 1.89,
+        "rsi2": 90.3,
+        "sma200": 55.2458
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ES",
+      "name": "Eversource Energy",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 64.69,
+      "metrics": {
+        "yesterday_change_pct": 0.3,
+        "today_change_pct": 0.29,
+        "rsi2": 92.84,
+        "sma200": 68.7483
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "HAL",
+      "name": "Halliburton",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 32.78,
+      "metrics": {
+        "yesterday_change_pct": -0.09,
+        "today_change_pct": 2.92,
+        "rsi2": 92.07,
+        "sma200": 35.186
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "IR",
+      "name": "Ingersoll Rand",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 78.55,
+      "metrics": {
+        "yesterday_change_pct": 1.09,
+        "today_change_pct": 3.26,
+        "rsi2": 94.2,
+        "sma200": 81.5248
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ORCL",
+      "name": "Oracle Corporation",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 142.48,
+      "metrics": {
+        "yesterday_change_pct": 3.06,
+        "today_change_pct": 0.13,
+        "rsi2": 90.39,
+        "sma200": 161.987
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "PEG",
+      "name": "Public Service Enterprise Group",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 68.68,
+      "metrics": {
+        "yesterday_change_pct": 0.27,
+        "today_change_pct": 0.9,
+        "rsi2": 93.2,
+        "sma200": 77.5825
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "SYK",
+      "name": "Stryker Corporation",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 285.22,
+      "metrics": {
+        "yesterday_change_pct": 0.9,
+        "today_change_pct": 3.55,
+        "rsi2": 92.22,
+        "sma200": 327.8758
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "TRMB",
+      "name": "Trimble Inc.",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 58.81,
+      "metrics": {
+        "yesterday_change_pct": -0.02,
+        "today_change_pct": 2.24,
+        "rsi2": 95.38,
+        "sma200": 62.5618
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "TSLA",
+      "name": "Tesla, Inc.",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 378.73,
+      "metrics": {
+        "yesterday_change_pct": 4.65,
+        "today_change_pct": 2.2,
+        "rsi2": 94.17,
+        "sma200": 392.6264
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VST",
+      "name": "Vistra Corp.",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 144.89,
+      "metrics": {
+        "yesterday_change_pct": 0.19,
+        "today_change_pct": 3.48,
+        "rsi2": 94.28,
+        "sma200": 154.3173
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "XEL",
+      "name": "Xcel Energy",
+      "strategy": "D4",
+      "side": "short",
+      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
+      "signal_date": "2026-10-05",
+      "close": 71.49,
+      "metrics": {
+        "yesterday_change_pct": 1.2,
+        "today_change_pct": 0.13,
+        "rsi2": 91.92,
+        "sma200": 76.9392
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "strategy": "D5",
+      "side": "buy",
+      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 98.21,
+      "metrics": {
+        "yesterday_change_pct": 6.8,
+        "today_change_pct": 4.2,
+        "rvol": 2.01,
+        "volume": 6793800,
+        "prev20_avg_volume": 3382005,
+        "high20": 99.55,
+        "low20": 87.71
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "FTV",
+      "name": "Fortive",
+      "strategy": "D5",
+      "side": "buy",
+      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 57.38,
+      "metrics": {
+        "yesterday_change_pct": 2.92,
+        "today_change_pct": -0.16,
+        "rvol": 1.7,
+        "volume": 3653000,
+        "prev20_avg_volume": 2146720,
+        "high20": 57.92,
+        "low20": 54.133
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "BMY",
+      "name": "Bristol Myers Squibb",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 58.81,
+      "metrics": {
+        "yesterday_change_pct": 0.53,
+        "today_change_pct": -3.83,
+        "rvol": 1.6,
+        "volume": 19237900,
+        "prev20_avg_volume": 11989665,
+        "high20": 65.2146,
+        "low20": 58.33
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "CMG",
+      "name": "Chipotle Mexican Grill",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 30.85,
+      "metrics": {
+        "yesterday_change_pct": 0.12,
+        "today_change_pct": -4.67,
+        "rvol": 1.65,
+        "volume": 23566200,
+        "prev20_avg_volume": 14304765,
+        "high20": 37.42,
+        "low20": 30.21
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "DHI",
+      "name": "D. R. Horton",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 133.23,
+      "metrics": {
+        "yesterday_change_pct": -1.5,
+        "today_change_pct": -1.31,
+        "rvol": 1.64,
+        "volume": 4890900,
+        "prev20_avg_volume": 2978675,
+        "high20": 144.86,
+        "low20": 132.18
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 252.93,
+      "metrics": {
+        "yesterday_change_pct": -1.02,
+        "today_change_pct": -1.21,
+        "rvol": 1.52,
+        "volume": 10026800,
+        "prev20_avg_volume": 6582520,
+        "high20": 275.23,
+        "low20": 252.51
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LEN",
+      "name": "Lennar",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 74.44,
+      "metrics": {
+        "yesterday_change_pct": -2.8,
+        "today_change_pct": -6.73,
+        "rvol": 1.86,
+        "volume": 10657800,
+        "prev20_avg_volume": 5727205,
+        "high20": 84.25,
+        "low20": 73.75
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "VTR",
+      "name": "Ventas",
+      "strategy": "D5",
+      "side": "short",
+      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
+      "signal_date": "2026-10-05",
+      "close": 81.36,
+      "metrics": {
+        "yesterday_change_pct": 0.33,
+        "today_change_pct": -3.15,
+        "rvol": 2.0,
+        "volume": 7569400,
+        "prev20_avg_volume": 3789190,
+        "high20": 91.539,
+        "low20": 81.13
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "strategy": "D6",
+      "side": "buy",
+      "strategy_desc": "D6(短線：連續動能)：近 2 日漲幅皆超過 2%，量比>=1.5，且今日收盤突破昨高",
+      "signal_date": "2026-10-05",
+      "close": 98.21,
+      "metrics": {
+        "yesterday_change_pct": 6.8,
+        "today_change_pct": 4.2,
+        "rvol": 2.01,
+        "volume": 6793800,
+        "prev20_avg_volume": 3382005,
+        "yesterday_high": 94.58,
+        "yesterday_low": 87.71
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "time": "09:41:46",
+      "timezone": "Asia/Taipei",
+      "symbol": "LEN",
+      "name": "Lennar",
+      "strategy": "D6",
+      "side": "short",
+      "strategy_desc": "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，且今日收盤跌破昨低",
+      "signal_date": "2026-10-05",
+      "close": 74.44,
+      "metrics": {
+        "yesterday_change_pct": -2.8,
+        "today_change_pct": -6.73,
+        "rvol": 1.86,
+        "volume": 10657800,
+        "prev20_avg_volume": 5727205,
+        "yesterday_high": 84.24,
+        "yesterday_low": 77.63
+      }
+    },
     {
       "date": "2026-10-05",
       "time": "07:52:50",
@@ -32063,3065 +35531,6 @@
         "prev20_avg_volume": 3410490,
         "yesterday_high": 34.54,
         "yesterday_low": 33.43
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "APTV",
-      "name": "Aptiv",
-      "strategy": "S1",
-      "side": "short",
-      "strategy_desc": "S1(賣空：綠K+紅K反轉)：昨日綠K上漲超過3%，今日紅K下跌超過3%，且今低>=昨低*0.95",
-      "signal_date": "2026-09-24",
-      "close": 43.58,
-      "metrics": {
-        "yesterday_change_pct": 3.67,
-        "today_change_pct": -3.52,
-        "yesterday_open": 44.23,
-        "yesterday_close": 45.17,
-        "yesterday_low": 43.88,
-        "today_open": 44.97,
-        "today_close": 43.58,
-        "today_low": 43.265
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "SWKS",
-      "name": "Skyworks Solutions",
-      "strategy": "S1",
-      "side": "short",
-      "strategy_desc": "S1(賣空：綠K+紅K反轉)：昨日綠K上漲超過3%，今日紅K下跌超過3%，且今低>=昨低*0.95",
-      "signal_date": "2026-09-24",
-      "close": 87.81,
-      "metrics": {
-        "yesterday_change_pct": 3.05,
-        "today_change_pct": -3.98,
-        "yesterday_open": 90.21,
-        "yesterday_close": 91.45,
-        "yesterday_low": 89.4,
-        "today_open": 91.15,
-        "today_close": 87.81,
-        "today_low": 87.39
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ADBE",
-      "name": "Adobe Inc.",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 238.93,
-      "metrics": {
-        "yesterday_change_pct": 1.02,
-        "today_change_pct": -0.73,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-14",
-            "ratio": 51.38,
-            "range_pct": 3.68
-          },
-          {
-            "date": "2026-09-17",
-            "ratio": 66.53,
-            "range_pct": 3.03
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "AKAM",
-      "name": "Akamai Technologies",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 110.41,
-      "metrics": {
-        "yesterday_change_pct": 0.88,
-        "today_change_pct": -6.78,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-14",
-            "ratio": 54.66,
-            "range_pct": 5.23
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 62.41,
-            "range_pct": 5.03
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CVNA",
-      "name": "Carvana",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 64.18,
-      "metrics": {
-        "yesterday_change_pct": -4.81,
-        "today_change_pct": 0.36,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-23",
-            "ratio": 62.28,
-            "range_pct": 4.65
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 57.79,
-            "range_pct": 3.34
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DASH",
-      "name": "DoorDash",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 187.53,
-      "metrics": {
-        "yesterday_change_pct": -2.35,
-        "today_change_pct": -0.92,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-21",
-            "ratio": 82.05,
-            "range_pct": 3.31
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 67.9,
-            "range_pct": 3.52
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 52.05,
-            "range_pct": 5.68
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DECK",
-      "name": "Deckers Brands",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 78.68,
-      "metrics": {
-        "yesterday_change_pct": -2.04,
-        "today_change_pct": 0.11,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-17",
-            "ratio": 70.11,
-            "range_pct": 3.63
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 51.06,
-            "range_pct": 3.64
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "EXE",
-      "name": "Expand Energy",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 88.62,
-      "metrics": {
-        "yesterday_change_pct": -0.7,
-        "today_change_pct": 1.82,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-10",
-            "ratio": 71.15,
-            "range_pct": 3.07
-          },
-          {
-            "date": "2026-09-15",
-            "ratio": 54.01,
-            "range_pct": 3.51
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FCX",
-      "name": "Freeport-McMoRan",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 72.08,
-      "metrics": {
-        "yesterday_change_pct": 0.58,
-        "today_change_pct": -0.69,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-10",
-            "ratio": 50.91,
-            "range_pct": 3.99
-          },
-          {
-            "date": "2026-09-16",
-            "ratio": 57.6,
-            "range_pct": 3.69
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 54.66,
-            "range_pct": 3.49
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FTNT",
-      "name": "Fortinet",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 178.67,
-      "metrics": {
-        "yesterday_change_pct": 2.0,
-        "today_change_pct": -0.04,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-18",
-            "ratio": 54.74,
-            "range_pct": 4.12
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 51.84,
-            "range_pct": 3.45
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "GS",
-      "name": "Goldman Sachs",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 923.29,
-      "metrics": {
-        "yesterday_change_pct": -2.4,
-        "today_change_pct": -1.4,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 65.64,
-            "range_pct": 3.54
-          },
-          {
-            "date": "2026-09-17",
-            "ratio": 50.32,
-            "range_pct": 3.9
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "INTC",
-      "name": "Intel",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 127.39,
-      "metrics": {
-        "yesterday_change_pct": -1.02,
-        "today_change_pct": 3.91,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-18",
-            "ratio": 53.79,
-            "range_pct": 3.84
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 65.7,
-            "range_pct": 4.03
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "KLAC",
-      "name": "KLA Corporation",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 187.11,
-      "metrics": {
-        "yesterday_change_pct": 2.11,
-        "today_change_pct": -0.4,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 67.22,
-            "range_pct": 3.05
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 72.09,
-            "range_pct": 3.45
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 52.7,
-            "range_pct": 3.05
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MRVL",
-      "name": "Marvell Technology",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 258.95,
-      "metrics": {
-        "yesterday_change_pct": -0.56,
-        "today_change_pct": -0.75,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-18",
-            "ratio": 71.93,
-            "range_pct": 3.59
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 53.49,
-            "range_pct": 3.42
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ON",
-      "name": "ON Semiconductor",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 73.15,
-      "metrics": {
-        "yesterday_change_pct": 3.32,
-        "today_change_pct": -1.28,
-        "lookback_days": 10,
-        "hit_count": 5,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 54.41,
-            "range_pct": 4.77
-          },
-          {
-            "date": "2026-09-17",
-            "ratio": 55.47,
-            "range_pct": 5.68
-          },
-          {
-            "date": "2026-09-18",
-            "ratio": 63.48,
-            "range_pct": 3.36
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 72.94,
-            "range_pct": 5.69
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 68.72,
-            "range_pct": 3.14
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "PLTR",
-      "name": "Palantir Technologies",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 192.59,
-      "metrics": {
-        "yesterday_change_pct": 3.68,
-        "today_change_pct": 0.42,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-17",
-            "ratio": 63.4,
-            "range_pct": 3.05
-          },
-          {
-            "date": "2026-09-18",
-            "ratio": 90.09,
-            "range_pct": 3.34
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "RDDT",
-      "name": "Reddit",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 152.72,
-      "metrics": {
-        "yesterday_change_pct": -4.25,
-        "today_change_pct": 0.49,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 60.12,
-            "range_pct": 3.16
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 58.72,
-            "range_pct": 4.85
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "STX",
-      "name": "Seagate Technology",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 905.92,
-      "metrics": {
-        "yesterday_change_pct": 5.3,
-        "today_change_pct": -1.94,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-17",
-            "ratio": 59.76,
-            "range_pct": 4.3
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 67.14,
-            "range_pct": 4.75
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "SW",
-      "name": "Smurfit Westrock",
-      "strategy": "S2",
-      "side": "buy",
-      "strategy_desc": "S2(買進：2下影線)：近10日內至少2根下影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 46.0,
-      "metrics": {
-        "yesterday_change_pct": 2.38,
-        "today_change_pct": -1.05,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-14",
-            "ratio": 60.23,
-            "range_pct": 3.02
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 61.21,
-            "range_pct": 3.87
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ACN",
-      "name": "Accenture",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 177.41,
-      "metrics": {
-        "yesterday_change_pct": -1.39,
-        "today_change_pct": -3.33,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 56.03,
-            "range_pct": 3.97
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 77.05,
-            "range_pct": 4.74
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BE",
-      "name": "Bloom Energy",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 266.65,
-      "metrics": {
-        "yesterday_change_pct": -0.48,
-        "today_change_pct": -3.1,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 69.3,
-            "range_pct": 4.95
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 54.75,
-            "range_pct": 6.27
-          },
-          {
-            "date": "2026-09-22",
-            "ratio": 50.52,
-            "range_pct": 5.68
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CBRE",
-      "name": "CBRE Group",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 136.53,
-      "metrics": {
-        "yesterday_change_pct": -4.75,
-        "today_change_pct": 0.09,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-10",
-            "ratio": 81.98,
-            "range_pct": 3.24
-          },
-          {
-            "date": "2026-09-16",
-            "ratio": 53.08,
-            "range_pct": 4.0
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "COHR",
-      "name": "Coherent Corp.",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 290.61,
-      "metrics": {
-        "yesterday_change_pct": -3.15,
-        "today_change_pct": -3.32,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 81.99,
-            "range_pct": 3.77
-          },
-          {
-            "date": "2026-09-22",
-            "ratio": 70.75,
-            "range_pct": 6.04
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 56.03,
-            "range_pct": 3.68
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "COIN",
-      "name": "Coinbase",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 199.21,
-      "metrics": {
-        "yesterday_change_pct": -1.46,
-        "today_change_pct": 0.55,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 73.49,
-            "range_pct": 5.37
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 71.9,
-            "range_pct": 4.53
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CRWD",
-      "name": "CrowdStrike",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 259.67,
-      "metrics": {
-        "yesterday_change_pct": 5.27,
-        "today_change_pct": -1.07,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-10",
-            "ratio": 55.91,
-            "range_pct": 5.1
-          },
-          {
-            "date": "2026-09-11",
-            "ratio": 58.91,
-            "range_pct": 4.28
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CTSH",
-      "name": "Cognizant",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 57.17,
-      "metrics": {
-        "yesterday_change_pct": -0.4,
-        "today_change_pct": -3.33,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 65.2,
-            "range_pct": 3.26
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 58.55,
-            "range_pct": 4.64
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DDOG",
-      "name": "Datadog",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 256.92,
-      "metrics": {
-        "yesterday_change_pct": 2.63,
-        "today_change_pct": 2.16,
-        "lookback_days": 10,
-        "hit_count": 4,
-        "hits": [
-          {
-            "date": "2026-09-10",
-            "ratio": 70.86,
-            "range_pct": 3.77
-          },
-          {
-            "date": "2026-09-11",
-            "ratio": 50.99,
-            "range_pct": 3.23
-          },
-          {
-            "date": "2026-09-16",
-            "ratio": 61.56,
-            "range_pct": 4.34
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 55.98,
-            "range_pct": 3.68
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DELL",
-      "name": "Dell Technologies",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 536.02,
-      "metrics": {
-        "yesterday_change_pct": 0.17,
-        "today_change_pct": -2.51,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 84.8,
-            "range_pct": 5.5
-          },
-          {
-            "date": "2026-09-16",
-            "ratio": 50.49,
-            "range_pct": 4.85
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 71.29,
-            "range_pct": 3.66
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FSLR",
-      "name": "First Solar",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 172.16,
-      "metrics": {
-        "yesterday_change_pct": -3.94,
-        "today_change_pct": -10.32,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 61.13,
-            "range_pct": 3.43
-          },
-          {
-            "date": "2026-09-14",
-            "ratio": 58.17,
-            "range_pct": 3.91
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "HOOD",
-      "name": "Robinhood Markets",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 120.82,
-      "metrics": {
-        "yesterday_change_pct": -1.25,
-        "today_change_pct": -1.53,
-        "lookback_days": 10,
-        "hit_count": 4,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 56.69,
-            "range_pct": 4.85
-          },
-          {
-            "date": "2026-09-22",
-            "ratio": 51.62,
-            "range_pct": 3.02
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 88.0,
-            "range_pct": 3.68
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 61.31,
-            "range_pct": 3.75
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "HPE",
-      "name": "Hewlett Packard Enterprise",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 63.52,
-      "metrics": {
-        "yesterday_change_pct": 2.13,
-        "today_change_pct": 1.91,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-14",
-            "ratio": 78.19,
-            "range_pct": 3.7
-          },
-          {
-            "date": "2026-09-15",
-            "ratio": 82.67,
-            "range_pct": 4.05
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "HPQ",
-      "name": "HP Inc.",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 31.14,
-      "metrics": {
-        "yesterday_change_pct": -2.4,
-        "today_change_pct": -3.17,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 68.31,
-            "range_pct": 4.26
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 66.23,
-            "range_pct": 6.99
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ILMN",
-      "name": "Illumina, Inc.",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 273.9,
-      "metrics": {
-        "yesterday_change_pct": 6.93,
-        "today_change_pct": 7.25,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-16",
-            "ratio": 57.48,
-            "range_pct": 5.5
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 67.66,
-            "range_pct": 4.22
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "LITE",
-      "name": "Lumentum",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 929.04,
-      "metrics": {
-        "yesterday_change_pct": -0.92,
-        "today_change_pct": -0.85,
-        "lookback_days": 10,
-        "hit_count": 3,
-        "hits": [
-          {
-            "date": "2026-09-21",
-            "ratio": 64.57,
-            "range_pct": 3.96
-          },
-          {
-            "date": "2026-09-22",
-            "ratio": 83.3,
-            "range_pct": 7.24
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 59.86,
-            "range_pct": 4.65
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "META",
-      "name": "Meta Platforms",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 777.59,
-      "metrics": {
-        "yesterday_change_pct": 1.02,
-        "today_change_pct": 4.5,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-22",
-            "ratio": 75.8,
-            "range_pct": 3.74
-          },
-          {
-            "date": "2026-09-23",
-            "ratio": 66.83,
-            "range_pct": 3.3
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MPC",
-      "name": "Marathon Petroleum",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 390.95,
-      "metrics": {
-        "yesterday_change_pct": -3.48,
-        "today_change_pct": 0.66,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 88.63,
-            "range_pct": 3.77
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 52.02,
-            "range_pct": 3.44
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "NOW",
-      "name": "ServiceNow",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 137.78,
-      "metrics": {
-        "yesterday_change_pct": 2.76,
-        "today_change_pct": -2.13,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-15",
-            "ratio": 66.16,
-            "range_pct": 6.17
-          },
-          {
-            "date": "2026-09-21",
-            "ratio": 54.63,
-            "range_pct": 3.35
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "P",
-      "name": "Everpure",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 121.88,
-      "metrics": {
-        "yesterday_change_pct": -3.53,
-        "today_change_pct": 11.15,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-14",
-            "ratio": 56.05,
-            "range_pct": 4.66
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 53.21,
-            "range_pct": 15.76
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "VLO",
-      "name": "Valero Energy",
-      "strategy": "S2",
-      "side": "short",
-      "strategy_desc": "S2(賣空：2上影線)：近10日內至少2根上影線佔比超過50%，且該根K振幅(最高-最低)/最低>=3%",
-      "signal_date": "2026-09-24",
-      "close": 382.86,
-      "metrics": {
-        "yesterday_change_pct": -4.43,
-        "today_change_pct": 1.87,
-        "lookback_days": 10,
-        "hit_count": 2,
-        "hits": [
-          {
-            "date": "2026-09-11",
-            "ratio": 63.78,
-            "range_pct": 3.6
-          },
-          {
-            "date": "2026-09-24",
-            "ratio": 51.13,
-            "range_pct": 5.31
-          }
-        ]
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "GDDY",
-      "name": "GoDaddy",
-      "strategy": "S3",
-      "side": "buy",
-      "strategy_desc": "S3(買進：爆量+向上反轉)：近3日最低點為近5日最低點，今日量大於前5日均量2倍，且上漲超過3%",
-      "signal_date": "2026-09-24",
-      "close": 100.81,
-      "metrics": {
-        "yesterday_change_pct": -8.01,
-        "today_change_pct": 4.6,
-        "volume": 9520324,
-        "prev5_avg_volume": 3116320,
-        "volume_ratio": 3.05,
-        "low3": 92.37,
-        "low5": 92.37
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MGM",
-      "name": "MGM Resorts",
-      "strategy": "S3",
-      "side": "short",
-      "strategy_desc": "S3(賣空：爆量+向下反轉)：近3日最高點為近5日最高點，今日量大於前5日均量2倍，且下跌超過3%",
-      "signal_date": "2026-09-24",
-      "close": 33.69,
-      "metrics": {
-        "yesterday_change_pct": -2.27,
-        "today_change_pct": -10.99,
-        "volume": 19746455,
-        "prev5_avg_volume": 3651760,
-        "volume_ratio": 5.41,
-        "high3": 38.98,
-        "high5": 38.98
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "RCL",
-      "name": "Royal Caribbean Group",
-      "strategy": "D1",
-      "side": "buy",
-      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅上半（偏多延續）",
-      "signal_date": "2026-09-24",
-      "close": 238.98,
-      "metrics": {
-        "yesterday_change_pct": -1.95,
-        "today_change_pct": 3.77,
-        "rvol": 2.08,
-        "atr14": 9.848,
-        "clv_pct": 62.43,
-        "volume": 5461749,
-        "prev20_avg_volume": 2622000
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FSLR",
-      "name": "First Solar",
-      "strategy": "D1",
-      "side": "short",
-      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅下半（偏空延續）",
-      "signal_date": "2026-09-24",
-      "close": 172.16,
-      "metrics": {
-        "yesterday_change_pct": -3.94,
-        "today_change_pct": -10.32,
-        "rvol": 3.06,
-        "atr14": 10.7757,
-        "clv_pct": 7.08,
-        "volume": 6336163,
-        "prev20_avg_volume": 2068810
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "GDDY",
-      "name": "GoDaddy",
-      "strategy": "D1",
-      "side": "short",
-      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅下半（偏空延續）",
-      "signal_date": "2026-09-24",
-      "close": 100.81,
-      "metrics": {
-        "yesterday_change_pct": -8.01,
-        "today_change_pct": 4.6,
-        "rvol": 4.39,
-        "atr14": 5.7214,
-        "clv_pct": 39.02,
-        "volume": 9520324,
-        "prev20_avg_volume": 2169915
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MGM",
-      "name": "MGM Resorts",
-      "strategy": "D1",
-      "side": "short",
-      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅下半（偏空延續）",
-      "signal_date": "2026-09-24",
-      "close": 33.69,
-      "metrics": {
-        "yesterday_change_pct": -2.27,
-        "today_change_pct": -10.99,
-        "rvol": 8.09,
-        "atr14": 1.1767,
-        "clv_pct": 23.24,
-        "volume": 19746455,
-        "prev20_avg_volume": 2440120
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ROL",
-      "name": "Rollins, Inc.",
-      "strategy": "D1",
-      "side": "short",
-      "strategy_desc": "D1(短線：相對量 In Play)：今日量為前20日均量 2 倍以上、ATR(14)>$0.5、|漲跌幅|>=2%，收盤在當日振幅下半（偏空延續）",
-      "signal_date": "2026-09-24",
-      "close": 30.4,
-      "metrics": {
-        "yesterday_change_pct": 0.43,
-        "today_change_pct": -6.43,
-        "rvol": 2.34,
-        "atr14": 0.9836,
-        "clv_pct": 19.44,
-        "volume": 13601962,
-        "prev20_avg_volume": 5821325
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ADI",
-      "name": "Analog Devices",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 382.61,
-      "metrics": {
-        "yesterday_change_pct": 0.58,
-        "today_change_pct": -0.68,
-        "range": 6.94,
-        "prior6_min_range": 7.42,
-        "midpoint": 380.87,
-        "inside_day": false,
-        "breakout_high": 384.34,
-        "breakout_low": 377.4
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "AVGO",
-      "name": "Broadcom",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 350.36,
-      "metrics": {
-        "yesterday_change_pct": -2.62,
-        "today_change_pct": -1.3,
-        "range": 4.5399,
-        "prior6_min_range": 5.6198,
-        "midpoint": 349.16,
-        "inside_day": false,
-        "breakout_high": 351.4299,
-        "breakout_low": 346.89
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BNY",
-      "name": "BNY Mellon",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 150.19,
-      "metrics": {
-        "yesterday_change_pct": -2.85,
-        "today_change_pct": 0.45,
-        "range": 1.52,
-        "prior6_min_range": 2.12,
-        "midpoint": 149.67,
-        "inside_day": false,
-        "breakout_high": 150.43,
-        "breakout_low": 148.91
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CARR",
-      "name": "Carrier Global",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 54.87,
-      "metrics": {
-        "yesterday_change_pct": 0.88,
-        "today_change_pct": -0.42,
-        "range": 0.805,
-        "prior6_min_range": 0.995,
-        "midpoint": 54.8075,
-        "inside_day": false,
-        "breakout_high": 55.21,
-        "breakout_low": 54.405
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CHTR",
-      "name": "Charter Communications",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 117.55,
-      "metrics": {
-        "yesterday_change_pct": -5.46,
-        "today_change_pct": 0.81,
-        "range": 3.5,
-        "prior6_min_range": 3.81,
-        "midpoint": 116.78,
-        "inside_day": true,
-        "breakout_high": 118.53,
-        "breakout_low": 115.03
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "JPM",
-      "name": "JPMorgan Chase",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 338.56,
-      "metrics": {
-        "yesterday_change_pct": -0.73,
-        "today_change_pct": 0.31,
-        "range": 4.09,
-        "prior6_min_range": 4.42,
-        "midpoint": 337.325,
-        "inside_day": false,
-        "breakout_high": 339.37,
-        "breakout_low": 335.28
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "KLAC",
-      "name": "KLA Corporation",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 187.11,
-      "metrics": {
-        "yesterday_change_pct": 2.11,
-        "today_change_pct": -0.4,
-        "range": 5.56,
-        "prior6_min_range": 5.83,
-        "midpoint": 185.18,
-        "inside_day": true,
-        "breakout_high": 187.96,
-        "breakout_low": 182.4
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "LRCX",
-      "name": "Lam Research",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 307.16,
-      "metrics": {
-        "yesterday_change_pct": -1.08,
-        "today_change_pct": -0.04,
-        "range": 8.36,
-        "prior6_min_range": 11.19,
-        "midpoint": 303.04,
-        "inside_day": true,
-        "breakout_high": 307.22,
-        "breakout_low": 298.86
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MCHP",
-      "name": "Microchip Technology",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 74.69,
-      "metrics": {
-        "yesterday_change_pct": 1.0,
-        "today_change_pct": -1.11,
-        "range": 1.615,
-        "prior6_min_range": 1.7,
-        "midpoint": 73.9375,
-        "inside_day": false,
-        "breakout_high": 74.745,
-        "breakout_low": 73.13
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "NFLX",
-      "name": "Netflix",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 71.72,
-      "metrics": {
-        "yesterday_change_pct": -1.11,
-        "today_change_pct": 0.5,
-        "range": 0.83,
-        "prior6_min_range": 1.3,
-        "midpoint": 71.625,
-        "inside_day": true,
-        "breakout_high": 72.04,
-        "breakout_low": 71.21
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "NKE",
-      "name": "Nike, Inc.",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 35.99,
-      "metrics": {
-        "yesterday_change_pct": -0.14,
-        "today_change_pct": -0.17,
-        "range": 0.6199,
-        "prior6_min_range": 0.75,
-        "midpoint": 35.83,
-        "inside_day": false,
-        "breakout_high": 36.1399,
-        "breakout_low": 35.52
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ON",
-      "name": "ON Semiconductor",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 73.15,
-      "metrics": {
-        "yesterday_change_pct": 3.32,
-        "today_change_pct": -1.28,
-        "range": 1.5,
-        "prior6_min_range": 2.27,
-        "midpoint": 72.54,
-        "inside_day": false,
-        "breakout_high": 73.29,
-        "breakout_low": 71.79
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "RDDT",
-      "name": "Reddit",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 152.72,
-      "metrics": {
-        "yesterday_change_pct": -4.25,
-        "today_change_pct": 0.49,
-        "range": 3.68,
-        "prior6_min_range": 3.9,
-        "midpoint": 152.04,
-        "inside_day": true,
-        "breakout_high": 153.88,
-        "breakout_low": 150.2
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "SYF",
-      "name": "Synchrony Financial",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 71.55,
-      "metrics": {
-        "yesterday_change_pct": -5.77,
-        "today_change_pct": 1.25,
-        "range": 1.48,
-        "prior6_min_range": 1.53,
-        "midpoint": 70.96,
-        "inside_day": false,
-        "breakout_high": 71.7,
-        "breakout_low": 70.22
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "TJX",
-      "name": "TJX Companies",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高",
-      "signal_date": "2026-09-24",
-      "close": 131.63,
-      "metrics": {
-        "yesterday_change_pct": 0.48,
-        "today_change_pct": 0.03,
-        "range": 2.1799,
-        "prior6_min_range": 2.2,
-        "midpoint": 131.6001,
-        "inside_day": false,
-        "breakout_high": 132.69,
-        "breakout_low": 130.5101
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "TXN",
-      "name": "Texas Instruments",
-      "strategy": "D2",
-      "side": "buy",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤高於中點，觀察突破今高；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 270.65,
-      "metrics": {
-        "yesterday_change_pct": 0.65,
-        "today_change_pct": -0.72,
-        "range": 5.42,
-        "prior6_min_range": 5.44,
-        "midpoint": 269.5,
-        "inside_day": true,
-        "breakout_high": 272.21,
-        "breakout_low": 266.79
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "AAPL",
-      "name": "Apple Inc.",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 335.92,
-      "metrics": {
-        "yesterday_change_pct": -0.8,
-        "today_change_pct": -0.33,
-        "range": 4.61,
-        "prior6_min_range": 4.78,
-        "midpoint": 336.605,
-        "inside_day": false,
-        "breakout_high": 338.91,
-        "breakout_low": 334.3
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ALB",
-      "name": "Albemarle Corporation",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 108.25,
-      "metrics": {
-        "yesterday_change_pct": 0.49,
-        "today_change_pct": -4.6,
-        "range": 2.27,
-        "prior6_min_range": 2.77,
-        "midpoint": 109.365,
-        "inside_day": false,
-        "breakout_high": 110.5,
-        "breakout_low": 108.23
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BAC",
-      "name": "Bank of America",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 56.03,
-      "metrics": {
-        "yesterday_change_pct": -0.36,
-        "today_change_pct": 0.05,
-        "range": 0.69,
-        "prior6_min_range": 0.71,
-        "midpoint": 56.185,
-        "inside_day": false,
-        "breakout_high": 56.53,
-        "breakout_low": 55.84
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BSX",
-      "name": "Boston Scientific",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 44.68,
-      "metrics": {
-        "yesterday_change_pct": 2.06,
-        "today_change_pct": 0.13,
-        "range": 0.695,
-        "prior6_min_range": 0.71,
-        "midpoint": 44.8125,
-        "inside_day": true,
-        "breakout_high": 45.16,
-        "breakout_low": 44.465
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "COHR",
-      "name": "Coherent Corp.",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 290.61,
-      "metrics": {
-        "yesterday_change_pct": -3.15,
-        "today_change_pct": -3.32,
-        "range": 10.69,
-        "prior6_min_range": 13.77,
-        "midpoint": 295.545,
-        "inside_day": false,
-        "breakout_high": 300.89,
-        "breakout_low": 290.2
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 238.22,
-      "metrics": {
-        "yesterday_change_pct": 0.49,
-        "today_change_pct": 0.27,
-        "range": 5.01,
-        "prior6_min_range": 5.09,
-        "midpoint": 239.505,
-        "inside_day": false,
-        "breakout_high": 242.01,
-        "breakout_low": 237.0
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CRWD",
-      "name": "CrowdStrike",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 259.67,
-      "metrics": {
-        "yesterday_change_pct": 5.27,
-        "today_change_pct": -1.07,
-        "range": 5.3305,
-        "prior6_min_range": 9.54,
-        "midpoint": 261.1947,
-        "inside_day": false,
-        "breakout_high": 263.86,
-        "breakout_low": 258.5295
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CSX",
-      "name": "CSX Corporation",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 46.95,
-      "metrics": {
-        "yesterday_change_pct": 2.61,
-        "today_change_pct": -0.51,
-        "range": 0.565,
-        "prior6_min_range": 0.6,
-        "midpoint": 47.0475,
-        "inside_day": true,
-        "breakout_high": 47.33,
-        "breakout_low": 46.765
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DECK",
-      "name": "Deckers Brands",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低；同時為 Inside Day",
-      "signal_date": "2026-09-24",
-      "close": 78.68,
-      "metrics": {
-        "yesterday_change_pct": -2.04,
-        "today_change_pct": 0.11,
-        "range": 1.51,
-        "prior6_min_range": 1.98,
-        "midpoint": 78.775,
-        "inside_day": true,
-        "breakout_high": 79.53,
-        "breakout_low": 78.02
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DELL",
-      "name": "Dell Technologies",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 536.02,
-      "metrics": {
-        "yesterday_change_pct": 0.17,
-        "today_change_pct": -2.51,
-        "range": 19.4,
-        "prior6_min_range": 25.06,
-        "midpoint": 540.15,
-        "inside_day": false,
-        "breakout_high": 549.85,
-        "breakout_low": 530.45
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FTNT",
-      "name": "Fortinet",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 178.67,
-      "metrics": {
-        "yesterday_change_pct": 2.0,
-        "today_change_pct": -0.04,
-        "range": 4.5836,
-        "prior6_min_range": 5.98,
-        "midpoint": 179.0682,
-        "inside_day": false,
-        "breakout_high": 181.36,
-        "breakout_low": 176.7764
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "NXPI",
-      "name": "NXP Semiconductors",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 230.16,
-      "metrics": {
-        "yesterday_change_pct": 1.3,
-        "today_change_pct": -2.24,
-        "range": 3.89,
-        "prior6_min_range": 4.659,
-        "midpoint": 231.305,
-        "inside_day": false,
-        "breakout_high": 233.25,
-        "breakout_low": 229.36
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "O",
-      "name": "Realty Income",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 55.41,
-      "metrics": {
-        "yesterday_change_pct": -1.84,
-        "today_change_pct": -0.36,
-        "range": 0.6999,
-        "prior6_min_range": 0.71,
-        "midpoint": 55.42,
-        "inside_day": false,
-        "breakout_high": 55.7699,
-        "breakout_low": 55.07
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "PANW",
-      "name": "Palo Alto Networks",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 389.92,
-      "metrics": {
-        "yesterday_change_pct": 5.79,
-        "today_change_pct": -0.86,
-        "range": 8.51,
-        "prior6_min_range": 13.64,
-        "midpoint": 392.045,
-        "inside_day": false,
-        "breakout_high": 396.3,
-        "breakout_low": 387.79
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "PLD",
-      "name": "Prologis",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 133.82,
-      "metrics": {
-        "yesterday_change_pct": -1.37,
-        "today_change_pct": -0.1,
-        "range": 1.13,
-        "prior6_min_range": 1.56,
-        "midpoint": 134.215,
-        "inside_day": false,
-        "breakout_high": 134.78,
-        "breakout_low": 133.65
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "TMUS",
-      "name": "T-Mobile US",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 165.35,
-      "metrics": {
-        "yesterday_change_pct": 0.24,
-        "today_change_pct": -0.19,
-        "range": 3.09,
-        "prior6_min_range": 4.38,
-        "midpoint": 166.195,
-        "inside_day": false,
-        "breakout_high": 167.74,
-        "breakout_low": 164.65
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "WMB",
-      "name": "Williams Companies",
-      "strategy": "D2",
-      "side": "short",
-      "strategy_desc": "D2(短線：NR7 收縮突破)：今日振幅為近 7 日最窄，收盤低於中點，觀察跌破今低",
-      "signal_date": "2026-09-24",
-      "close": 70.58,
-      "metrics": {
-        "yesterday_change_pct": -0.75,
-        "today_change_pct": -0.75,
-        "range": 0.92,
-        "prior6_min_range": 1.08,
-        "midpoint": 70.75,
-        "inside_day": false,
-        "breakout_high": 71.21,
-        "breakout_low": 70.29
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "A",
-      "name": "Agilent Technologies",
-      "strategy": "D3",
-      "side": "buy",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
-      "signal_date": "2026-09-24",
-      "close": 172.84,
-      "metrics": {
-        "yesterday_change_pct": 2.09,
-        "today_change_pct": 4.55,
-        "atr14": 4.9536,
-        "range": 11.15,
-        "range_atr_ratio": 2.25,
-        "clv_pct": 82.69
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CTAS",
-      "name": "Cintas",
-      "strategy": "D3",
-      "side": "buy",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
-      "signal_date": "2026-09-24",
-      "close": 197.68,
-      "metrics": {
-        "yesterday_change_pct": -2.49,
-        "today_change_pct": 2.97,
-        "atr14": 4.2623,
-        "range": 7.765,
-        "range_atr_ratio": 1.82,
-        "clv_pct": 84.87
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ILMN",
-      "name": "Illumina, Inc.",
-      "strategy": "D3",
-      "side": "buy",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
-      "signal_date": "2026-09-24",
-      "close": 273.9,
-      "metrics": {
-        "yesterday_change_pct": 6.93,
-        "today_change_pct": 7.25,
-        "atr14": 11.9891,
-        "range": 27.032,
-        "range_atr_ratio": 2.25,
-        "clv_pct": 85.02
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "RVTY",
-      "name": "Revvity",
-      "strategy": "D3",
-      "side": "buy",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
-      "signal_date": "2026-09-24",
-      "close": 150.68,
-      "metrics": {
-        "yesterday_change_pct": -1.03,
-        "today_change_pct": 6.03,
-        "atr14": 4.9746,
-        "range": 10.395,
-        "range_atr_ratio": 2.09,
-        "clv_pct": 84.8
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "TMO",
-      "name": "Thermo Fisher Scientific",
-      "strategy": "D3",
-      "side": "buy",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最高 20%，觀察延續走高",
-      "signal_date": "2026-09-24",
-      "close": 678.39,
-      "metrics": {
-        "yesterday_change_pct": 0.99,
-        "today_change_pct": 1.97,
-        "atr14": 16.2056,
-        "range": 27.03,
-        "range_atr_ratio": 1.67,
-        "clv_pct": 83.02
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BALL",
-      "name": "Ball Corporation",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 56.66,
-      "metrics": {
-        "yesterday_change_pct": -1.49,
-        "today_change_pct": -3.67,
-        "atr14": 1.2554,
-        "range": 2.3617,
-        "range_atr_ratio": 1.88,
-        "clv_pct": 6.14
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FDX",
-      "name": "FedEx",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 279.54,
-      "metrics": {
-        "yesterday_change_pct": -1.45,
-        "today_change_pct": -4.1,
-        "atr14": 7.6893,
-        "range": 12.0,
-        "range_atr_ratio": 1.56,
-        "clv_pct": 1.67
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FSLR",
-      "name": "First Solar",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 172.16,
-      "metrics": {
-        "yesterday_change_pct": -3.94,
-        "today_change_pct": -10.32,
-        "atr14": 10.7757,
-        "range": 19.2,
-        "range_atr_ratio": 1.78,
-        "clv_pct": 7.08
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MNST",
-      "name": "Monster Beverage",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 42.67,
-      "metrics": {
-        "yesterday_change_pct": -0.2,
-        "today_change_pct": -2.82,
-        "atr14": 0.9933,
-        "range": 1.575,
-        "range_atr_ratio": 1.59,
-        "clv_pct": 4.13
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "PAYX",
-      "name": "Paychex",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 101.59,
-      "metrics": {
-        "yesterday_change_pct": -9.15,
-        "today_change_pct": -2.78,
-        "atr14": 3.4964,
-        "range": 6.115,
-        "range_atr_ratio": 1.75,
-        "clv_pct": 1.72
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "UPS",
-      "name": "United Parcel Service",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 92.05,
-      "metrics": {
-        "yesterday_change_pct": -0.05,
-        "today_change_pct": -3.93,
-        "atr14": 2.3225,
-        "range": 4.07,
-        "range_atr_ratio": 1.75,
-        "clv_pct": 10.32
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "WMT",
-      "name": "Walmart",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 107.59,
-      "metrics": {
-        "yesterday_change_pct": 0.37,
-        "today_change_pct": -2.66,
-        "atr14": 2.1733,
-        "range": 3.66,
-        "range_atr_ratio": 1.68,
-        "clv_pct": 2.19
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "XYL",
-      "name": "Xylem Inc.",
-      "strategy": "D3",
-      "side": "short",
-      "strategy_desc": "D3(短線：趨勢日延續)：今日振幅>=1.5×ATR(14)，收盤在當日振幅最低 20%，觀察延續走低",
-      "signal_date": "2026-09-24",
-      "close": 102.66,
-      "metrics": {
-        "yesterday_change_pct": 1.31,
-        "today_change_pct": -5.5,
-        "atr14": 2.8391,
-        "range": 5.87,
-        "range_atr_ratio": 2.07,
-        "clv_pct": 6.98
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CNC",
-      "name": "Centene Corporation",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 61.92,
-      "metrics": {
-        "yesterday_change_pct": -4.48,
-        "today_change_pct": -0.26,
-        "rsi2": 4.74,
-        "sma200": 51.9832
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "EW",
-      "name": "Edwards Lifesciences",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 85.73,
-      "metrics": {
-        "yesterday_change_pct": -1.72,
-        "today_change_pct": -1.26,
-        "rsi2": 7.02,
-        "sma200": 85.0378
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "HPQ",
-      "name": "HP Inc.",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 31.14,
-      "metrics": {
-        "yesterday_change_pct": -2.4,
-        "today_change_pct": -3.17,
-        "rsi2": 6.8,
-        "sma200": 22.9296
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MDT",
-      "name": "Medtronic",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 88.51,
-      "metrics": {
-        "yesterday_change_pct": -2.67,
-        "today_change_pct": -0.88,
-        "rsi2": 1.47,
-        "sma200": 88.1796
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MNST",
-      "name": "Monster Beverage",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 42.67,
-      "metrics": {
-        "yesterday_change_pct": -0.2,
-        "today_change_pct": -2.82,
-        "rsi2": 2.63,
-        "sma200": 42.1996
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "USB",
-      "name": "U.S. Bancorp",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 58.4,
-      "metrics": {
-        "yesterday_change_pct": -3.24,
-        "today_change_pct": -0.14,
-        "rsi2": 9.99,
-        "sma200": 56.8799
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "WMB",
-      "name": "Williams Companies",
-      "strategy": "D4",
-      "side": "buy",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)<=10 且收盤高於 SMA(200)，上升趨勢內超賣，觀察隔日反彈",
-      "signal_date": "2026-09-24",
-      "close": 70.58,
-      "metrics": {
-        "yesterday_change_pct": -0.75,
-        "today_change_pct": -0.75,
-        "rsi2": 8.73,
-        "sma200": 69.8928
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CDNS",
-      "name": "Cadence Design Systems",
-      "strategy": "D4",
-      "side": "short",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
-      "signal_date": "2026-09-24",
-      "close": 322.0,
-      "metrics": {
-        "yesterday_change_pct": 4.81,
-        "today_change_pct": 4.18,
-        "rsi2": 99.29,
-        "sma200": 325.7579
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "EQT",
-      "name": "EQT Corporation",
-      "strategy": "D4",
-      "side": "short",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
-      "signal_date": "2026-09-24",
-      "close": 51.87,
-      "metrics": {
-        "yesterday_change_pct": 1.86,
-        "today_change_pct": 1.59,
-        "rsi2": 90.06,
-        "sma200": 55.5006
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "GEHC",
-      "name": "GE HealthCare",
-      "strategy": "D4",
-      "side": "short",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
-      "signal_date": "2026-09-24",
-      "close": 66.38,
-      "metrics": {
-        "yesterday_change_pct": 1.98,
-        "today_change_pct": 0.44,
-        "rsi2": 94.6,
-        "sma200": 71.8796
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "TJX",
-      "name": "TJX Companies",
-      "strategy": "D4",
-      "side": "short",
-      "strategy_desc": "D4(短線：RSI(2) 均值回歸)：RSI(2)>=90 且收盤低於 SMA(200)，下降趨勢內超買，觀察隔日回落",
-      "signal_date": "2026-09-24",
-      "close": 131.63,
-      "metrics": {
-        "yesterday_change_pct": 0.48,
-        "today_change_pct": 0.03,
-        "rsi2": 95.08,
-        "sma200": 152.5687
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "DHR",
-      "name": "Danaher Corporation",
-      "strategy": "D5",
-      "side": "buy",
-      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 223.77,
-      "metrics": {
-        "yesterday_change_pct": 2.65,
-        "today_change_pct": 1.0,
-        "rvol": 1.65,
-        "volume": 5978162,
-        "prev20_avg_volume": 3623075,
-        "high20": 226.64,
-        "low20": 199.09
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "GDDY",
-      "name": "GoDaddy",
-      "strategy": "D5",
-      "side": "buy",
-      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 100.81,
-      "metrics": {
-        "yesterday_change_pct": -8.01,
-        "today_change_pct": 4.6,
-        "rvol": 4.39,
-        "volume": 9520324,
-        "prev20_avg_volume": 2169915,
-        "high20": 110.35,
-        "low20": 91.6
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "META",
-      "name": "Meta Platforms",
-      "strategy": "D5",
-      "side": "buy",
-      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 777.59,
-      "metrics": {
-        "yesterday_change_pct": 1.02,
-        "today_change_pct": 4.5,
-        "rvol": 1.56,
-        "volume": 34646511,
-        "prev20_avg_volume": 22231660,
-        "high20": 779.8192,
-        "low20": 555.6614
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "P",
-      "name": "Everpure",
-      "strategy": "D5",
-      "side": "buy",
-      "strategy_desc": "D5(短線：20日通道突破)：今日最高價為近 20 日最高，量比>=1.5 且收陽，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 121.88,
-      "metrics": {
-        "yesterday_change_pct": -3.53,
-        "today_change_pct": 11.15,
-        "rvol": 1.68,
-        "volume": 11602529,
-        "prev20_avg_volume": 6925535,
-        "high20": 131.4,
-        "low20": 89.645
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "AEE",
-      "name": "Ameren",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 99.2,
-      "metrics": {
-        "yesterday_change_pct": -2.05,
-        "today_change_pct": -0.54,
-        "rvol": 1.54,
-        "volume": 2247888,
-        "prev20_avg_volume": 1463780,
-        "high20": 107.4,
-        "low20": 99.14
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "APO",
-      "name": "Apollo Global Management",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 120.69,
-      "metrics": {
-        "yesterday_change_pct": -2.78,
-        "today_change_pct": -2.95,
-        "rvol": 1.54,
-        "volume": 3827523,
-        "prev20_avg_volume": 2488050,
-        "high20": 137.83,
-        "low20": 118.5
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "BA",
-      "name": "Boeing",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 196.8,
-      "metrics": {
-        "yesterday_change_pct": 1.12,
-        "today_change_pct": -1.57,
-        "rvol": 1.54,
-        "volume": 9551165,
-        "prev20_avg_volume": 6203300,
-        "high20": 215.29,
-        "low20": 194.4
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CMS",
-      "name": "CMS Energy",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 62.77,
-      "metrics": {
-        "yesterday_change_pct": -2.4,
-        "today_change_pct": -0.6,
-        "rvol": 1.67,
-        "volume": 5010782,
-        "prev20_avg_volume": 2992175,
-        "high20": 69.41,
-        "low20": 62.765
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "CRH",
-      "name": "CRH plc",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 83.96,
-      "metrics": {
-        "yesterday_change_pct": -2.19,
-        "today_change_pct": -1.49,
-        "rvol": 1.58,
-        "volume": 7360285,
-        "prev20_avg_volume": 4664985,
-        "high20": 98.19,
-        "low20": 83.48
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FDX",
-      "name": "FedEx",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 279.54,
-      "metrics": {
-        "yesterday_change_pct": -1.45,
-        "today_change_pct": -4.1,
-        "rvol": 1.68,
-        "volume": 2557537,
-        "prev20_avg_volume": 1526780,
-        "high20": 339.4972,
-        "low20": 279.34
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FITB",
-      "name": "Fifth Third Bancorp",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 51.46,
-      "metrics": {
-        "yesterday_change_pct": -3.04,
-        "today_change_pct": -0.44,
-        "rvol": 1.57,
-        "volume": 8141917,
-        "prev20_avg_volume": 5185195,
-        "high20": 55.48,
-        "low20": 50.785
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FSLR",
-      "name": "First Solar",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 172.16,
-      "metrics": {
-        "yesterday_change_pct": -3.94,
-        "today_change_pct": -10.32,
-        "rvol": 3.06,
-        "volume": 6336163,
-        "prev20_avg_volume": 2068810,
-        "high20": 220.98,
-        "low20": 170.8
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "HD",
-      "name": "Home Depot (The)",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 292.18,
-      "metrics": {
-        "yesterday_change_pct": -0.16,
-        "today_change_pct": -1.53,
-        "rvol": 1.71,
-        "volume": 7022132,
-        "prev20_avg_volume": 4096720,
-        "high20": 336.9569,
-        "low20": 291.09
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MGM",
-      "name": "MGM Resorts",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 33.69,
-      "metrics": {
-        "yesterday_change_pct": -2.27,
-        "today_change_pct": -10.99,
-        "rvol": 8.09,
-        "volume": 19746455,
-        "prev20_avg_volume": 2440120,
-        "high20": 43.63,
-        "low20": 33.4327
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "PGR",
-      "name": "Progressive Corporation",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 202.17,
-      "metrics": {
-        "yesterday_change_pct": -4.29,
-        "today_change_pct": -0.47,
-        "rvol": 2.11,
-        "volume": 4597927,
-        "prev20_avg_volume": 2175965,
-        "high20": 225.45,
-        "low20": 200.96
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ROL",
-      "name": "Rollins, Inc.",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 30.4,
-      "metrics": {
-        "yesterday_change_pct": 0.43,
-        "today_change_pct": -6.43,
-        "rvol": 2.34,
-        "volume": 13601962,
-        "prev20_avg_volume": 5821325,
-        "high20": 37.47,
-        "low20": 30.12
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "UPS",
-      "name": "United Parcel Service",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 92.05,
-      "metrics": {
-        "yesterday_change_pct": -0.05,
-        "today_change_pct": -3.93,
-        "rvol": 1.94,
-        "volume": 8427639,
-        "prev20_avg_volume": 4344720,
-        "high20": 106.39,
-        "low20": 91.63
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "WEC",
-      "name": "WEC Energy Group",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 100.9,
-      "metrics": {
-        "yesterday_change_pct": -2.23,
-        "today_change_pct": -0.27,
-        "rvol": 1.76,
-        "volume": 4173258,
-        "prev20_avg_volume": 2373825,
-        "high20": 108.07,
-        "low20": 100.875
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "WYNN",
-      "name": "Wynn Resorts",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 80.19,
-      "metrics": {
-        "yesterday_change_pct": -2.24,
-        "today_change_pct": -1.55,
-        "rvol": 2.12,
-        "volume": 4158598,
-        "prev20_avg_volume": 1963005,
-        "high20": 99.08,
-        "low20": 77.06
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "XYL",
-      "name": "Xylem Inc.",
-      "strategy": "D5",
-      "side": "short",
-      "strategy_desc": "D5(短線：20日通道跌破)：今日最低價為近 20 日最低，量比>=1.5 且收陰，觀察短線動能延續",
-      "signal_date": "2026-09-24",
-      "close": 102.66,
-      "metrics": {
-        "yesterday_change_pct": 1.31,
-        "today_change_pct": -5.5,
-        "rvol": 1.57,
-        "volume": 4075698,
-        "prev20_avg_volume": 2599200,
-        "high20": 114.2054,
-        "low20": 102.25
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "APO",
-      "name": "Apollo Global Management",
-      "strategy": "D6",
-      "side": "short",
-      "strategy_desc": "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，且今日收盤跌破昨低",
-      "signal_date": "2026-09-24",
-      "close": 120.69,
-      "metrics": {
-        "yesterday_change_pct": -2.78,
-        "today_change_pct": -2.95,
-        "rvol": 1.54,
-        "volume": 3827523,
-        "prev20_avg_volume": 2488050,
-        "yesterday_high": 126.21,
-        "yesterday_low": 123.32
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "FSLR",
-      "name": "First Solar",
-      "strategy": "D6",
-      "side": "short",
-      "strategy_desc": "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，且今日收盤跌破昨低",
-      "signal_date": "2026-09-24",
-      "close": 172.16,
-      "metrics": {
-        "yesterday_change_pct": -3.94,
-        "today_change_pct": -10.32,
-        "rvol": 3.06,
-        "volume": 6336163,
-        "prev20_avg_volume": 2068810,
-        "yesterday_high": 201.49,
-        "yesterday_low": 191.15
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "MGM",
-      "name": "MGM Resorts",
-      "strategy": "D6",
-      "side": "short",
-      "strategy_desc": "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，且今日收盤跌破昨低",
-      "signal_date": "2026-09-24",
-      "close": 33.69,
-      "metrics": {
-        "yesterday_change_pct": -2.27,
-        "today_change_pct": -10.99,
-        "rvol": 8.09,
-        "volume": 19746455,
-        "prev20_avg_volume": 2440120,
-        "yesterday_high": 38.98,
-        "yesterday_low": 37.64
-      }
-    },
-    {
-      "date": "2026-09-25",
-      "time": "07:47:59",
-      "timezone": "Asia/Taipei",
-      "symbol": "ORCL",
-      "name": "Oracle Corporation",
-      "strategy": "D6",
-      "side": "short",
-      "strategy_desc": "D6(短線：連續動能)：近 2 日跌幅皆超過 2%，量比>=1.5，且今日收盤跌破昨低",
-      "signal_date": "2026-09-24",
-      "close": 139.54,
-      "metrics": {
-        "yesterday_change_pct": -3.11,
-        "today_change_pct": -3.47,
-        "rvol": 1.77,
-        "volume": 56326792,
-        "prev20_avg_volume": 31772840,
-        "yesterday_high": 148.66,
-        "yesterday_low": 144.23
       }
     }
   ]
